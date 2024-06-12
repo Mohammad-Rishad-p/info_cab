@@ -27,6 +27,7 @@ class Button extends StatelessWidget {
           ),
           style: ElevatedButton.styleFrom(
             backgroundColor: buttonColor,
+            
           ),
           ),
     );
