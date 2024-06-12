@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:info_cab_u/basic_widgets/button_widget.dart';
 import 'package:info_cab_u/basic_widgets/heading_text_widget.dart';
 import 'package:info_cab_u/basic_widgets/normal_text_widget.dart';
+import 'package:info_cab_u/components/container_card_widget.dart';
 import 'package:info_cab_u/components/round_image_widget.dart';
 
 class HomePage extends StatefulWidget {
@@ -16,7 +17,9 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Column(
-      children: [Text('hsi')],
+          children: [
+            BigCard(),
+          ],
     ));
   }
 }
