@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:info_cab_u/pages/dashboard_page.dart';
-import 'package:info_cab_u/pages/home_page.dart';
-import 'package:info_cab_u/pages/login_page.dart';
-import 'package:info_cab_u/pages/user_profile_page.dart';
-import 'package:info_cab_u/pages/trips_page.dart';
-import 'package:info_cab_u/pages/user_register_page.dart';
-import 'package:info_cab_u/pages/otp_page.dart';
+import 'package:info_cab_u/pages_user/dashboard_page.dart';
+import 'package:info_cab_u/pages_user/home_page.dart';
+import 'package:info_cab_u/pages_user/login_page.dart';
+import 'package:info_cab_u/pages_user/user_profile_page.dart';
+import 'package:info_cab_u/pages_user/trips_page.dart';
+import 'package:info_cab_u/pages_user/user_register_page.dart';
+import 'package:info_cab_u/pages_user/otp_page.dart';
 
 void main() {
   runApp(const MyApp());
