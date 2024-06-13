@@ -75,6 +75,7 @@ class _MyHomePageState extends State<HomePage> {
           key: _formKey,
           child: Column(
             children: [
+              const SizedBox(height: 55.0),
               DropdownButtonFormField<String>(
                 decoration: const InputDecoration(
                   labelText: 'Starting From',
