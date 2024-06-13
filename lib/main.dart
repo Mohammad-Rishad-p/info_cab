@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:info_cab_u/pages/dashboard_page.dart';
 import 'package:info_cab_u/pages/home_page.dart';
+import 'package:info_cab_u/pages/login_page.dart';
 import 'package:info_cab_u/pages/user_profile_page.dart';
 import 'package:info_cab_u/pages/trips_page.dart';
 import 'package:info_cab_u/pages/user_register_page.dart';
@@ -17,13 +19,15 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
 
-      initialRoute: '/',
+      initialRoute: '/login',
       routes: {
         '/': (context) => HomePage(),
         '/register': (context) => UserRegisterPage(),
         '/otppage': (context) => OtpPage(),
         '/trips': (context) => TripsPage(),
         '/profile': (context) => ProfilePage(),
+        '/login': (context) => LoginPage(),
+        '/dashboard': (context) => DashboardPage()
       },
     );
   }
