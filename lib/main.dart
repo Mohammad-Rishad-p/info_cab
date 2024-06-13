@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:info_cab_u/pages/home_page.dart';
-import 'package:info_cab_u/pages/profile_page.dart';
+import 'package:info_cab_u/pages/user_profile_page.dart';
 import 'package:info_cab_u/pages/trips_page.dart';
 import 'package:info_cab_u/pages/user_register_page.dart';
 import 'package:info_cab_u/pages/otp_page.dart';
@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: '/otppage',
+      initialRoute: '/profile',
       routes: {
         '/': (context) => HomePage(),
         '/register': (context) => UserRegisterPage(),
