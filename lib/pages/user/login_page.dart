@@ -48,11 +48,11 @@ class _LoginPageState extends State<LoginPage> {
                         borderRadius: BorderRadius.all(Radius.circular(10)),
                       ),
                       errorBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: textSecColor, width: 2.0),
+                        borderSide: BorderSide(color: Colors.redAccent, width: 2.0),
                         borderRadius: BorderRadius.all(Radius.circular(10)),
                       ),
                       focusedErrorBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: textSecColor, width: 2.0),
+                        borderSide: BorderSide(color: Colors.redAccent, width: 2.0),
                         borderRadius: BorderRadius.all(Radius.circular(10)),
                       ),
                     ),
