@@ -15,7 +15,9 @@ class Button extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      child: ElevatedButton(
+      child: SizedBox(
+        height: 50,
+        child: ElevatedButton(
           onPressed: onPressed,
           child: Text(
             text,
@@ -23,13 +25,16 @@ class Button extends StatelessWidget {
               color: Colors.white,
               fontSize: 20,
             ),
-            
           ),
           style: ElevatedButton.styleFrom(
             backgroundColor: buttonColor,
-            
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+              // Change the radius here
+            ),
           ),
-          ),
+        ),
+      ),
     );
   }
 }
