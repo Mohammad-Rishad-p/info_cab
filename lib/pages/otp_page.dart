@@ -46,12 +46,14 @@ class _OtpPageState extends State<OtpPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // heading part with phone number
             HText(content: 'Verify with OTP sent to', textColor: black),
             HText(content: number.toString(), textColor: textPrimColor),
             SizedBox(
               height: 30,
             ),
             Row(
+              // the six boxes to enter otp
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: List.generate(6, (index) {
                 return Container(
@@ -61,6 +63,7 @@ class _OtpPageState extends State<OtpPage> {
                     border: Border.all(color: Colors.grey, width: 2.0),
                     borderRadius: BorderRadius.circular(8),
                   ),
+                  // design of a single box
                   child: TextField(
                     controller: controllers[index],
                     focusNode: focusNodes[index],
@@ -91,6 +94,7 @@ class _OtpPageState extends State<OtpPage> {
             const SizedBox(
               height: 20,
             ),
+            // the circular progress indicator 
             const Row(
               children: [
                 SizedBox(
@@ -103,13 +107,17 @@ class _OtpPageState extends State<OtpPage> {
                 SizedBox(
                   width: 10,
                 ),
+
+                // the text near circular progress indicator
                 NText(content: 'Auto fetching OTP..', textColor: textSecColor)
               ],
             ),
             const SizedBox(
               height: 24,
             ),
-            Button(onPressed: () {}, text: 'Continue'),
+
+            // otp submit button
+            Button(onPressed: () {}, text: 'Verify OTP'),
           ],
         ),
       ),
