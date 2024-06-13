@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:info_cab_u/pages/home_page.dart';
+import 'package:info_cab_u/pages/otp_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
       routes: {
-        '/': (context) => HomePage(),
+        '/': (context) => OtpPage(),
       },
     );
   }
