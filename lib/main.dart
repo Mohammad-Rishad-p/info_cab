@@ -14,11 +14,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: '/otppage',
+      initialRoute: '/',
       routes: {
         '/': (context) => HomePage(),
         '/register': (context) => UserRegisterPage(),
         '/otppage': (context) => OtpPage(),
+
       },
     );
   }
