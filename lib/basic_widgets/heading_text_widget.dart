@@ -7,9 +7,14 @@ class HText extends StatelessWidget {
   final String content;
   final Color textColor;
 
-
   @override
   Widget build(BuildContext context) {
-    return Text(content, style: TextStyle(color: textColor, fontSize: 30, fontWeight: FontWeight.w800),);
+    return Text(
+      content,
+      style: TextStyle(
+          color: textColor, fontSize: 30, fontWeight: FontWeight.w800),
+    );
   }
 }
+
+
