@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:info_cab_u/constant.dart';
-import 'package:info_cab_u/pages_user/profile_page.dart';
-import 'package:info_cab_u/pages_user/trips_page.dart';
+import 'package:info_cab_u/pages/user/profile_page.dart';
+import 'package:info_cab_u/pages/user/trips_page.dart';
 
 import 'home_page.dart';
 
