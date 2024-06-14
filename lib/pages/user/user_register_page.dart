@@ -24,7 +24,7 @@ class UserRegisterPage extends StatefulWidget {
 
 class _UserRegisterPageState extends State<UserRegisterPage> {
   final _formKey = GlobalKey<FormState>();
-  String _selectedCompany = 'Techgentsia';
+  String _selectedCompany = '';
   final List<String> _companies = [
     'Techgentsia',
     'Clasyias',
@@ -58,11 +58,18 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
                   keyboardType: TextInputType.phone,
                   decoration: const InputDecoration(
                     labelText: 'Enter Your Mobile Number',
+                    labelStyle: TextStyle(
+                      color: textSecColor
+                    ),
                     prefixText: '+91 ',
                     border: OutlineInputBorder(
                         borderSide: BorderSide(color: textSecColor, width: 2.0),
                         borderRadius: BorderRadius.all(Radius.circular(10))),
                     enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: textSecColor, width: 2.0),
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                    ),
+                    focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: textSecColor, width: 2.0),
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                     ),
@@ -90,10 +97,17 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
                 TextFormField(
                   decoration: const InputDecoration(
                     labelText: 'Enter Your Name',
+                    labelStyle: TextStyle(
+                        color: textSecColor
+                    ),
                     border: OutlineInputBorder(
                         borderSide: BorderSide(color: textSecColor, width: 2.0),
                         borderRadius: BorderRadius.all(Radius.circular(10))),
                     enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: textSecColor, width: 2.0),
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                    ),
+                    focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: textSecColor, width: 2.0),
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                     ),
@@ -121,10 +135,17 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
                 DropdownButtonFormField<String>(
                   decoration: const InputDecoration(
                     labelText: 'Enter Your Company Name',
+                    labelStyle: TextStyle(
+                        color: textSecColor
+                    ),
                     border: OutlineInputBorder(
                         borderSide: BorderSide(color: textSecColor, width: 2.0),
                         borderRadius: BorderRadius.all(Radius.circular(10))),
                     enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: textSecColor, width: 2.0),
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                    ),
+                    focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: textSecColor, width: 2.0),
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                     ),

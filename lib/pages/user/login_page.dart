@@ -35,10 +35,10 @@ class _LoginPageState extends State<LoginPage> {
                     maxLength: 10,
                     decoration: const InputDecoration(
                       labelText: 'Enter Your Phone Number',
-                      prefixText: '+91 | ',
                       labelStyle: TextStyle(
-                        color: textSecColor,
+                          color: textSecColor
                       ),
+                      prefixText: '+91 | ',
                       focusedBorder: OutlineInputBorder(
                           borderSide:
                               BorderSide(color: textSecColor, width: 2.0),

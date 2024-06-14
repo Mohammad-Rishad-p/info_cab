@@ -77,10 +77,17 @@ class _MyHomePageState extends State<HomePage> {
               DropdownButtonFormField<String>(
                 decoration: const InputDecoration(
                     labelText: 'Starting From',
+                    labelStyle: TextStyle(
+                        color: textSecColor
+                    ),
                     border: OutlineInputBorder(
                         borderSide: BorderSide(color: textSecColor, width: 2.0),
                         borderRadius: BorderRadius.all(Radius.circular(10))),
                     enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: textSecColor, width: 2.0),
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                    ),
+                    focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: textSecColor, width: 2.0),
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                     ),
@@ -110,10 +117,17 @@ class _MyHomePageState extends State<HomePage> {
               DropdownButtonFormField<String>(
                 decoration: const InputDecoration(
                     labelText: 'EndPoint',
+                    labelStyle: TextStyle(
+                        color: textSecColor
+                    ),
                     border: OutlineInputBorder(
                         borderSide: BorderSide(color: textSecColor, width: 2.0),
                         borderRadius: BorderRadius.all(Radius.circular(10))),
                     enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: textSecColor, width: 2.0),
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                    ),
+                    focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: textSecColor, width: 2.0),
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                     ),
@@ -144,10 +158,17 @@ class _MyHomePageState extends State<HomePage> {
                 decoration: const InputDecoration(
                   suffixIcon: Icon(Icons.calendar_month_outlined),
                   labelText: 'Date',
+                  labelStyle: TextStyle(
+                      color: textSecColor
+                  ),
                   border: OutlineInputBorder(
                       borderSide: BorderSide(color: textSecColor, width: 2.0),
                       borderRadius: BorderRadius.all(Radius.circular(10))),
                   enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: textSecColor, width: 2.0),
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                  ),
+                  focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: textSecColor, width: 2.0),
                     borderRadius: BorderRadius.all(Radius.circular(10)),
                   ),
