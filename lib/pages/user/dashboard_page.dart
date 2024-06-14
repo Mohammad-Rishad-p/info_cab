@@ -37,7 +37,6 @@ class _DashboardPageState extends State<DashboardPage> {
   ];
 
   void _onItemClick(int value) {
-    // [setState] is used to rebuild the [StatefulWidget].
     setState(() {
       _currentIndex = value;
     });

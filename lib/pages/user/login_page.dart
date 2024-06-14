@@ -48,11 +48,13 @@ class _LoginPageState extends State<LoginPage> {
                         borderRadius: BorderRadius.all(Radius.circular(10)),
                       ),
                       errorBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: textSecColor, width: 2.0),
+                        borderSide:
+                            BorderSide(color: Colors.redAccent, width: 2.0),
                         borderRadius: BorderRadius.all(Radius.circular(10)),
                       ),
                       focusedErrorBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: textSecColor, width: 2.0),
+                        borderSide:
+                            BorderSide(color: Colors.redAccent, width: 2.0),
                         borderRadius: BorderRadius.all(Radius.circular(10)),
                       ),
                     ),
@@ -64,7 +66,7 @@ class _LoginPageState extends State<LoginPage> {
                     },
                   ),
                   const SizedBox(
-                    height: 50,
+                    height: 30,
                   ),
                   Button(
                       onPressed: () {
@@ -117,7 +119,7 @@ class _LoginPageState extends State<LoginPage> {
                     ],
                   ),
                   SizedBox(
-                    height: 400,
+                    height: 418,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -132,13 +134,13 @@ class _LoginPageState extends State<LoginPage> {
                               TextSpan(
                                 text: 'New User? ',
                                 style: TextStyle(
-                                    color: textSecColor, fontSize: 15),
+                                    color: textSecColor, fontSize: 16),
                               ),
                               TextSpan(
                                 text: 'Please Register',
                                 style: TextStyle(
                                     color: textPrimColor,
-                                    fontSize: 15,
+                                    fontSize: 16,
                                     fontWeight: FontWeight.bold),
                               ),
                             ],
