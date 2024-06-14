@@ -40,30 +40,51 @@ class _MyHomePageState extends State<HomePage> {
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
-            DrawerHeader(
-              child: Text('Drawer Header'),
-              decoration: BoxDecoration(
-              ),
-            ),
+            const RoundImage(
+                src:
+                    'https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=600',
+                radius: 90),
+            const SizedBox(height: 32.0),
             ListTile(
-              leading: Icon(Icons.local_activity),
-              title: Text('Item 1'),
+              leading: Icon(Icons.local_taxi),
+              title: Text('Trips'),
               onTap: () {
                 Navigator.pop(context);
               },
             ),
+            const SizedBox(height: 15.0),
             ListTile(
-              title: Text('Item 2'),
+              leading: Icon(Icons.payment),
+              title: Text('Payments'),
               onTap: () {
                 Navigator.pop(context);
               },
             ),
+            const SizedBox(height: 15.0),
             ListTile(
-              title: Text('Item 3'),
+              leading: Icon(Icons.taxi_alert_sharp),
+              title: Text('Driver Profile'),
               onTap: () {
                 Navigator.pop(context);
               },
             ),
+            const SizedBox(height: 15.0),
+            ListTile(
+              leading: Icon(Icons.warning_amber_outlined),
+              title: Text('About'),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            const SizedBox(height: 15.0),
+            ListTile(
+              leading: Icon(Icons.logout),
+              title: Text('Log Out'),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            const SizedBox(height: 25.0),
           ],
         ),
       ),
