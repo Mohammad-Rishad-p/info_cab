@@ -1,30 +1,45 @@
 import 'package:flutter/material.dart';
 import 'package:info_cab_u/basic_widgets/button_widget.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
+class AddPickUpPointPage extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Add Pick Up Point',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: AddPickUpPointPage(),
-    );
-  }
+  State<AddPickUpPointPage> createState() => _AddPickUpPointPageState();
 }
 
-class AddPickUpPointPage extends StatelessWidget {
+class _AddPickUpPointPageState extends State<AddPickUpPointPage> {
+  // Creating controller for text field
+  TextEditingController addStop = TextEditingController();
+  // Firebase instance
+  final CollectionReference stops =
+      FirebaseFirestore.instance.collection('stops');
+
+  // Function to add stop
+  Future<void> addStopToFirestore() async {
+    final data = {
+      'stop': addStop.text
+    }; // Get the text value from the controller
+    try {
+      await stops.add(data);
+      // Display a SnackBar on success
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Stop added successfully'),
+        ),
+      );
+      // Clear the text field after successful addition
+      addStop.clear();
+    } catch (e) {
+      print('Failed to add stop: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Add Pick Up Point'),
-        
         centerTitle: true,
       ),
       drawer: Drawer(), // Adds a placeholder for the drawer icon
@@ -34,6 +49,7 @@ class AddPickUpPointPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextField(
+              controller: addStop,
               decoration: InputDecoration(
                 labelText: 'Enter Pick up points',
                 prefixIcon: Icon(Icons.directions_bus),
@@ -47,19 +63,12 @@ class AddPickUpPointPage extends StatelessWidget {
               ),
             ),
             SizedBox(height: 20),
-            Button(onPressed: (){}, text: 'Add Points')
-            // ElevatedButton(
-            //   onPressed: () {
-            //     // Add your onPressed code here!
-            //   },
-            //   child: Text('Add Points'),
-            //   style: ElevatedButton.styleFrom(
-            //     backgroundColor: Color(0xFF364A86), // Button background color
-            //     padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
-            //     textStyle: TextStyle(fontSize: 16),
-            //
-            //   ),
-            // ),
+            Button(
+              onPressed: () {
+                addStopToFirestore();
+              },
+              text: 'Add Points',
+            ),
           ],
         ),
       ),
