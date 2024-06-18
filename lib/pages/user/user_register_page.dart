@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:info_cab_u/basic_widgets/button_widget.dart';
 import 'package:info_cab_u/basic_widgets/heading_text_widget.dart';
+import 'package:info_cab_u/basic_widgets/normal_text_widget.dart';
 import 'package:info_cab_u/constant.dart';
 
 void main() {
@@ -23,7 +24,7 @@ class UserRegisterPage extends StatefulWidget {
 
 class _UserRegisterPageState extends State<UserRegisterPage> {
   final _formKey = GlobalKey<FormState>();
-  String _selectedCompany = 'Techgentsia';
+  String _selectedCompany = '';
   final List<String> _companies = [
     'Techgentsia',
     'Clasyias',
@@ -36,43 +37,50 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: primaryColor,
-        body:
-        Padding(
+        body: Padding(
           padding: const EdgeInsets.all(30.0),
           child: Form(
             key: _formKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-      
                 // Heading Text
-                const HText(content: 'Provide', textColor:blackText),
-                const HText(content: 'Your Information', textColor: textPrimColor),
-                  const SizedBox(height: 45,),
-      
+                const HText(content: 'Provide', textColor: blackText),
+                const HText(
+                    content: 'Your Information', textColor: textPrimColor),
+                const SizedBox(
+                  height: 45,
+                ),
+
                 //Text field for Phone Number
-                  TextFormField(
-                    maxLength: 10,
+                TextFormField(
+                  maxLength: 10,
                   keyboardType: TextInputType.phone,
                   decoration: const InputDecoration(
                     labelText: 'Enter Your Mobile Number',
+                    labelStyle: TextStyle(
+                      color: textSecColor
+                    ),
                     prefixText: '+91 ',
                     border: OutlineInputBorder(
-                        borderSide:
-                        BorderSide(color: textSecColor, width: 2.0),
+                        borderSide: BorderSide(color: textSecColor, width: 2.0),
                         borderRadius: BorderRadius.all(Radius.circular(10))),
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: textSecColor, width: 2.0),
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                     ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: textSecColor, width: 2.0),
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                    ),
                     errorBorder: OutlineInputBorder(
                       borderSide:
-                      BorderSide(color: Colors.redAccent, width: 2.0),
+                          BorderSide(color: Colors.redAccent, width: 2.0),
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                     ),
                     focusedErrorBorder: OutlineInputBorder(
                       borderSide:
-                      BorderSide(color: Colors.redAccent, width: 2.0),
+                          BorderSide(color: Colors.redAccent, width: 2.0),
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                     ),
                   ),
@@ -83,28 +91,34 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
                     return null;
                   },
                 ),
-                const SizedBox(height: 3.0),
-      
+                const SizedBox(height: 13.0),
+
                 //text field for Name
                 TextFormField(
                   decoration: const InputDecoration(
                     labelText: 'Enter Your Name',
+                    labelStyle: TextStyle(
+                        color: textSecColor
+                    ),
                     border: OutlineInputBorder(
-                        borderSide:
-                        BorderSide(color: textSecColor, width: 2.0),
+                        borderSide: BorderSide(color: textSecColor, width: 2.0),
                         borderRadius: BorderRadius.all(Radius.circular(10))),
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: textSecColor, width: 2.0),
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                     ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: textSecColor, width: 2.0),
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                    ),
                     errorBorder: OutlineInputBorder(
                       borderSide:
-                      BorderSide(color: Colors.redAccent, width: 2.0),
+                          BorderSide(color: Colors.redAccent, width: 2.0),
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                     ),
                     focusedErrorBorder: OutlineInputBorder(
                       borderSide:
-                      BorderSide(color: Colors.redAccent, width: 2.0),
+                          BorderSide(color: Colors.redAccent, width: 2.0),
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                     ),
                   ),
@@ -115,28 +129,34 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
                     return null;
                   },
                 ),
-                const SizedBox(height: 25.0),
-      
+                const SizedBox(height: 35.0),
+
                 //Drop down box for company names
                 DropdownButtonFormField<String>(
                   decoration: const InputDecoration(
                     labelText: 'Enter Your Company Name',
+                    labelStyle: TextStyle(
+                        color: textSecColor
+                    ),
                     border: OutlineInputBorder(
-                        borderSide:
-                        BorderSide(color: textSecColor, width: 2.0),
+                        borderSide: BorderSide(color: textSecColor, width: 2.0),
                         borderRadius: BorderRadius.all(Radius.circular(10))),
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: textSecColor, width: 2.0),
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                     ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: textSecColor, width: 2.0),
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                    ),
                     errorBorder: OutlineInputBorder(
                       borderSide:
-                      BorderSide(color: Colors.redAccent, width: 2.0),
+                          BorderSide(color: Colors.redAccent, width: 2.0),
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                     ),
                     focusedErrorBorder: OutlineInputBorder(
                       borderSide:
-                      BorderSide(color: Colors.redAccent, width: 2.0),
+                          BorderSide(color: Colors.redAccent, width: 2.0),
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                     ),
                   ),
@@ -148,21 +168,25 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
                   items: _companies.map((company) {
                     return DropdownMenuItem(
                       value: company,
-                      child: Text(company),
+                      child: Text(
+                        company,
+                        style: TextStyle(fontSize: 17, color: Colors.black),
+                      ),
                     );
                   }).toList(),
                 ),
                 const SizedBox(height: 25.0),
-      
+
                 //Submit Button
                 SizedBox(
-                  width: double.infinity,
-                  child: Button(onPressed: (){
-                    if (_formKey.currentState!.validate()) {
-                      // Process data
-                    }
-                  }, text: 'Submit')
-                ),
+                    width: double.infinity,
+                    child: Button(
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            // Process data
+                          }
+                        },
+                        text: 'Submit')),
               ],
             ),
           ),
