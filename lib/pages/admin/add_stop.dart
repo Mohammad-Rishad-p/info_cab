@@ -16,15 +16,20 @@ class _AddPickUpPointPageState extends State<AddPickUpPointPage> {
 
   // Function to add stop to Firestore
   void addStopsToFireStore() async {
-    final data = {'stop': addStop.text};
+    final data = {'stop': addStop.text.trim()}; // Trimmed text to remove any leading/trailing whitespace
+    if (addStop.text.trim().isEmpty) {
+      // Show a message if the text field is empty
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Pick-up point cannot be empty')));
+      return;
+    }
     try {
       await stops.add(data);
-      // to show a toast message  if successfull
+      // to show a toast message if successful
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Stop added successfully')));
       addStop.clear();
       print("Stop added successfully");
     } catch (e) {
-      // to show a toast message  if unsuccessfull
+      // to show a toast message if unsuccessful
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Failed to add stop: $e')));
       print("Failed to add stop: $e");
     }
