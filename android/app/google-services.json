@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "933885207174",
+    "project_id": "infopark-cab",
+    "storage_bucket": "infopark-cab.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:933885207174:android:89965a2f17bdd39fc22707",
+        "android_client_info": {
+          "package_name": "com.example.info_cab_u"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDi-jqUVyElI2DNGftuYvPJVZrRHrRW6xw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

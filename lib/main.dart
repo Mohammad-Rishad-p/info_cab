@@ -7,8 +7,11 @@ import 'package:info_cab_u/pages/user/user_profile_page.dart';
 import 'package:info_cab_u/pages/user/trips_page.dart';
 import 'package:info_cab_u/pages/user/user_register_page.dart';
 import 'package:info_cab_u/pages/user/otp_page.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
@@ -19,7 +22,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: '/trips',
+
+      initialRoute: '/home',
       routes: {
         '/': (context) => HomePage(),
         '/register': (context) => UserRegisterPage(),
@@ -28,7 +32,8 @@ class MyApp extends StatelessWidget {
         '/profile': (context) => ProfilePage(),
         '/login': (context) => LoginPage(),
         '/dashboard': (context) => DashboardPage(),
-        '/addstop': (context) => AddPickUpPointPage()
+        '/addstop': (context) => AddPickUpPointPage(),
+        '/home':(context) => HomePage(),
       },
     );
   }

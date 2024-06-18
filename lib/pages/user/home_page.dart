@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import '../../constant.dart';
 import 'package:info_cab_u/basic_widgets/button_widget.dart';
@@ -15,17 +16,38 @@ class HomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<HomePage> {
+
+  // firbase instance to get stops collection
+  final CollectionReference stops = FirebaseFirestore.instance.collection('stops');
+
   final _formKey = GlobalKey<FormState>();
   String _selectedCompany = 'Alappuzha';
   DateTime _selectedDate = DateTime.now();
-  final List<String> _stops = [
-    'Alappuzha',
-    'Ottapunna',
-    'Thuravoor',
-    'infopark',
-    'Vayalar',
-  ];
+  List<String> _stops = [];
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    fetchStops();
+  }
+
+  // Fetch stops from Firestore and update the _stops list
+  Future<void> fetchStops() async {
+    try {
+      // to get data from stops collection
+      QuerySnapshot querySnapshot = await stops.get();
+      // converting datas in stops collection to a list
+      List<String> fetchedStops = querySnapshot.docs.map((doc) => doc['stop'] as String).toList();
+      setState(() {
+        // setting the fetched list to _stop list
+        _stops = fetchedStops;
+        _selectedCompany = _stops.isNotEmpty ? _stops[0] : '';
+      });
+    } catch (e) {
+      print("Failed to fetch stops: $e");
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,15 +58,19 @@ class _MyHomePageState extends State<HomePage> {
         ),
         centerTitle: true,
       ),
+
+      // menu
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
+            //image in menu
             const RoundImage(
                 src:
                     'https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=600',
                 radius: 90),
             const SizedBox(height: 32.0),
+            // trips in menu
             ListTile(
               leading: Icon(Icons.local_taxi),
               title: Text('Trips'),
@@ -52,6 +78,7 @@ class _MyHomePageState extends State<HomePage> {
                 Navigator.pop(context);
               },
             ),
+            //payments in menu
             const SizedBox(height: 15.0),
             ListTile(
               leading: Icon(Icons.payment),
@@ -61,6 +88,7 @@ class _MyHomePageState extends State<HomePage> {
               },
             ),
             const SizedBox(height: 15.0),
+            // driver profile in menu
             ListTile(
               leading: Icon(Icons.taxi_alert_sharp),
               title: Text('Driver Profile'),
@@ -68,6 +96,7 @@ class _MyHomePageState extends State<HomePage> {
                 Navigator.pop(context);
               },
             ),
+            // about in in menu
             const SizedBox(height: 15.0),
             ListTile(
               leading: Icon(Icons.warning_amber_outlined),
@@ -76,6 +105,7 @@ class _MyHomePageState extends State<HomePage> {
                 Navigator.pop(context);
               },
             ),
+            //logout
             const SizedBox(height: 15.0),
             ListTile(
               leading: Icon(Icons.logout),
@@ -88,6 +118,9 @@ class _MyHomePageState extends State<HomePage> {
           ],
         ),
       ),
+
+
+      //body
       body: Padding(
         padding: const EdgeInsets.all(24.0),
         child: Form(
@@ -95,6 +128,7 @@ class _MyHomePageState extends State<HomePage> {
           child: Column(
             children: [
               const SizedBox(height: 55.0),
+              // starting from dropdown
               DropdownButtonFormField<String>(
                 decoration: const InputDecoration(
                     labelText: 'Starting From',
@@ -135,6 +169,8 @@ class _MyHomePageState extends State<HomePage> {
                 }).toList(),
               ),
               const SizedBox(height: 25.0),
+
+              //end point drop down
               DropdownButtonFormField<String>(
                 decoration: const InputDecoration(
                     labelText: 'EndPoint',
