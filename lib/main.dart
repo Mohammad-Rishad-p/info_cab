@@ -32,7 +32,6 @@ class MyApp extends StatelessWidget {
         '/login': (context) => LoginPage(),
         '/dashboard': (context) => DashboardPage(),
         '/addstop': (context) => AddPickUpPointPage()
-
       },
     );
   }

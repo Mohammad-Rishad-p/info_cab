@@ -1,7 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:info_cab_u/basic_widgets/button_widget.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AddPickUpPointPage extends StatefulWidget {
   @override
@@ -9,29 +8,25 @@ class AddPickUpPointPage extends StatefulWidget {
 }
 
 class _AddPickUpPointPageState extends State<AddPickUpPointPage> {
-  // Creating controller for text field
+  // Adding textediting controller
   TextEditingController addStop = TextEditingController();
-  // Firebase instance
-  final CollectionReference stops =
-      FirebaseFirestore.instance.collection('stops');
 
-  // Function to add stop
-  Future<void> addStopToFirestore() async {
-    final data = {
-      'stop': addStop.text
-    }; // Get the text value from the controller
+  // Firebase instance
+  final CollectionReference stops = FirebaseFirestore.instance.collection('stops');
+
+  // Function to add stop to Firestore
+  void addStopsToFireStore() async {
+    final data = {'stop': addStop.text};
     try {
       await stops.add(data);
-      // Display a SnackBar on success
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Stop added successfully'),
-        ),
-      );
-      // Clear the text field after successful addition
+      // to show a toast message  if successfull
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Stop added successfully')));
       addStop.clear();
+      print("Stop added successfully");
     } catch (e) {
-      print('Failed to add stop: $e');
+      // to show a toast message  if unsuccessfull
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Failed to add stop: $e')));
+      print("Failed to add stop: $e");
     }
   }
 
@@ -63,12 +58,7 @@ class _AddPickUpPointPageState extends State<AddPickUpPointPage> {
               ),
             ),
             SizedBox(height: 20),
-            Button(
-              onPressed: () {
-                addStopToFirestore();
-              },
-              text: 'Add Points',
-            ),
+            Button(onPressed: addStopsToFireStore, text: 'Add Points'),
           ],
         ),
       ),
