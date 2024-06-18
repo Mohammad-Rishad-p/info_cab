@@ -7,8 +7,11 @@ import 'package:info_cab_u/pages/user/user_profile_page.dart';
 import 'package:info_cab_u/pages/user/trips_page.dart';
 import 'package:info_cab_u/pages/user/user_register_page.dart';
 import 'package:info_cab_u/pages/user/otp_page.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
@@ -29,7 +32,6 @@ class MyApp extends StatelessWidget {
         '/login': (context) => LoginPage(),
         '/dashboard': (context) => DashboardPage(),
         '/addstop': (context) => AddPickUpPointPage()
-
       },
     );
   }
