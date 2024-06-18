@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:info_cab_u/pages/admin/add_stop.dart';
 import 'package:info_cab_u/pages/user/dashboard_page.dart';
 import 'package:info_cab_u/pages/user/home_page.dart';
 import 'package:info_cab_u/pages/user/login_page.dart';
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      
+      initialRoute: '/addstop',
       routes: {
         '/': (context) => HomePage(),
         '/register': (context) => UserRegisterPage(),
@@ -26,7 +27,9 @@ class MyApp extends StatelessWidget {
         '/trips': (context) => TripsPage(),
         '/profile': (context) => ProfilePage(),
         '/login': (context) => LoginPage(),
-        '/dashboard': (context) => DashboardPage()
+        '/dashboard': (context) => DashboardPage(),
+        '/addstop': (context) => AddPickUpPointPage()
+
       },
     );
   }
