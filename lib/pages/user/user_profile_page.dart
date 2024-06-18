@@ -28,7 +28,6 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
-
   final String name = "Akshay K M";
   final String company = "Techgentsia";
   final String phone = "+91 98951 73005";
@@ -42,7 +41,10 @@ class _ProfileState extends State<Profile> {
           Center(
             child: Stack(
               children: [
-                const RoundImage(src: 'https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=600'),
+                const RoundImage(
+                    src:
+                        'https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=600',
+                    radius: 50),
                 Positioned(
                   bottom: 0,
                   right: 0,
@@ -71,7 +73,6 @@ class _ProfileState extends State<Profile> {
             ),
             subtitle: Text(name, style: TextStyle(fontSize: 18.0)),
           ),
-
           Divider(),
           ListTile(
             leading: Icon(Icons.info),
