@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: '/addstop',
+      initialRoute: '/home',
       routes: {
         '/': (context) => HomePage(),
         '/register': (context) => UserRegisterPage(),
@@ -31,7 +31,8 @@ class MyApp extends StatelessWidget {
         '/profile': (context) => ProfilePage(),
         '/login': (context) => LoginPage(),
         '/dashboard': (context) => DashboardPage(),
-        '/addstop': (context) => AddPickUpPointPage()
+        '/addstop': (context) => AddPickUpPointPage(),
+        '/home':(context) => HomePage(),
       },
     );
   }
