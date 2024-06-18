@@ -7,10 +7,8 @@ import 'package:info_cab_u/components/container_card_widget.dart';
 import 'package:info_cab_u/components/round_image_widget.dart';
 import 'package:info_cab_u/components/bottom_navigation.dart';
 
-
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
-
 
   @override
   State<HomePage> createState() => _MyHomePageState();
@@ -32,45 +30,66 @@ class _MyHomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Home',style: TextStyle(
-          fontWeight: FontWeight.bold
-        ),),
+        title: const Text(
+          'Home',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
         centerTitle: true,
       ),
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
-            DrawerHeader(
-              child: Text('Drawer Header'),
-              decoration: BoxDecoration(
-                color: Colors.blue,
-              ),
-            ),
+            const RoundImage(
+                src:
+                    'https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=600',
+                radius: 90),
+            const SizedBox(height: 32.0),
             ListTile(
-              leading: Icon(Icons.local_activity),
-              title: Text('Item 1'),
+              leading: Icon(Icons.local_taxi),
+              title: Text('Trips'),
               onTap: () {
                 Navigator.pop(context);
               },
             ),
+            const SizedBox(height: 15.0),
             ListTile(
-              title: Text('Item 2'),
+              leading: Icon(Icons.payment),
+              title: Text('Payments'),
               onTap: () {
                 Navigator.pop(context);
               },
             ),
+            const SizedBox(height: 15.0),
             ListTile(
-              title: Text('Item 3'),
+              leading: Icon(Icons.taxi_alert_sharp),
+              title: Text('Driver Profile'),
               onTap: () {
                 Navigator.pop(context);
               },
             ),
+            const SizedBox(height: 15.0),
+            ListTile(
+              leading: Icon(Icons.warning_amber_outlined),
+              title: Text('About'),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            const SizedBox(height: 15.0),
+            ListTile(
+              leading: Icon(Icons.logout),
+              title: Text('Log Out'),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            const SizedBox(height: 25.0),
           ],
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(24.0),
         child: Form(
           key: _formKey,
           child: Column(
@@ -78,9 +97,31 @@ class _MyHomePageState extends State<HomePage> {
               const SizedBox(height: 55.0),
               DropdownButtonFormField<String>(
                 decoration: const InputDecoration(
-                  labelText: 'Starting From',
-                  border: OutlineInputBorder(),
-                ),
+                    labelText: 'Starting From',
+                    labelStyle: TextStyle(
+                        color: textSecColor
+                    ),
+                    border: OutlineInputBorder(
+                        borderSide: BorderSide(color: textSecColor, width: 2.0),
+                        borderRadius: BorderRadius.all(Radius.circular(10))),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: textSecColor, width: 2.0),
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: textSecColor, width: 2.0),
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                    ),
+                    errorBorder: OutlineInputBorder(
+                      borderSide:
+                          BorderSide(color: Colors.redAccent, width: 2.0),
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                    ),
+                    focusedErrorBorder: OutlineInputBorder(
+                      borderSide:
+                          BorderSide(color: Colors.redAccent, width: 2.0),
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                    )),
                 onChanged: (newValue) {
                   setState(() {
                     _selectedCompany = newValue!;
@@ -93,14 +134,34 @@ class _MyHomePageState extends State<HomePage> {
                   );
                 }).toList(),
               ),
-
               const SizedBox(height: 25.0),
-
               DropdownButtonFormField<String>(
                 decoration: const InputDecoration(
-                  labelText: 'EndPoint',
-                  border: OutlineInputBorder(),
-                ),
+                    labelText: 'EndPoint',
+                    labelStyle: TextStyle(
+                        color: textSecColor
+                    ),
+                    border: OutlineInputBorder(
+                        borderSide: BorderSide(color: textSecColor, width: 2.0),
+                        borderRadius: BorderRadius.all(Radius.circular(10))),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: textSecColor, width: 2.0),
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: textSecColor, width: 2.0),
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                    ),
+                    errorBorder: OutlineInputBorder(
+                      borderSide:
+                          BorderSide(color: Colors.redAccent, width: 2.0),
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                    ),
+                    focusedErrorBorder: OutlineInputBorder(
+                      borderSide:
+                          BorderSide(color: Colors.redAccent, width: 2.0),
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                    )),
                 onChanged: (newValue) {
                   setState(() {
                     _selectedCompany = newValue!;
@@ -116,15 +177,37 @@ class _MyHomePageState extends State<HomePage> {
               const SizedBox(height: 25.0),
               TextFormField(
                 decoration: const InputDecoration(
+                  suffixIcon: Icon(Icons.calendar_month_outlined),
                   labelText: 'Date',
-                  border: OutlineInputBorder(),
+                  labelStyle: TextStyle(
+                      color: textSecColor
+                  ),
+                  border: OutlineInputBorder(
+                      borderSide: BorderSide(color: textSecColor, width: 2.0),
+                      borderRadius: BorderRadius.all(Radius.circular(10))),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: textSecColor, width: 2.0),
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: textSecColor, width: 2.0),
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                  ),
+                  errorBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.redAccent, width: 2.0),
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                  ),
+                  focusedErrorBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.redAccent, width: 2.0),
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                  ),
                 ),
                 readOnly: true,
                 onTap: () async {
                   final DateTime? picked = await showDatePicker(
                     context: context,
                     initialDate: _selectedDate,
-                    firstDate: DateTime(2000),
+                    firstDate: DateTime(2024),
                     lastDate: DateTime(2101),
                   );
                   if (picked != null) {
@@ -138,44 +221,15 @@ class _MyHomePageState extends State<HomePage> {
                 ),
               ),
               const SizedBox(height: 32.0),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      // Process data
-                    }
-                  },
-                  style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(buttonColor),
-                      foregroundColor: MaterialStateProperty.all(primaryColor)
-                  ),
-                  child: const Text('Submit'),
-                ),
+              Button(onPressed: () {}, text: "Submit"),
+              const SizedBox(
+                height: 15,
               ),
-              const SizedBox(height: 32.0),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      // Process data
-                    }
-                  },
-                  style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(buttonColor),
-                      foregroundColor: MaterialStateProperty.all(primaryColor)
-                  ),
-                  child: const Text('Book Return'),
-                ),
-              ),
+              Button(onPressed: () {}, text: 'Book Return'),
             ],
           ),
         ),
       ),
-
-
-
     );
   }
 }
