@@ -50,143 +50,145 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
         padding: const EdgeInsets.fromLTRB(24, 32, 24, 8),
         child: Form(
             key: _formKey,
-            child: Column(
-              children: [
-                TextFormField(
-                  style: TextStyle(
-                    color: textSecColor
-                  ),
-                  decoration: const InputDecoration(
-                    labelText: 'Enter Your Name',
-                    labelStyle: TextStyle(
-                        color: textSecColor
-                    ),
-                    border: OutlineInputBorder(
-                        borderSide: BorderSide(color: textSecColor, width: 2.0),
-                        borderRadius: BorderRadius.all(Radius.circular(10))),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: textSecColor, width: 2.0),
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: textSecColor, width: 2.0),
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                    ),
-                    errorBorder: OutlineInputBorder(
-                      borderSide:
-                      BorderSide(color: Colors.redAccent, width: 2.0),
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                    ),
-                    focusedErrorBorder: OutlineInputBorder(
-                      borderSide:
-                      BorderSide(color: Colors.redAccent, width: 2.0),
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                    ),
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your name';
-                    }
-                    return null;
-                  },
-                ),
-                SizedBox(height: 25,),
-                TextFormField(
-                  style: TextStyle(
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  TextFormField(
+                    style: TextStyle(
                       color: textSecColor
-                  ),
-                  decoration: const InputDecoration(
-                    labelText: 'From',
-                    labelStyle: TextStyle(
-                        color: textSecColor
                     ),
-                    border: OutlineInputBorder(
-                        borderSide: BorderSide(color: textSecColor, width: 2.0),
-                        borderRadius: BorderRadius.all(Radius.circular(10))),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: textSecColor, width: 2.0),
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: textSecColor, width: 2.0),
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                    ),
-                    errorBorder: OutlineInputBorder(
-                      borderSide:
-                      BorderSide(color: Colors.redAccent, width: 2.0),
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                    ),
-                    focusedErrorBorder: OutlineInputBorder(
-                      borderSide:
-                      BorderSide(color: Colors.redAccent, width: 2.0),
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                    ),
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter Place';
-                    }
-                    return null;
-                  },
-                ),
-                SizedBox(
-                  height: 25,
-                ),
-                GestureDetector(
-                  onTap: (){
-                    _selectTime(context);
-                  },
-                  child: AbsorbPointer(
-                    child: TextFormField(
-
-                      controller: _timeController,
-                      style: TextStyle(
+                    decoration: const InputDecoration(
+                      labelText: 'Enter Your Name',
+                      labelStyle: TextStyle(
                           color: textSecColor
                       ),
-                      decoration: const InputDecoration(
-                        suffixIcon: Icon(CupertinoIcons.clock,color: textSecColor,),
-                        labelText: 'Daperting Time',
-                        labelStyle: TextStyle(
+                      border: OutlineInputBorder(
+                          borderSide: BorderSide(color: textSecColor, width: 2.0),
+                          borderRadius: BorderRadius.all(Radius.circular(10))),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: textSecColor, width: 2.0),
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: textSecColor, width: 2.0),
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
+                      errorBorder: OutlineInputBorder(
+                        borderSide:
+                        BorderSide(color: Colors.redAccent, width: 2.0),
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderSide:
+                        BorderSide(color: Colors.redAccent, width: 2.0),
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter your name';
+                      }
+                      return null;
+                    },
+                  ),
+                  SizedBox(height: 25,),
+                  TextFormField(
+                    style: TextStyle(
+                        color: textSecColor
+                    ),
+                    decoration: const InputDecoration(
+                      labelText: 'From',
+                      labelStyle: TextStyle(
+                          color: textSecColor
+                      ),
+                      border: OutlineInputBorder(
+                          borderSide: BorderSide(color: textSecColor, width: 2.0),
+                          borderRadius: BorderRadius.all(Radius.circular(10))),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: textSecColor, width: 2.0),
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: textSecColor, width: 2.0),
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
+                      errorBorder: OutlineInputBorder(
+                        borderSide:
+                        BorderSide(color: Colors.redAccent, width: 2.0),
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderSide:
+                        BorderSide(color: Colors.redAccent, width: 2.0),
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter Place';
+                      }
+                      return null;
+                    },
+                  ),
+                  SizedBox(
+                    height: 25,
+                  ),
+                  GestureDetector(
+                    onTap: (){
+                      _selectTime(context);
+                    },
+                    child: AbsorbPointer(
+                      child: TextFormField(
+              
+                        controller: _timeController,
+                        style: TextStyle(
                             color: textSecColor
                         ),
-                        border: OutlineInputBorder(
+                        decoration: const InputDecoration(
+                          suffixIcon: Icon(CupertinoIcons.clock,color: textSecColor,),
+                          labelText: 'Daperting Time',
+                          labelStyle: TextStyle(
+                              color: textSecColor
+                          ),
+                          border: OutlineInputBorder(
+                              borderSide: BorderSide(color: textSecColor, width: 2.0),
+                              borderRadius: BorderRadius.all(Radius.circular(10))),
+                          enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(color: textSecColor, width: 2.0),
-                            borderRadius: BorderRadius.all(Radius.circular(10))),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: textSecColor, width: 2.0),
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: textSecColor, width: 2.0),
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                          ),
+                          errorBorder: OutlineInputBorder(
+                            borderSide:
+                            BorderSide(color: Colors.redAccent, width: 2.0),
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                          ),
+                          focusedErrorBorder: OutlineInputBorder(
+                            borderSide:
+                            BorderSide(color: Colors.redAccent, width: 2.0),
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                          ),
                         ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: textSecColor, width: 2.0),
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
-                        ),
-                        errorBorder: OutlineInputBorder(
-                          borderSide:
-                          BorderSide(color: Colors.redAccent, width: 2.0),
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
-                        ),
-                        focusedErrorBorder: OutlineInputBorder(
-                          borderSide:
-                          BorderSide(color: Colors.redAccent, width: 2.0),
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
-                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter Departing time';
+                          }
+                          return null;
+                        },
                       ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter Departing time';
-                        }
-                        return null;
-                      },
                     ),
                   ),
-                ),
-                SizedBox(height: 25,),
-                Button(onPressed: (){
-                  if (_formKey.currentState!.validate()) {
-                    // Process data
-                  }
-                }, text: 'Add')
-              ],
+                  SizedBox(height: 25,),
+                  Button(onPressed: (){
+                    if (_formKey.currentState!.validate()) {
+                      // Process data
+                    }
+                  }, text: 'Add')
+                ],
+              ),
             )
         ),
       ),
