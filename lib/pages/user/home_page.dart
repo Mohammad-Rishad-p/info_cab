@@ -257,7 +257,7 @@ class _MyHomePageState extends State<HomePage> {
                 ),
               ),
               const SizedBox(height: 32.0),
-              Button(onPressed: () {}, text: "Submit"),
+              Button(onPressed: () {}, text: "Book Cab"),
               const SizedBox(
                 height: 15,
               ),

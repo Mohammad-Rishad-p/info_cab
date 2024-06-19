@@ -23,27 +23,20 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-<<<<<<< HEAD
       initialRoute: '/userslist',
-=======
-      initialRoute: '/user_register',
->>>>>>> 356221c050be66a27eaf4a2e36e9c8cff882b02d
       routes: {
         '/': (context) => HomePage(),
-        '/register': (context) => UserRegisterPage(),
+//         '/register': (context) => UserRegisterPage(),
         '/otppage': (context) => OtpPage(),
         '/trips': (context) => TripsPage(),
         '/profile': (context) => UserProfilePage(),
         '/login': (context) => LoginPage(),
         '/dashboard': (context) => DashboardPage(),
         '/addstop': (context) => AddPickUpPointPage(),
-<<<<<<< HEAD
         '/userslist': (context) => UsersListingPage()
-=======
         '/home':(context) => HomePage(),
         '/user_register':(context) => UserRegisterPage(),
-        
->>>>>>> 356221c050be66a27eaf4a2e36e9c8cff882b02d
+        '/user_profile':(context) => UserProfilePage(),
       },
     );
   }
