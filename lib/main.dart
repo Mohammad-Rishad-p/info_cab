@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:info_cab_u/constant.dart';
+import 'package:info_cab_u/pages/admin/add_vehicle_page.dart';
 import 'package:info_cab_u/pages/admin/add_stop.dart';
 import 'package:info_cab_u/pages/admin/users_listing_page.dart';
 import 'package:info_cab_u/pages/user/dashboard_page.dart';
@@ -23,7 +25,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: '/userslist',
+      initialRoute: '/add_vehicle',
+
       routes: {
         '/': (context) => HomePage(),
 //         '/register': (context) => UserRegisterPage(),
@@ -32,12 +35,17 @@ class MyApp extends StatelessWidget {
         '/profile': (context) => UserProfilePage(),
         '/login': (context) => LoginPage(),
         '/dashboard': (context) => DashboardPage(),
+        '/add_vehicle': (context) =>AddVehiclePage()
         '/addstop': (context) => AddPickUpPointPage(),
         '/userslist': (context) => UsersListingPage(),
         '/home':(context) => HomePage(),
         '/user_register':(context) => UserRegisterPage(),
         '/user_profile':(context) => UserProfilePage(),
       },
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: textPrimColor),
+        useMaterial3: true,
+      ),
     );
   }
 }

@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:info_cab_u/constant.dart';
+import 'package:info_cab_u/pages/user/canceled_page.dart';
+import 'package:info_cab_u/pages/user/completed_page.dart';
+import 'package:info_cab_u/pages/user/upcoming_page.dart';
 
 class TripsPage extends StatefulWidget {
   const TripsPage({Key? key}) : super(key: key);
@@ -87,91 +91,3 @@ class CanceledTrips extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Text('Canceled Trips'),
-    );
-  }
-}
-
-class TripCard extends StatelessWidget {
-  const TripCard({
-    Key? key,
-    required this.name,
-    required this.company,
-    required this.date,
-    required this.location,
-    required this.price,
-  }) : super(key: key);
-
-  final String name;
-  final String company;
-  final String date;
-  final String location;
-  final String price;
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      child: Container(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                CircleAvatar(
-                  backgroundImage:
-                      NetworkImage('https://picsum.photos/200/300?random=1'),
-                ),
-                const SizedBox(width: 16.0),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      name,
-                      style: const TextStyle(
-                        fontSize: 18.0,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Text(
-                      company,
-                      style: const TextStyle(fontSize: 14.0),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            const SizedBox(height: 16.0),
-            Row(
-              children: [
-                const Icon(Icons.calendar_today),
-                const SizedBox(width: 8.0),
-                Text(date),
-              ],
-            ),
-            const SizedBox(height: 8.0),
-            Row(
-              children: [
-                const Icon(Icons.location_pin),
-                const SizedBox(width: 8.0),
-                Text(location),
-              ],
-            ),
-            const SizedBox(height: 16.0),
-            Align(
-              alignment: Alignment.bottomRight,
-              child: Text(
-                price,
-                style: const TextStyle(
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}

@@ -212,6 +212,9 @@ class _MyHomePageState extends State<HomePage> {
               ),
               const SizedBox(height: 25.0),
               TextFormField(
+                style: TextStyle(
+                    color: textSecColor
+                ),
                 decoration: const InputDecoration(
                   suffixIcon: Icon(Icons.calendar_month_outlined),
                   labelText: 'Date',
