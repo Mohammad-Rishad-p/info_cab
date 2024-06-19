@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
         '/login': (context) => LoginPage(),
         '/dashboard': (context) => DashboardPage(),
         '/addstop': (context) => AddPickUpPointPage(),
-        '/userslist': (context) => UsersListingPage()
+        '/userslist': (context) => UsersListingPage(),
         '/home':(context) => HomePage(),
         '/user_register':(context) => UserRegisterPage(),
         '/user_profile':(context) => UserProfilePage(),
