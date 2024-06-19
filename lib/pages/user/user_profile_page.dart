@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:info_cab_u/components/round_image_widget.dart';
 import 'package:info_cab_u/constant.dart';
 
-class ProfilePage extends StatelessWidget {
-  const ProfilePage({super.key});
+class UserProfilePage extends StatelessWidget {
+  const UserProfilePage({super.key});
 
   @override
   Widget build(BuildContext context) {
