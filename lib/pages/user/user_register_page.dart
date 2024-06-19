@@ -58,9 +58,7 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
                   keyboardType: TextInputType.phone,
                   decoration: const InputDecoration(
                     labelText: 'Enter Your Mobile Number',
-                    labelStyle: TextStyle(
-                      color: textSecColor
-                    ),
+                    labelStyle: TextStyle(color: textSecColor),
                     prefixText: '+91 ',
                     border: OutlineInputBorder(
                         borderSide: BorderSide(color: textSecColor, width: 2.0),
@@ -97,9 +95,7 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
                 TextFormField(
                   decoration: const InputDecoration(
                     labelText: 'Enter Your Name',
-                    labelStyle: TextStyle(
-                        color: textSecColor
-                    ),
+                    labelStyle: TextStyle(color: textSecColor),
                     border: OutlineInputBorder(
                         borderSide: BorderSide(color: textSecColor, width: 2.0),
                         borderRadius: BorderRadius.all(Radius.circular(10))),
@@ -135,9 +131,7 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
                 DropdownButtonFormField<String>(
                   decoration: const InputDecoration(
                     labelText: 'Enter Your Company Name',
-                    labelStyle: TextStyle(
-                        color: textSecColor
-                    ),
+                    labelStyle: TextStyle(color: textSecColor),
                     border: OutlineInputBorder(
                         borderSide: BorderSide(color: textSecColor, width: 2.0),
                         borderRadius: BorderRadius.all(Radius.circular(10))),

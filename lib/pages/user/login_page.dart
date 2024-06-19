@@ -32,6 +32,9 @@ class _LoginPageState extends State<LoginPage> {
                     height: 40,
                   ),
                   TextFormField(
+                    style: TextStyle(
+                        color: textSecColor
+                    ),
                     maxLength: 10,
                     decoration: const InputDecoration(
                       labelText: 'Enter Your Phone Number',

@@ -65,11 +65,14 @@ class _OtpPageState extends State<OtpPage> {
                   ),
                   // design of a single box
                   child: TextField(
+                    style: TextStyle(
+                        color: textSecColor,
+                        fontSize: 24
+                    ),
                     controller: controllers[index],
                     focusNode: focusNodes[index],
                     maxLength: 1,
                     textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 24),
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                       border: InputBorder.none,
