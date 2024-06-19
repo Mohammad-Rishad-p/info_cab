@@ -20,8 +20,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+<<<<<<< HEAD
 
       initialRoute: '/add_vehicle',
+=======
+      initialRoute: '/register',
+>>>>>>> 9cc9913e5e2a34a2cd6223d0195458c6592d717f
       routes: {
         '/': (context) => HomePage(),
         '/register': (context) => UserRegisterPage(),
