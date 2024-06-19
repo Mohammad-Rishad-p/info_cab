@@ -5,89 +5,44 @@ import 'package:info_cab_u/pages/user/completed_page.dart';
 import 'package:info_cab_u/pages/user/upcoming_page.dart';
 
 class TripsPage extends StatefulWidget {
-  const TripsPage({Key? key}) : super(key: key);
+  const TripsPage({super.key});
 
   @override
   State<TripsPage> createState() => _TripsPageState();
 }
 
-class _TripsPageState extends State<TripsPage>
-    with SingleTickerProviderStateMixin {
-  late TabController _tabController;
-
-  @override
-  void initState() {
-    super.initState();
-    _tabController = TabController(length: 3, vsync: this);
-  }
-
+class _TripsPageState extends State<TripsPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          onPressed: () {},
-          icon: const Icon(Icons.arrow_back),
+    return DefaultTabController(
+        length: 3,
+        child: Scaffold(
+          appBar: AppBar(
+            title: const Text(
+              'Trips',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            centerTitle: true,
+            bottom: const TabBar(unselectedLabelColor: textSecColor, tabs: [
+              Tab(
+                text: 'Completed',
+              ),
+              Tab(
+                text: 'Upcoming',
+              ),
+              Tab(
+                text: 'Canceled',
+              )
+            ]),
+          ),
+          body: TabBarView(
+            children: [
+              CompletedPage(),
+              UpcomingPage(),
+              CanceledPage()
+            ],
+          ),
         ),
-        title: const Text(
-          'Trips',
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-        centerTitle: true,
-        bottom: TabBar(
-          controller: _tabController,
-          tabs: const [
-            Tab(text: 'Completed'),
-            Tab(text: 'Upcoming'),
-            Tab(text: 'Canceled'),
-          ],
-        ),
-      ),
-      body: TabBarView(
-        controller: _tabController,
-        children: [
-          CompletedTrips(),
-          UpcomingTrips(),
-          CanceledTrips(),
-        ],
-      ),
     );
   }
 }
-
-class CompletedTrips extends StatelessWidget {
-  const CompletedTrips({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: 4,
-      itemBuilder: (context, index) {
-        return TripCard(
-          name: 'Aswin',
-          company: 'Techgentsia',
-          date: 'Sunday, 12 June',
-          location: 'Alappuzha - Infopark',
-          price: 'Rs. 125',
-        );
-      },
-    );
-  }
-}
-
-class UpcomingTrips extends StatelessWidget {
-  const UpcomingTrips({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return const Center(
-      child: Text('Upcoming Trips'),
-    );
-  }
-}
-
-class CanceledTrips extends StatelessWidget {
-  const CanceledTrips({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
