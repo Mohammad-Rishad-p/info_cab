@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:info_cab_u/pages/admin/add_company_page.dart';
 import 'package:info_cab_u/pages/admin/add_stop.dart';
+import 'package:info_cab_u/pages/admin/today_attendance.dart';
 import 'package:info_cab_u/pages/admin/users_listing_page.dart';
 import 'package:info_cab_u/pages/user/dashboard_page.dart';
 import 'package:info_cab_u/pages/user/home_page.dart';
@@ -23,7 +25,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: '/userslist',
+      initialRoute: '/attendance',
       routes: {
         '/': (context) => HomePage(),
 //         '/register': (context) => UserRegisterPage(),
@@ -34,9 +36,11 @@ class MyApp extends StatelessWidget {
         '/dashboard': (context) => DashboardPage(),
         '/addstop': (context) => AddPickUpPointPage(),
         '/userslist': (context) => UsersListingPage(),
-        '/home':(context) => HomePage(),
-        '/user_register':(context) => UserRegisterPage(),
-        '/user_profile':(context) => UserProfilePage(),
+        '/home': (context) => HomePage(),
+        '/userregister': (context) => UserRegisterPage(),
+        '/userprofile': (context) => UserProfilePage(),
+        '/addcompany': (context) => AddCompanyPage(),
+        '/attendance': (context) => UserAttendance()
       },
     );
   }
