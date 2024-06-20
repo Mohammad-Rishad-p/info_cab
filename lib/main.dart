@@ -30,7 +30,6 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: '/login',
       routes: {
-        '/': (context) => HomePage(),
 //         '/register': (context) => UserRegisterPage(),
         '/otppage': (context) => OtpPage(),
         '/trips': (context) => TripsPage(),
@@ -49,6 +48,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: textPrimColor),
         useMaterial3: true,
+        scaffoldBackgroundColor: Colors.white,
+        appBarTheme: AppBarTheme(
+          backgroundColor: Colors.white
+        )
       ),
     );
   }

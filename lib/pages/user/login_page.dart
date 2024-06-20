@@ -5,6 +5,7 @@ import 'package:info_cab_u/basic_widgets/heading_text_widget.dart';
 import 'package:info_cab_u/constant.dart';
 
 class LoginPage extends StatefulWidget {
+  static String verify = "";
   const LoginPage({super.key});
 
   @override
@@ -15,6 +16,7 @@ class _LoginPageState extends State<LoginPage> {
   FirebaseAuth auth = FirebaseAuth.instance;
   TextEditingController phoneController = TextEditingController();
   var countryCode = '+91';
+
 
   final _formKey = GlobalKey<FormState>();
 
@@ -84,7 +86,10 @@ class _LoginPageState extends State<LoginPage> {
                                 (PhoneAuthCredential credential) {},
                             verificationFailed: (FirebaseAuthException e) {},
                             codeSent:
-                                (String verificationId, int? resendToken) {},
+                                (String verificationId, int? resendToken) {
+                              LoginPage.verify = verificationId;
+                              Navigator.pushNamed(context, '/otppage',arguments: {'phoneNumber': phoneController.text});
+                            },
                             codeAutoRetrievalTimeout:
                                 (String verificationId) {},
                           );
