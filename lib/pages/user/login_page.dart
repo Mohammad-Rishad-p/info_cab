@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:info_cab_u/basic_widgets/button_widget.dart';
 import 'package:info_cab_u/basic_widgets/heading_text_widget.dart';
@@ -11,6 +12,10 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  FirebaseAuth auth = FirebaseAuth.instance;
+  TextEditingController phoneController = TextEditingController();
+  var countryCode = '+91';
+
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -32,15 +37,13 @@ class _LoginPageState extends State<LoginPage> {
                     height: 40,
                   ),
                   TextFormField(
-                    style: TextStyle(
-                        color: textSecColor
-                    ),
+                    controller: phoneController,
+                    style: TextStyle(color: textSecColor),
                     maxLength: 10,
+                    keyboardType: TextInputType.number,
                     decoration: const InputDecoration(
                       labelText: 'Enter Your Phone Number',
-                      labelStyle: TextStyle(
-                          color: textSecColor
-                      ),
+                      labelStyle: TextStyle(color: textSecColor),
                       prefixText: '+91 | ',
                       focusedBorder: OutlineInputBorder(
                           borderSide:
@@ -72,9 +75,19 @@ class _LoginPageState extends State<LoginPage> {
                     height: 30,
                   ),
                   Button(
-                      onPressed: () {
+                      onPressed: () async {
                         if (_formKey.currentState!.validate()) {
-                          Navigator.pushReplacementNamed(context, '/dashboard');
+                          await FirebaseAuth.instance.verifyPhoneNumber(
+                            phoneNumber:
+                                '${countryCode + phoneController.text}',
+                            verificationCompleted:
+                                (PhoneAuthCredential credential) {},
+                            verificationFailed: (FirebaseAuthException e) {},
+                            codeSent:
+                                (String verificationId, int? resendToken) {},
+                            codeAutoRetrievalTimeout:
+                                (String verificationId) {},
+                          );
                         }
                       },
                       text: 'Get OTP'),
@@ -122,7 +135,7 @@ class _LoginPageState extends State<LoginPage> {
                     ],
                   ),
                   SizedBox(
-                    height: 418,
+                    height: 400,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
