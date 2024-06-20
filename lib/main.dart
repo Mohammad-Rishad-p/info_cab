@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:info_cab_u/pages/admin/add_company_page.dart';
+import 'package:info_cab_u/constant.dart';
+import 'package:info_cab_u/pages/admin/add_company_page.dart';
+import 'package:info_cab_u/pages/admin/add_vehicle_page.dart';
 import 'package:info_cab_u/pages/admin/add_stop.dart';
 import 'package:info_cab_u/pages/admin/today_attendance.dart';
 import 'package:info_cab_u/pages/admin/users_listing_page.dart';
@@ -34,14 +37,19 @@ class MyApp extends StatelessWidget {
         '/profile': (context) => UserProfilePage(),
         '/login': (context) => LoginPage(),
         '/dashboard': (context) => DashboardPage(),
+        '/add_vehicle': (context) =>AddVehiclePage(),
         '/addstop': (context) => AddPickUpPointPage(),
         '/userslist': (context) => UsersListingPage(),
-        '/home': (context) => HomePage(),
-        '/userregister': (context) => UserRegisterPage(),
-        '/userprofile': (context) => UserProfilePage(),
-        '/addcompany': (context) => AddCompanyPage(),
         '/attendance': (context) => UserAttendance()
+        '/home':(context) => HomePage(),
+        '/user_register':(context) => UserRegisterPage(),
+        '/user_profile':(context) => UserProfilePage(),
+        '/addcompany':(context) => AddCompanyPage(),
       },
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: textPrimColor),
+        useMaterial3: true,
+      ),
     );
   }
 }

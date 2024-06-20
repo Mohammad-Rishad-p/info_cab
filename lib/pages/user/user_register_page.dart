@@ -138,7 +138,6 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
                     },
                   ),
                   const SizedBox(height: 13.0),
-
                   //text field for Name
                   TextFormField(
                     controller: userName,
@@ -179,7 +178,6 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
                     },
                   ),
                   const SizedBox(height: 35.0),
-
                   //Drop down box for company names
                   DropdownButtonFormField<String>(
                     decoration: const InputDecoration(
