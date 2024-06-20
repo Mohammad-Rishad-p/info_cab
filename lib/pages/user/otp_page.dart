@@ -1,9 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:info_cab_u/basic_widgets/button_widget.dart';
 import 'package:info_cab_u/basic_widgets/heading_text_widget.dart';
 import 'package:info_cab_u/basic_widgets/normal_text_widget.dart';
 import 'package:info_cab_u/constant.dart';
+import 'package:info_cab_u/pages/user/login_page.dart';
 import 'package:pinput/pinput.dart';
+import 'package:toast/toast.dart';
 
 class OtpPage extends StatefulWidget {
   const OtpPage({super.key});
@@ -13,7 +16,10 @@ class OtpPage extends StatefulWidget {
 }
 
 class _OtpPageState extends State<OtpPage> {
+  FirebaseAuth auth = FirebaseAuth.instance;
+  
   final int number = 8891160597;
+  TextEditingController otpController = TextEditingController();
 
   List<TextEditingController> controllers =
       List.generate(6, (index) => TextEditingController());
@@ -50,9 +56,7 @@ class _OtpPageState extends State<OtpPage> {
     );
 
     final submittedPinTheme = defaultPinTheme.copyWith(
-      decoration: defaultPinTheme.decoration?.copyWith(
-        color: Colors.white
-      ),
+      decoration: defaultPinTheme.decoration?.copyWith(color: Colors.white),
     );
     return SafeArea(
         child: Scaffold(
@@ -79,6 +83,7 @@ class _OtpPageState extends State<OtpPage> {
               focusedPinTheme: focusedPinTheme,
               submittedPinTheme: submittedPinTheme,
               pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
+              controller: otpController,
               // showCursor: true,
               // onCompleted: (pin) => print(pin),
             ),
@@ -140,7 +145,6 @@ class _OtpPageState extends State<OtpPage> {
                 SizedBox(
                   width: 10,
                 ),
-
                 NText(content: 'Auto fetching OTP..', textColor: textSecColor)
               ],
             ),
@@ -149,9 +153,24 @@ class _OtpPageState extends State<OtpPage> {
             ),
 
             // otp submit button
-            Button(onPressed: () {
+            Button(
+                onPressed: () async {
+                  try {
+                    PhoneAuthCredential credential =
+                        PhoneAuthProvider.credential(
+                            verificationId: LoginPage.verify,
+                            smsCode: otpController.text);
 
-            }, text: 'Verify OTP'),
+                    await auth.signInWithCredential(credential);
+                    Navigator.pushNamedAndRemoveUntil(
+                        context, '/home', (route) => false);
+                    Toast.show('Login Success',duration: Toast.lengthShort,gravity: Toast.bottom);
+                  } catch (e) {
+                    Toast.show("Wrong OTP",
+                        duration: Toast.lengthShort, gravity: Toast.bottom);
+                  }
+                },
+                text: 'Verify OTP'),
           ],
         ),
       ),
