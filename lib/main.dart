@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
         '/add_vehicle': (context) =>AddVehiclePage(),
         '/addstop': (context) => AddPickUpPointPage(),
         '/userslist': (context) => UsersListingPage(),
-        '/attendance': (context) => UserAttendance()
+        '/attendance': (context) => UserAttendance(),
         '/home':(context) => HomePage(),
         '/user_register':(context) => UserRegisterPage(),
         '/user_profile':(context) => UserProfilePage(),
