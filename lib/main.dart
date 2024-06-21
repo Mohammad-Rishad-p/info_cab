@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/login',
       routes: {
 //         '/register': (context) => UserRegisterPage(),
-        '/otppage': (context) => OtpPage(),
+        '/otppage': (context) => OTPPage(),
         '/trips': (context) => TripsPage(),
         '/profile': (context) => UserProfilePage(),
         '/login': (context) => LoginPage(),
@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
         '/userslist': (context) => UsersListingPage(),
         '/attendance': (context) => UserAttendance(),
         '/home':(context) => HomePage(),
-        '/user_register':(context) => UserRegisterPage(),
+        '/user_register':(context) => UserRegisterPage(uid: '',),
         '/user_profile':(context) => UserProfilePage(),
         '/addcompany':(context) => AddCompanyPage(),
       },
