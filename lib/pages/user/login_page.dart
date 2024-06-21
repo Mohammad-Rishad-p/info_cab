@@ -13,10 +13,13 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  FirebaseAuth auth = FirebaseAuth.instance;
-  TextEditingController phoneController = TextEditingController();
-  var countryCode = '+91';
 
+  // firebase auth instance
+  FirebaseAuth auth = FirebaseAuth.instance;
+  //text editing controller for phone number
+  TextEditingController phoneController = TextEditingController();
+  //setting country code
+  var countryCode = '+91';
 
   final _formKey = GlobalKey<FormState>();
 
@@ -32,13 +35,12 @@ class _LoginPageState extends State<LoginPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  // the heading text to enter number
                   const HText(content: "Provide", textColor: black),
-                  const HText(
-                      content: "Your Mobile Number", textColor: textPrimColor),
-                  const SizedBox(
-                    height: 40,
-                  ),
+                  const HText(content: "Your Mobile Number", textColor: textPrimColor),
+                  const SizedBox(height: 40),
                   TextFormField(
+                    //text feild to enter phone number
                     controller: phoneController,
                     style: TextStyle(color: textSecColor),
                     maxLength: 10,
@@ -48,24 +50,22 @@ class _LoginPageState extends State<LoginPage> {
                       labelStyle: TextStyle(color: textSecColor),
                       prefixText: '+91 | ',
                       focusedBorder: OutlineInputBorder(
-                          borderSide:
-                              BorderSide(color: textSecColor, width: 2.0),
+                          borderSide: BorderSide(color: textSecColor, width: 2.0),
                           borderRadius: BorderRadius.all(Radius.circular(10))),
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: textSecColor, width: 2.0),
                         borderRadius: BorderRadius.all(Radius.circular(10)),
                       ),
                       errorBorder: OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: Colors.redAccent, width: 2.0),
+                        borderSide: BorderSide(color: Colors.redAccent, width: 2.0),
                         borderRadius: BorderRadius.all(Radius.circular(10)),
                       ),
                       focusedErrorBorder: OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: Colors.redAccent, width: 2.0),
+                        borderSide: BorderSide(color: Colors.redAccent, width: 2.0),
                         borderRadius: BorderRadius.all(Radius.circular(10)),
                       ),
                     ),
+                    //validation to enter phone number
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Please enter your mobile number';
@@ -73,32 +73,38 @@ class _LoginPageState extends State<LoginPage> {
                       return null;
                     },
                   ),
-                  const SizedBox(
-                    height: 30,
-                  ),
+                  const SizedBox(height: 30),
                   Button(
-                      onPressed: () async {
-                        if (_formKey.currentState!.validate()) {
-                          await FirebaseAuth.instance.verifyPhoneNumber(
-                            phoneNumber:
-                                '${countryCode + phoneController.text}',
-                            verificationCompleted:
-                                (PhoneAuthCredential credential) {},
-                            verificationFailed: (FirebaseAuthException e) {},
-                            codeSent:
-                                (String verificationId, int? resendToken) {
-                              LoginPage.verify = verificationId;
-                              Navigator.pushNamed(context, '/otppage',arguments: {'phoneNumber': phoneController.text});
-                            },
-                            codeAutoRetrievalTimeout:
-                                (String verificationId) {},
-                          );
-                        }
-                      },
-                      text: 'Get OTP'),
-                  const SizedBox(
-                    height: 15,
+                    onPressed: () async {
+                      if (_formKey.currentState!.validate()) {
+
+                        //firebase part
+                        await FirebaseAuth.instance.verifyPhoneNumber(
+                          //phone number to pass to firebase
+                          phoneNumber: '${countryCode + phoneController.text}',
+                          //function to call if verification is completed
+                          verificationCompleted: (PhoneAuthCredential credential) {},
+                          verificationFailed: (FirebaseAuthException e) {
+                            // message to show if verification failed
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text(e.message ?? 'Verification failed.')),
+                            );
+                          },
+                          // for senting otp
+                          codeSent: (String verificationId, int? resendToken) {
+                            LoginPage.verify = verificationId;
+                            // sending phone number as argument to next page
+                            Navigator.pushNamed(context, '/otppage', arguments: {
+                              'phoneNumber': phoneController.text
+                            });
+                          },
+                          codeAutoRetrievalTimeout: (String verificationId) {},
+                        );
+                      }
+                    },
+                    text: 'Get OTP'
                   ),
+                  const SizedBox(height: 15),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -107,20 +113,15 @@ class _LoginPageState extends State<LoginPage> {
                           children: <TextSpan>[
                             TextSpan(
                               text: 'By clicking, I accept the ',
-                              style:
-                                  TextStyle(color: textSecColor, fontSize: 15),
+                              style: TextStyle(color: textSecColor, fontSize: 15),
                             ),
                             TextSpan(
                               text: 'terms of service ',
-                              style: TextStyle(
-                                  color: textSecColor,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold),
+                              style: TextStyle(color: textSecColor, fontSize: 15, fontWeight: FontWeight.bold),
                             ),
                             TextSpan(
                               text: 'and',
-                              style:
-                                  TextStyle(color: textSecColor, fontSize: 15),
+                              style: TextStyle(color: textSecColor, fontSize: 15),
                             ),
                           ],
                         ),
@@ -132,44 +133,11 @@ class _LoginPageState extends State<LoginPage> {
                     children: [
                       Text(
                         'privacy policy ',
-                        style: TextStyle(
-                            fontSize: 15,
-                            color: textSecColor,
-                            fontWeight: FontWeight.bold),
+                        style: TextStyle(fontSize: 15, color: textSecColor, fontWeight: FontWeight.bold),
                       )
                     ],
                   ),
-                  SizedBox(
-                    height: 400,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pushNamed(context, '/register');
-                        },
-                        child: RichText(
-                          text: const TextSpan(
-                            children: <TextSpan>[
-                              TextSpan(
-                                text: 'New User? ',
-                                style: TextStyle(
-                                    color: textSecColor, fontSize: 16),
-                              ),
-                              TextSpan(
-                                text: 'Please Register',
-                                style: TextStyle(
-                                    color: textPrimColor,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  )
+                  
                 ],
               ),
             ),
