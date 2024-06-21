@@ -5,6 +5,7 @@ import 'package:info_cab_u/basic_widgets/normal_text_widget.dart';
 import 'package:info_cab_u/constant.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class UserRegisterPage extends StatefulWidget {
   final String uid;
@@ -45,7 +46,7 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
           content: Text('Successfully registered user'),
         ),
       );
-      Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
+      Navigator.pushNamedAndRemoveUntil(context, '/dashboard', (route) => false);
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -59,7 +60,7 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
   Future<void> fetchCompanies() async {
     try {
       QuerySnapshot querySnapshot = await companies.get();
-      List<String> fetchedCompanies = querySnapshot.docs.map((doc) => doc['company name'] as String).toList();
+      List<String> fetchedCompanies = querySnapshot.docs.map((doc) => doc['company name'] as String).toList();  //
       setState(() {
         _companies = fetchedCompanies;
         _selectedCompany = _companies.isNotEmpty ? _companies[0] : '';
@@ -71,6 +72,10 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
 
   @override
   Widget build(BuildContext context) {
+    void _saveAuthCredentials(bool value) async {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setBool('isAuth', value);
+    }
     return SafeArea(
       child: Scaffold(
         backgroundColor: primaryColor,
@@ -164,7 +169,7 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
                         child: Text(value),
                       );
                     }).toList(),
-                    onChanged: (newValue) {
+                    onChanged: (newValue) {  // onchanged store to newvalue
                       setState(() {
                         _selectedCompany = newValue!;
                       });
@@ -198,6 +203,7 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
                         addUsersToFirestore();
+                        _saveAuthCredentials(true);
                       }
                     },
                     text: 'Register',

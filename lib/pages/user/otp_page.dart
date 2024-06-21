@@ -3,9 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:info_cab_u/basic_widgets/button_widget.dart';
 import 'package:info_cab_u/basic_widgets/heading_text_widget.dart';
 import 'package:info_cab_u/constant.dart';
+import 'package:info_cab_u/pages/user/dashboard_page.dart';
+import 'package:info_cab_u/pages/user/home_page.dart';
 import 'package:info_cab_u/pages/user/login_page.dart';
 import 'package:info_cab_u/pages/user/user_register_page.dart';
 import 'package:pinput/pinput.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class OTPPage extends StatefulWidget {
   const OTPPage({super.key});
@@ -15,15 +19,37 @@ class OTPPage extends StatefulWidget {
 }
 
 class _OTPPageState extends State<OTPPage> {
-  // text editting controller for otp
   TextEditingController otpController = TextEditingController();
-  // instance for firebase auth
   FirebaseAuth auth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
-    // taking the arguments from loginpage to get phone number
-    final Map<String, dynamic> args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    void _saveAuthCredentialsInOtp(bool value) async {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setBool('isAuth', value);
+    }
+    final defaultPinTheme = PinTheme(
+      width: 50,
+      height: 60,
+      textStyle: TextStyle(
+          fontSize: 20, color: textSecColor, fontWeight: FontWeight.w600),
+      decoration: BoxDecoration(
+        border: Border.all(color: textSecColor, width: 2),
+        borderRadius: BorderRadius.circular(8),
+      ),
+    );
+
+    final focusedPinTheme = defaultPinTheme.copyDecorationWith(
+      border: Border.all(color: textPrimColor, width: 2),
+      borderRadius: BorderRadius.circular(8),
+    );
+
+    final submittedPinTheme = defaultPinTheme.copyWith(
+      decoration: defaultPinTheme.decoration?.copyWith(color: Colors.white),
+    );
+
+    final Map<String, dynamic> args =
+    ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     final String phoneNumber = args['phoneNumber'];
 
     return SafeArea(
@@ -34,54 +60,72 @@ class _OTPPageState extends State<OTPPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // the heading text for enter your otp
-                const HText(content: "Enter", textColor: black),
-                HText(content: "Your OTP for $phoneNumber", textColor: textPrimColor),
+                const HText(content: "Enter Your OTP for", textColor: black),
+                HText(content: "$phoneNumber", textColor: textPrimColor),
                 const SizedBox(height: 40),
-                // for setting the 6 box to enter otp 
                 Pinput(
+                  defaultPinTheme: defaultPinTheme,
+                  focusedPinTheme: focusedPinTheme,
+                  submittedPinTheme: submittedPinTheme,
+                  pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
                   controller: otpController,
                   length: 6,
-                  onChanged: (value) {
-                    // Handle OTP input changes if needed
-                  },
                 ),
                 const SizedBox(height: 30),
                 Button(
-                  onPressed: () async {
-                    try {
-                      //firebase part
-                      // fuction to check the verification is completed
-                      PhoneAuthCredential credential = PhoneAuthProvider.credential(
-                        verificationId: LoginPage.verify,
-                        smsCode: otpController.text,
-                      );
+                    onPressed: () async {
+                      try {
+                        PhoneAuthCredential credential =
+                        PhoneAuthProvider.credential(
+                          verificationId: LoginPage.verify,
+                          smsCode: otpController.text,
+                        );
 
-                      UserCredential userCredential = await auth.signInWithCredential(credential);
-                      User? user = userCredential.user;
+                        UserCredential userCredential =
+                        await auth.signInWithCredential(credential);
+                        User? user = userCredential.user;
 
-                      if (user != null) {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            //passing the uid to user register page
-                            builder: (context) => UserRegisterPage(uid: user.uid),
+                        if (user != null) {
+                          DocumentSnapshot userDoc = await FirebaseFirestore.instance
+                              .collection('users')
+                              .doc(user.uid)
+                              .get();
+
+                          if (userDoc.exists) {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => DashboardPage(),
+                              ),
+                            );
+                            _saveAuthCredentialsInOtp(true);
+                          } else {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    UserRegisterPage(uid: user.uid),
+                              ),
+                            );
+                          }
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('User is null'),
+                              backgroundColor: Colors.red,
+                            ),
+                          );
+                        }
+                      } catch (e) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('Failed to verify OTP: $e'),
+                            backgroundColor: Colors.red,
                           ),
                         );
                       }
-                    } catch (e) {
-                      //message to display if otp verification is failed
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text('Failed to verify OTP: $e'),
-                          backgroundColor: Colors.red,
-                        ),
-                      );
-                    }
-                  },
-                  // text to display in button
-                  text: 'Verify OTP'
-                ),
+                    },
+                    text: 'Verify OTP'),
                 const SizedBox(height: 15),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -115,7 +159,6 @@ class _OTPPageState extends State<OTPPage> {
                     )
                   ],
                 ),
-                
               ],
             ),
           ),

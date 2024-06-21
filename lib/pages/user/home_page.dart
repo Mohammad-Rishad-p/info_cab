@@ -159,7 +159,7 @@ class _MyHomePageState extends State<HomePage> {
                     color: textSecColor
                 ),
                 decoration: const InputDecoration(
-                  suffixIcon: Icon(Icons.calendar_month_outlined),
+                  suffixIcon: Icon(Icons.calendar_month_outlined,color: textSecColor,),
                   labelText: 'Date',
                   labelStyle: TextStyle(
                       color: textSecColor

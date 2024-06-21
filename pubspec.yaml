@@ -42,6 +42,7 @@ dependencies:
   pinput: ^5.0.0
   firebase_auth: ^5.1.0
   toast: ^0.3.0
+  shared_preferences: ^2.2.3
 
 dev_dependencies:
   flutter_test:

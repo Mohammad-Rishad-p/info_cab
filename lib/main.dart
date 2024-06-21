@@ -9,6 +9,7 @@ import 'package:info_cab_u/pages/admin/users_listing_page.dart';
 import 'package:info_cab_u/pages/user/dashboard_page.dart';
 import 'package:info_cab_u/pages/user/home_page.dart';
 import 'package:info_cab_u/pages/user/login_page.dart';
+import 'package:info_cab_u/pages/user/splash_page.dart';
 import 'package:info_cab_u/pages/user/user_profile_page.dart';
 import 'package:info_cab_u/pages/user/trips_page.dart';
 import 'package:info_cab_u/pages/user/user_register_page.dart';
@@ -28,28 +29,32 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: '/login',
+      initialRoute: '/splash',
       routes: {
 //         '/register': (context) => UserRegisterPage(),
+        '/splash': (context) => SplashPage(),
         '/otppage': (context) => OTPPage(),
         '/trips': (context) => TripsPage(),
         '/profile': (context) => UserProfilePage(),
         '/login': (context) => LoginPage(),
         '/dashboard': (context) => DashboardPage(),
-        '/add_vehicle': (context) =>AddVehiclePage(),
+        '/add_vehicle': (context) => AddVehiclePage(),
         '/addstop': (context) => AddPickUpPointPage(),
         '/userslist': (context) => UsersListingPage(),
         '/attendance': (context) => UserAttendance(),
-        '/home':(context) => HomePage(),
-        '/user_register':(context) => UserRegisterPage(uid: '',),
-        '/user_profile':(context) => UserProfilePage(),
-        '/addcompany':(context) => AddCompanyPage(),
+        '/home': (context) => HomePage(),
+        '/user_register': (context) => UserRegisterPage(
+              uid: '',
+            ),
+        '/user_profile': (context) => UserProfilePage(),
+        '/addcompany': (context) => AddCompanyPage(),
       },
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: textPrimColor),
         useMaterial3: true,
         scaffoldBackgroundColor: Colors.white,
-        appBarTheme: AppBarTheme(
+        appBarTheme: AppBarTheme(backgroundColor: Colors.white),
+        navigationBarTheme: NavigationBarThemeData(
           backgroundColor: Colors.white
         )
       ),
