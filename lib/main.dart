@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:info_cab_u/pages/admin/add_company_page.dart';
 import 'package:info_cab_u/constant.dart';
 import 'package:info_cab_u/pages/admin/add_company_page.dart';
+import 'package:info_cab_u/pages/admin/add_trips_page.dart';
 import 'package:info_cab_u/pages/admin/add_vehicle_page.dart';
 import 'package:info_cab_u/pages/admin/add_stop.dart';
 import 'package:info_cab_u/pages/admin/today_attendance.dart';
@@ -29,18 +30,18 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: '/splash',
+      initialRoute: '/addTrips',
       routes: {
 //         '/register': (context) => UserRegisterPage(),
         '/splash': (context) => SplashPage(),
-        '/otppage': (context) => OTPPage(),
+        '/otp': (context) => OTPPage(),
         '/trips': (context) => TripsPage(),
         '/profile': (context) => UserProfilePage(),
         '/login': (context) => LoginPage(),
         '/dashboard': (context) => DashboardPage(),
         '/add_vehicle': (context) => AddVehiclePage(),
-        '/addstop': (context) => AddPickUpPointPage(),
-        '/userslist': (context) => UsersListingPage(),
+        '/add_stop': (context) => AddPickUpPointPage(),
+        '/users_list': (context) => UsersListingPage(),
         '/attendance': (context) => UserAttendance(),
         '/home': (context) => HomePage(),
         '/user_register': (context) => UserRegisterPage(
@@ -48,6 +49,7 @@ class MyApp extends StatelessWidget {
             ),
         '/user_profile': (context) => UserProfilePage(),
         '/addcompany': (context) => AddCompanyPage(),
+        '/addTrips': (context) => AddTripsPage()
       },
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: textPrimColor),
