@@ -5,8 +5,10 @@ import 'package:info_cab_u/pages/admin/add_company_page.dart';
 import 'package:info_cab_u/pages/admin/add_trips_page.dart';
 import 'package:info_cab_u/pages/admin/add_vehicle_page.dart';
 import 'package:info_cab_u/pages/admin/add_stop.dart';
+import 'package:info_cab_u/pages/admin/check_trips.dart';
 import 'package:info_cab_u/pages/admin/today_attendance.dart';
 import 'package:info_cab_u/pages/admin/users_listing_page.dart';
+import 'package:info_cab_u/pages/user/view_trips.dart';
 import 'package:info_cab_u/pages/user/dashboard_page.dart';
 import 'package:info_cab_u/pages/user/home_page.dart';
 import 'package:info_cab_u/pages/user/login_page.dart';
@@ -30,7 +32,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: '/addTrips',
+      initialRoute: '/checkTrips',
       routes: {
 //         '/register': (context) => UserRegisterPage(),
         '/splash': (context) => SplashPage(),
@@ -48,18 +50,18 @@ class MyApp extends StatelessWidget {
               uid: '',
             ),
         '/user_profile': (context) => UserProfilePage(),
-        '/addcompany': (context) => AddCompanyPage(),
-        '/addTrips': (context) => AddTripsPage()
+        '/addCompany': (context) => AddCompanyPage(),
+        '/addTrips': (context) => AddTripsPage(),
+        '/viewTrips': (context) => ViewTripsPage(),
+        '/checkTrips': (context) => CheckTrips(),
       },
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: textPrimColor),
-        useMaterial3: true,
-        scaffoldBackgroundColor: Colors.white,
-        appBarTheme: AppBarTheme(backgroundColor: Colors.white),
-        navigationBarTheme: NavigationBarThemeData(
-          backgroundColor: Colors.white
-        )
-      ),
+          colorScheme: ColorScheme.fromSeed(seedColor: textPrimColor),
+          useMaterial3: true,
+          scaffoldBackgroundColor: Colors.white,
+          appBarTheme: AppBarTheme(backgroundColor: Colors.white),
+          navigationBarTheme:
+              NavigationBarThemeData(backgroundColor: Colors.white)),
     );
   }
 }
