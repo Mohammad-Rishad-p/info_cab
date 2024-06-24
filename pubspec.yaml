@@ -43,6 +43,7 @@ dependencies:
   firebase_auth: ^5.1.0
   toast: ^0.3.0
   shared_preferences: ^2.2.3
+  fluttertoast: ^8.0.9
 
 dev_dependencies:
   flutter_test:
