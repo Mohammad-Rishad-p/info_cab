@@ -80,7 +80,7 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
       child: Scaffold(
         backgroundColor: primaryColor,
         body: Padding(
-          padding: const EdgeInsets.all(30.0),
+          padding: const EdgeInsets.all(24.0),
           child: SingleChildScrollView(
             child: Form(
               key: _formKey,
