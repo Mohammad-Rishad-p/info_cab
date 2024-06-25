@@ -57,7 +57,7 @@ class MyApp extends StatelessWidget {
             ),
         '/user_profile': (context) => UserProfilePage(),
         '/driver_list': (context) => DriverListPage(),
-        '/add_driver': (context) => AddDriverPage()
+        '/add_driver': (context) => AddDriverPage(),
         '/addCompany': (context) => AddCompanyPage(),
         '/addTrips': (context) => AddTripsPage(),
         '/viewTrips': (context) => ViewTripsPage(),
