@@ -25,18 +25,18 @@ class _AddTripsPageState extends State<AddTripsPage> {
   String _selectedStartPoint = '';
   String _selectedEndPoint = '';
   String _selectedVehicle = '';
+  String _selectedSeat = '';
 
   DateTime _selectedDate = DateTime.now();
   List<String> _stops = [];
   List<String> _vehicles = [];
 
   final CollectionReference stops =
-  FirebaseFirestore.instance.collection('stops');
+      FirebaseFirestore.instance.collection('stops');
   final CollectionReference trips =
-  FirebaseFirestore.instance.collection('trips');
+      FirebaseFirestore.instance.collection('trips');
   final CollectionReference vehicles =
-  FirebaseFirestore.instance.collection('vehicles');
-
+      FirebaseFirestore.instance.collection('vehicles');
 
   @override
   void initState() {
@@ -48,30 +48,30 @@ class _AddTripsPageState extends State<AddTripsPage> {
   Future<void> _fetchStops() async {
     final querySnapshot = await stops.get();
     final stopNames =
-    querySnapshot.docs.map((doc) => doc['stop'].toString()).toList();
+        querySnapshot.docs.map((doc) => doc['stop'].toString()).toList();
     setState(() {
       _stops = stopNames;
       _selectedStartPoint = _stops.isNotEmpty ? _stops[0] : '';
     });
   }
 
-
   Future<void> _fetchVehicles() async {
     final querySnapshot = await vehicles.get();
     final vehicleNames =
-    querySnapshot.docs.map((doc) => doc['vehicle'].toString()).toList();
+        querySnapshot.docs.map((doc) => doc['vehicle'].toString()).toList();
     setState(() {
       _vehicles = vehicleNames;
       _selectedVehicle = _vehicles.isNotEmpty ? _vehicles[0] : '';
     });
   }
 
-
 //to avoid duplication of data while adding to db
+
   Future<bool> _tripExists() async {
     final querySnapshot = await trips
         .where('start point', isEqualTo: _selectedStartPoint)
-        .where('date', isEqualTo: DateFormat('yyyy-MM-dd').format(_selectedDate))
+        .where('date',
+            isEqualTo: DateFormat('yyyy-MM-dd').format(_selectedDate))
         .where('vehicle detail', isEqualTo: _selectedVehicle)
         .get();
 
@@ -82,11 +82,12 @@ class _AddTripsPageState extends State<AddTripsPage> {
     if (await _tripExists()) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Trip with same starting point, date, and vehicle already exists!'),
+          content: Text(
+              'Trip with same starting point, date, and vehicle already exists!'),
           // backgroundColor: Colors.red,
         ),
       );
-      return;  // return so already exist ayathond fn (addTrips) nn complete exit adikkum soo add avulla
+      return; // return so already exist ayathond fn (addTrips) nn complete exit adikkum soo add avulla
     }
 
     try {
@@ -95,6 +96,7 @@ class _AddTripsPageState extends State<AddTripsPage> {
         'end point': _selectedEndPoint,
         'date': DateFormat('yyyy-MM-dd').format(_selectedDate),
         'vehicle detail': _selectedVehicle,
+        'seat': seatNumberController.text
       });
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -147,7 +149,7 @@ class _AddTripsPageState extends State<AddTripsPage> {
                       labelStyle: TextStyle(color: textSecColor),
                       border: OutlineInputBorder(
                           borderSide:
-                          BorderSide(color: textSecColor, width: 2.0),
+                              BorderSide(color: textSecColor, width: 2.0),
                           borderRadius: BorderRadius.all(Radius.circular(10))),
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: textSecColor, width: 2.0),
@@ -159,12 +161,12 @@ class _AddTripsPageState extends State<AddTripsPage> {
                       ),
                       errorBorder: OutlineInputBorder(
                         borderSide:
-                        BorderSide(color: Colors.redAccent, width: 2.0),
+                            BorderSide(color: Colors.redAccent, width: 2.0),
                         borderRadius: BorderRadius.all(Radius.circular(10)),
                       ),
                       focusedErrorBorder: OutlineInputBorder(
                         borderSide:
-                        BorderSide(color: Colors.redAccent, width: 2.0),
+                            BorderSide(color: Colors.redAccent, width: 2.0),
                         borderRadius: BorderRadius.all(Radius.circular(10)),
                       )),
                   onChanged: (newValue) {
@@ -194,7 +196,7 @@ class _AddTripsPageState extends State<AddTripsPage> {
                       labelStyle: TextStyle(color: textSecColor),
                       border: OutlineInputBorder(
                           borderSide:
-                          BorderSide(color: textSecColor, width: 2.0),
+                              BorderSide(color: textSecColor, width: 2.0),
                           borderRadius: BorderRadius.all(Radius.circular(10))),
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: textSecColor, width: 2.0),
@@ -206,12 +208,12 @@ class _AddTripsPageState extends State<AddTripsPage> {
                       ),
                       errorBorder: OutlineInputBorder(
                         borderSide:
-                        BorderSide(color: Colors.redAccent, width: 2.0),
+                            BorderSide(color: Colors.redAccent, width: 2.0),
                         borderRadius: BorderRadius.all(Radius.circular(10)),
                       ),
                       focusedErrorBorder: OutlineInputBorder(
                         borderSide:
-                        BorderSide(color: Colors.redAccent, width: 2.0),
+                            BorderSide(color: Colors.redAccent, width: 2.0),
                         borderRadius: BorderRadius.all(Radius.circular(10)),
                       )),
                   onChanged: (newValue) {
@@ -258,12 +260,12 @@ class _AddTripsPageState extends State<AddTripsPage> {
                     ),
                     errorBorder: OutlineInputBorder(
                       borderSide:
-                      BorderSide(color: Colors.redAccent, width: 2.0),
+                          BorderSide(color: Colors.redAccent, width: 2.0),
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                     ),
                     focusedErrorBorder: OutlineInputBorder(
                       borderSide:
-                      BorderSide(color: Colors.redAccent, width: 2.0),
+                          BorderSide(color: Colors.redAccent, width: 2.0),
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                     ),
                   ),
@@ -300,7 +302,7 @@ class _AddTripsPageState extends State<AddTripsPage> {
                       labelStyle: TextStyle(color: textSecColor),
                       border: OutlineInputBorder(
                           borderSide:
-                          BorderSide(color: textSecColor, width: 2.0),
+                              BorderSide(color: textSecColor, width: 2.0),
                           borderRadius: BorderRadius.all(Radius.circular(10))),
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: textSecColor, width: 2.0),
@@ -311,11 +313,13 @@ class _AddTripsPageState extends State<AddTripsPage> {
                         borderRadius: BorderRadius.all(Radius.circular(10)),
                       ),
                       errorBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.redAccent, width: 2.0),
+                        borderSide:
+                            BorderSide(color: Colors.redAccent, width: 2.0),
                         borderRadius: BorderRadius.all(Radius.circular(10)),
                       ),
                       focusedErrorBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.redAccent, width: 2.0),
+                        borderSide:
+                            BorderSide(color: Colors.redAccent, width: 2.0),
                         borderRadius: BorderRadius.all(Radius.circular(10)),
                       )),
                   onChanged: (newValue) {
@@ -343,7 +347,42 @@ class _AddTripsPageState extends State<AddTripsPage> {
                 const SizedBox(
                   height: 20,
                 ),
-
+                TextFormField(
+                  controller: seatNumberController,
+                  maxLength: 3,
+                  keyboardType: TextInputType.number,
+                  decoration: const InputDecoration(
+                    labelText: 'Number of seats',
+                    labelStyle: TextStyle(color: textSecColor),
+                    border: OutlineInputBorder(
+                        borderSide: BorderSide(color: textSecColor, width: 2.0),
+                        borderRadius: BorderRadius.all(Radius.circular(10))),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: textSecColor, width: 2.0),
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: textSecColor, width: 2.0),
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                    ),
+                    errorBorder: OutlineInputBorder(
+                      borderSide:
+                          BorderSide(color: Colors.redAccent, width: 2.0),
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                    ),
+                    focusedErrorBorder: OutlineInputBorder(
+                      borderSide:
+                          BorderSide(color: Colors.redAccent, width: 2.0),
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                    ),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please Enter Seat Number';
+                    }
+                    return null;
+                  },
+                ),
                 SizedBox(
                   height: 5,
                 ),

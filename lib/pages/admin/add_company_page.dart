@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:info_cab_u/basic_widgets/button_widget.dart';
@@ -41,6 +40,7 @@ class _AddPickUpPointPageState extends State<AddCompanyPage> {
       print("Failed to add company: $e");
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,9 +71,11 @@ class _AddPickUpPointPageState extends State<AddCompanyPage> {
               ),
             ),
             SizedBox(height: 20),
-            Button(onPressed: () {
-              addStopsToFireStore();
-            }, text: 'Add Company'),
+            Button(
+                onPressed: () {
+                  addStopsToFireStore();
+                },
+                text: 'Add Company'),
           ],
         ),
       ),

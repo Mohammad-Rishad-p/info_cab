@@ -8,7 +8,12 @@ import 'package:info_cab_u/pages/admin/add_vehicle_page.dart';
 import 'package:info_cab_u/pages/admin/add_stop_page.dart';
 import 'package:info_cab_u/pages/admin/driver_list_page.dart';
 import 'package:info_cab_u/pages/admin/user_attendence_page.dart';
+// import 'package:info_cab_u/pages/admin/add_stop.dart';
+import 'package:info_cab_u/pages/admin/check_trips.dart';
+import 'package:info_cab_u/pages/admin/drivers_listing_page.dart';
+// import 'package:info_cab_u/pages/admin/today_attendance.dart';
 import 'package:info_cab_u/pages/admin/users_listing_page.dart';
+import 'package:info_cab_u/pages/user/view_trips.dart';
 import 'package:info_cab_u/pages/user/dashboard_page.dart';
 import 'package:info_cab_u/pages/user/home_page.dart';
 import 'package:info_cab_u/pages/user/login_page.dart';
@@ -32,6 +37,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+
       initialRoute: '/driver_list',
       routes: {
 //         '/register': (context) => UserRegisterPage(),
@@ -50,17 +56,21 @@ class MyApp extends StatelessWidget {
               uid: '',
             ),
         '/user_profile': (context) => UserProfilePage(),
-        '/add_company': (context) => AddCompanyPage(),
-        '/addTrips': (context) => AddTripsPage(),
         '/driver_list': (context) => DriverListPage(),
         '/add_driver': (context) => AddDriverPage()
+        '/addCompany': (context) => AddCompanyPage(),
+        '/addTrips': (context) => AddTripsPage(),
+        '/viewTrips': (context) => ViewTripsPage(),
+        '/checkTrips': (context) => CheckTrips(),
+        '/drivers_list': (context) => DriversListingPage(),
       },
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: textPrimColor),
-        useMaterial3: true,
-        scaffoldBackgroundColor: Colors.white,
-        appBarTheme: AppBarTheme(backgroundColor: Colors.white),
-      ),
+          colorScheme: ColorScheme.fromSeed(seedColor: textPrimColor),
+          useMaterial3: true,
+          scaffoldBackgroundColor: Colors.white,
+          appBarTheme: AppBarTheme(backgroundColor: Colors.white),
+          navigationBarTheme:
+              NavigationBarThemeData(backgroundColor: Colors.white)),
     );
   }
 }
