@@ -6,6 +6,7 @@ import 'package:info_cab_u/pages/admin/add_trips_page.dart';
 import 'package:info_cab_u/pages/admin/add_vehicle_page.dart';
 import 'package:info_cab_u/pages/admin/add_stop.dart';
 import 'package:info_cab_u/pages/admin/check_trips.dart';
+import 'package:info_cab_u/pages/admin/drivers_listing_page.dart';
 import 'package:info_cab_u/pages/admin/today_attendance.dart';
 import 'package:info_cab_u/pages/admin/users_listing_page.dart';
 import 'package:info_cab_u/pages/user/view_trips.dart';
@@ -32,7 +33,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: '/checkTrips',
+      initialRoute: '/drivers_list',
       routes: {
 //         '/register': (context) => UserRegisterPage(),
         '/splash': (context) => SplashPage(),
@@ -54,6 +55,7 @@ class MyApp extends StatelessWidget {
         '/addTrips': (context) => AddTripsPage(),
         '/viewTrips': (context) => ViewTripsPage(),
         '/checkTrips': (context) => CheckTrips(),
+        '/drivers_list': (context) => DriversListingPage(),
       },
       theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: textPrimColor),
