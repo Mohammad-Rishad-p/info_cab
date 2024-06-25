@@ -67,7 +67,7 @@ class _AddTripsPageState extends State<AddTripsPage> {
   }
 
 
-
+//to avoid duplication of data while adding to db
   Future<bool> _tripExists() async {
     final querySnapshot = await trips
         .where('start point', isEqualTo: _selectedStartPoint)
@@ -343,6 +343,7 @@ class _AddTripsPageState extends State<AddTripsPage> {
                 const SizedBox(
                   height: 20,
                 ),
+
                 SizedBox(
                   height: 5,
                 ),

@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:info_cab_u/constant.dart';
 
-class UserAttendance extends StatelessWidget {
+class UserAttendancePage extends StatelessWidget {
+  const UserAttendancePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.menu),
+          icon: const Icon(Icons.menu),
           onPressed: () {},
         ),
-        title: Center(
+        title: const Center(
           child: Text(
             "Today’s  Attendance",
             style: TextStyle(fontWeight: FontWeight.bold),
@@ -18,8 +20,8 @@ class UserAttendance extends StatelessWidget {
         ),
         centerTitle: true,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
+      body: const Padding(
+        padding: EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

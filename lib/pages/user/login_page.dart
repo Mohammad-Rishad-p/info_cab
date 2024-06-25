@@ -94,7 +94,7 @@ class _LoginPageState extends State<LoginPage> {
                           codeSent: (String verificationId, int? resendToken) {
                             LoginPage.verify = verificationId;
                             // sending phone number as argument to next page
-                            Navigator.pushNamed(context, '/otppage', arguments: {
+                            Navigator.pushNamed(context, '/otp', arguments: {
                               'phoneNumber': phoneController.text
                             });
                           },
