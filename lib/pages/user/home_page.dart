@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:info_cab_u/components/drawer_user.dart';
+import 'package:intl/intl.dart';
 import '../../constant.dart';
 import 'package:info_cab_u/basic_widgets/button_widget.dart';
 import 'package:info_cab_u/basic_widgets/heading_text_widget.dart';
@@ -17,12 +18,13 @@ class HomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<HomePage> {
-
   // firbase instance to get stops collection
-  final CollectionReference stops = FirebaseFirestore.instance.collection('stops');
+  final CollectionReference stops =
+      FirebaseFirestore.instance.collection('stops');
 
   final _formKey = GlobalKey<FormState>();
-  String _selectedCompany = 'Alappuzha';
+  String _selectedStartPoint = 'Alappuzha';
+  String _selectedEndPoint = 'Alappuzha';
   DateTime _selectedDate = DateTime.now();
   List<String> _stops = [];
 
@@ -39,31 +41,34 @@ class _MyHomePageState extends State<HomePage> {
       // to get data from stops collection
       QuerySnapshot querySnapshot = await stops.get();
       // converting datas in stops collection to a list
-      List<String> fetchedStops = querySnapshot.docs.map((doc) => doc['stop'] as String).toList();
+      List<String> fetchedStops =
+          querySnapshot.docs.map((doc) => doc['stop'] as String).toList();
       setState(() {
         // setting the fetched list to _stop list
         _stops = fetchedStops;
-        _selectedCompany = _stops.isNotEmpty ? _stops[0] : '';
+        _selectedStartPoint = _stops.isNotEmpty ? _stops[0] : '';
       });
     } catch (e) {
       print("Failed to fetch stops: $e");
     }
   }
+
   @override
   Widget build(BuildContext context) {
+    final args = ModalRoute.of(context)!.settings.arguments as Map;
+    if (args != null) {
+      _selectedStartPoint = args['start point'];
+      _selectedEndPoint = args['end point'];
+      _selectedDate = DateTime.parse(args['date']);
+    }
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Home',
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
+        title:
+            const Text('Home', style: TextStyle(fontWeight: FontWeight.bold)),
         centerTitle: true,
       ),
-
-      // menu
       drawer: DrawerUser(),
-      
-      //body
       body: Padding(
         padding: const EdgeInsets.all(24.0),
         child: Form(
@@ -71,13 +76,10 @@ class _MyHomePageState extends State<HomePage> {
           child: Column(
             children: [
               const SizedBox(height: 55.0),
-              // starting from dropdown
               DropdownButtonFormField<String>(
                 decoration: const InputDecoration(
-                    labelText: 'Starting From',
-                    labelStyle: TextStyle(
-                        color: textSecColor
-                    ),
+                    labelText: 'StartPoint',
+                    labelStyle: TextStyle(color: textSecColor),
                     border: OutlineInputBorder(
                         borderSide: BorderSide(color: textSecColor, width: 2.0),
                         borderRadius: BorderRadius.all(Radius.circular(10))),
@@ -99,27 +101,24 @@ class _MyHomePageState extends State<HomePage> {
                           BorderSide(color: Colors.redAccent, width: 2.0),
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                     )),
+                value: _selectedStartPoint,
                 onChanged: (newValue) {
                   setState(() {
-                    _selectedCompany = newValue!;
+                    _selectedStartPoint = newValue!;
                   });
                 },
-                items: _stops.map((company) {
+                items: _stops.map((stop) {
                   return DropdownMenuItem(
-                    value: company,
-                    child: Text(company),
+                    value: stop,
+                    child: Text(stop),
                   );
                 }).toList(),
               ),
               const SizedBox(height: 25.0),
-
-              //end point drop down
               DropdownButtonFormField<String>(
                 decoration: const InputDecoration(
                     labelText: 'EndPoint',
-                    labelStyle: TextStyle(
-                        color: textSecColor
-                    ),
+                    labelStyle: TextStyle(color: textSecColor),
                     border: OutlineInputBorder(
                         borderSide: BorderSide(color: textSecColor, width: 2.0),
                         borderRadius: BorderRadius.all(Radius.circular(10))),
@@ -141,29 +140,27 @@ class _MyHomePageState extends State<HomePage> {
                           BorderSide(color: Colors.redAccent, width: 2.0),
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                     )),
+                value: _selectedEndPoint,
                 onChanged: (newValue) {
                   setState(() {
-                    _selectedCompany = newValue!;
+                    _selectedEndPoint = newValue!;
                   });
                 },
-                items: _stops.map((company) {
+                items: _stops.map((stop) {
                   return DropdownMenuItem(
-                    value: company,
-                    child: Text(company),
+                    value: stop,
+                    child: Text(stop),
                   );
                 }).toList(),
               ),
               const SizedBox(height: 25.0),
               TextFormField(
-                style: TextStyle(
-                    color: textSecColor
-                ),
+                style: TextStyle(color: textSecColor),
                 decoration: const InputDecoration(
-                  suffixIcon: Icon(Icons.calendar_month_outlined,color: textSecColor,),
+                  suffixIcon:
+                      Icon(Icons.calendar_month_outlined, color: textSecColor),
                   labelText: 'Date',
-                  labelStyle: TextStyle(
-                      color: textSecColor
-                  ),
+                  labelStyle: TextStyle(color: textSecColor),
                   border: OutlineInputBorder(
                       borderSide: BorderSide(color: textSecColor, width: 2.0),
                       borderRadius: BorderRadius.all(Radius.circular(10))),
@@ -199,15 +196,13 @@ class _MyHomePageState extends State<HomePage> {
                   }
                 },
                 controller: TextEditingController(
-                  text: _selectedDate.toString().substring(0, 10),
+                  text: DateFormat('yyyy-MM-dd').format(_selectedDate),
                 ),
               ),
-              const SizedBox(height: 32.0),
-              Button(onPressed: () {}, text: "Book Cab"),
-              const SizedBox(
-                height: 15,
-              ),
-              Button(onPressed: () {}, text: 'Book Return'),
+              const SizedBox(height: 25.0),
+              Button(onPressed: () {
+
+              }, text: "Book Cab"),
             ],
           ),
         ),
