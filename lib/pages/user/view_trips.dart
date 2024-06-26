@@ -19,92 +19,83 @@ class _ViewTripsPageState extends State<ViewTripsPage> {
         title: Text('View Trip'),
         centerTitle: true,
       ),
-      body: StreamBuilder(
-        stream: trips.snapshots(),
-        builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
-          }
-
-          if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-            return Center(child: Text('No trips available'));
-          }
-
-          return ListView(
-            padding: EdgeInsets.all(16.0),
-            children: snapshot.data!.docs.map((doc) {
-              var data = doc.data() as Map<String, dynamic>;
-              return TripCard(
-                vehicle: data['vehicle detail'],
-                seats: data['seat'],
-                startPoint: data['start point'],
-                endPoint: data['end point'],
-                date: DateTime.parse(data['date']),
-              );
-            }).toList(),
-          );
-        },
-      ),
-    );
-  }
-}
-
-class TripCard extends StatelessWidget {
-  final String vehicle;
-  final String seats;
-  final String startPoint;
-  final String endPoint;
-  final DateTime date;
-
-  TripCard({
-    required this.vehicle,
-    required this.seats,
-    required this.startPoint,
-    required this.endPoint,
-    required this.date,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      color: primaryColor,
-      margin: EdgeInsets.symmetric(vertical: 8.0),
-      child: Padding(
+      body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Text(
-                  vehicle,
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                ),
-                Spacer(),
-                Text(
-                  '$seats',
-                  style: TextStyle(fontSize: 18),
-                ),
-                Icon(Icons.event_seat),
-              ],
-            ),
-            SizedBox(height: 8.0),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  startPoint,
-                  style: TextStyle(fontSize: 16),
-                ),
-                Icon(Icons.arrow_forward),
-                Text(endPoint),
-                Text(
-                  DateFormat('yyyy-MM-dd').format(date),
-                  style: TextStyle(fontSize: 16),
-                ),
-              ],
-            ),
-          ],
+        child: StreamBuilder(
+          stream: trips.snapshots(),
+          builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(child: CircularProgressIndicator());
+            }
+
+            if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+              return Center(child: Text('No trips available'));
+            }
+
+            return ListView.builder(
+              itemCount: snapshot.data!.docs.length,
+              itemBuilder: (context, index) {
+                final DocumentSnapshot tripSnap = snapshot.data!.docs[index];
+                return Card(
+                  color: primaryColor,
+                  margin: EdgeInsets.symmetric(vertical: 8.0),
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(
+                        context,
+                        '/home',
+                        arguments: {
+                          'tripId': tripSnap.id,
+                          'date': tripSnap['date'],
+                          'start point': tripSnap['start point'],
+                          'end point': tripSnap['end point'],
+                        },
+                      );
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Text(
+                                tripSnap['vehicle detail'],
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 18),
+                              ),
+                              Spacer(),
+                              Text(
+                                tripSnap['seat'],
+                                style: TextStyle(fontSize: 18),
+                              ),
+                              Icon(Icons.event_seat),
+                            ],
+                          ),
+                          SizedBox(height: 8.0),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                tripSnap['start point'],
+                                style: TextStyle(fontSize: 16),
+                              ),
+                              Icon(Icons.arrow_forward),
+                              Text(tripSnap['end point']),
+                              Text(
+                                tripSnap['date'].toString(),
+                                style: TextStyle(fontSize: 16),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                );
+              },
+            );
+          },
         ),
       ),
     );
