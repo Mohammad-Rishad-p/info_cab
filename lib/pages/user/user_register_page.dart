@@ -175,7 +175,7 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
                       });
                     },
                     decoration: const InputDecoration(
-                      labelText: 'Select Company',
+                      labelText: 'Company',
                       labelStyle: TextStyle(color: textSecColor),
                       border: OutlineInputBorder(
                           borderSide: BorderSide(color: textSecColor, width: 2.0),
