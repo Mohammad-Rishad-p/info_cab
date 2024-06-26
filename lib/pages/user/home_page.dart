@@ -68,7 +68,7 @@ class _MyHomePageState extends State<HomePage> {
             const Text('Home', style: TextStyle(fontWeight: FontWeight.bold)),
         centerTitle: true,
       ),
-      drawer: DrawerUser(),
+      // drawer: DrawerUser(),
       body: Padding(
         padding: const EdgeInsets.all(24.0),
         child: Form(
