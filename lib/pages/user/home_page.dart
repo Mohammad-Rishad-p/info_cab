@@ -1,28 +1,23 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:info_cab_u/components/drawer_user.dart';
+import 'package:info_cab_u/constant.dart';
 import 'package:intl/intl.dart';
-import '../../constant.dart';
 import 'package:info_cab_u/basic_widgets/button_widget.dart';
-import 'package:info_cab_u/basic_widgets/heading_text_widget.dart';
-import 'package:info_cab_u/basic_widgets/normal_text_widget.dart';
-import 'package:info_cab_u/components/container_card_widget.dart';
-import 'package:info_cab_u/components/round_image_widget.dart';
-import 'package:info_cab_u/components/bottom_navigation.dart';
+import 'package:info_cab_u/components/drawer_user.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   State<HomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<HomePage> {
-  // firbase instance to get stops collection
   final CollectionReference stops =
-      FirebaseFirestore.instance.collection('stops');
-
+  FirebaseFirestore.instance.collection('stops');
   final _formKey = GlobalKey<FormState>();
+  late User? currentUser;
   String _selectedStartPoint = 'Alappuzha';
   String _selectedEndPoint = 'Alappuzha';
   DateTime _selectedDate = DateTime.now();
@@ -30,21 +25,17 @@ class _MyHomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+    currentUser = FirebaseAuth.instance.currentUser;
     fetchStops();
   }
 
-  // Fetch stops from Firestore and update the _stops list
   Future<void> fetchStops() async {
     try {
-      // to get data from stops collection
       QuerySnapshot querySnapshot = await stops.get();
-      // converting datas in stops collection to a list
       List<String> fetchedStops =
-          querySnapshot.docs.map((doc) => doc['stop'] as String).toList();
+      querySnapshot.docs.map((doc) => doc['stop'] as String).toList();
       setState(() {
-        // setting the fetched list to _stop list
         _stops = fetchedStops;
         _selectedStartPoint = _stops.isNotEmpty ? _stops[0] : '';
       });
@@ -53,22 +44,58 @@ class _MyHomePageState extends State<HomePage> {
     }
   }
 
+  void bookCab(String tripId) async {
+    String? userId = currentUser?.uid;
+
+    if (userId == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('User not logged in')),
+      );
+      return;
+    }
+
+    QuerySnapshot existingBookings = await FirebaseFirestore.instance
+        .collection('bookings')
+        .where('tripId', isEqualTo: tripId)
+        .where('userId', isEqualTo: userId)
+        .get();
+
+    if (existingBookings.docs.isEmpty) {
+      FirebaseFirestore.instance.collection('bookings').add({
+        'tripId': tripId,
+        'userId': userId,
+        'date': DateTime.now().toIso8601String(),
+      }).then((value) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Cab booked successfully')),
+        );
+      }).catchError((error) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Failed to book cab: $error')),
+        );
+      });
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('You have already booked this trip')),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    final args = ModalRoute.of(context)!.settings.arguments as Map;
+    final args = ModalRoute.of(context)!.settings.arguments as Map?;
     if (args != null) {
-      _selectedStartPoint = args['start point'];
-      _selectedEndPoint = args['end point'];
-      _selectedDate = DateTime.parse(args['date']);
+      _selectedStartPoint = args['start point'] as String;
+      _selectedEndPoint = args['end point'] as String;
+      _selectedDate = DateTime.parse(args['date'] as String);
     }
 
     return Scaffold(
       appBar: AppBar(
-        title:
-            const Text('Home', style: TextStyle(fontWeight: FontWeight.bold)),
+        title: const Text('Home', style: TextStyle(fontWeight: FontWeight.bold)),
         centerTitle: true,
       ),
-      // drawer: DrawerUser(),
+      drawer: DrawerUser(),
       body: Padding(
         padding: const EdgeInsets.all(24.0),
         child: Form(
@@ -78,29 +105,29 @@ class _MyHomePageState extends State<HomePage> {
               const SizedBox(height: 55.0),
               DropdownButtonFormField<String>(
                 decoration: const InputDecoration(
-                    labelText: 'StartPoint',
-                    labelStyle: TextStyle(color: textSecColor),
-                    border: OutlineInputBorder(
-                        borderSide: BorderSide(color: textSecColor, width: 2.0),
-                        borderRadius: BorderRadius.all(Radius.circular(10))),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: textSecColor, width: 2.0),
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: textSecColor, width: 2.0),
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                    ),
-                    errorBorder: OutlineInputBorder(
-                      borderSide:
-                          BorderSide(color: Colors.redAccent, width: 2.0),
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                    ),
-                    focusedErrorBorder: OutlineInputBorder(
-                      borderSide:
-                          BorderSide(color: Colors.redAccent, width: 2.0),
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                    )),
+                  labelText: 'StartPoint',
+                  labelStyle: TextStyle(color: textSecColor),
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide(color: textSecColor, width: 2.0),
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: textSecColor, width: 2.0),
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: textSecColor, width: 2.0),
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                  ),
+                  errorBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.redAccent, width: 2.0),
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                  ),
+                  focusedErrorBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.redAccent, width: 2.0),
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                  ),
+                ),
                 value: _selectedStartPoint,
                 onChanged: (newValue) {
                   setState(() {
@@ -117,29 +144,29 @@ class _MyHomePageState extends State<HomePage> {
               const SizedBox(height: 25.0),
               DropdownButtonFormField<String>(
                 decoration: const InputDecoration(
-                    labelText: 'EndPoint',
-                    labelStyle: TextStyle(color: textSecColor),
-                    border: OutlineInputBorder(
-                        borderSide: BorderSide(color: textSecColor, width: 2.0),
-                        borderRadius: BorderRadius.all(Radius.circular(10))),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: textSecColor, width: 2.0),
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: textSecColor, width: 2.0),
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                    ),
-                    errorBorder: OutlineInputBorder(
-                      borderSide:
-                          BorderSide(color: Colors.redAccent, width: 2.0),
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                    ),
-                    focusedErrorBorder: OutlineInputBorder(
-                      borderSide:
-                          BorderSide(color: Colors.redAccent, width: 2.0),
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                    )),
+                  labelText: 'EndPoint',
+                  labelStyle: TextStyle(color: textSecColor),
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide(color: textSecColor, width: 2.0),
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: textSecColor, width: 2.0),
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: textSecColor, width: 2.0),
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                  ),
+                  errorBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.redAccent, width: 2.0),
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                  ),
+                  focusedErrorBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.redAccent, width: 2.0),
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                  ),
+                ),
                 value: _selectedEndPoint,
                 onChanged: (newValue) {
                   setState(() {
@@ -157,13 +184,13 @@ class _MyHomePageState extends State<HomePage> {
               TextFormField(
                 style: TextStyle(color: textSecColor),
                 decoration: const InputDecoration(
-                  suffixIcon:
-                      Icon(Icons.calendar_month_outlined, color: textSecColor),
+                  suffixIcon: Icon(Icons.calendar_month_outlined, color: textSecColor),
                   labelText: 'Date',
                   labelStyle: TextStyle(color: textSecColor),
                   border: OutlineInputBorder(
-                      borderSide: BorderSide(color: textSecColor, width: 2.0),
-                      borderRadius: BorderRadius.all(Radius.circular(10))),
+                    borderSide: BorderSide(color: textSecColor, width: 2.0),
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                  ),
                   enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: textSecColor, width: 2.0),
                     borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -200,9 +227,13 @@ class _MyHomePageState extends State<HomePage> {
                 ),
               ),
               const SizedBox(height: 25.0),
-              Button(onPressed: () {
-
-              }, text: "Book Cab"),
+              Button(
+                onPressed: () {
+                  // Call the function to book the cab
+                  bookCab(args!['tripId']);
+                },
+                text: "Book Cab",
+              ),
             ],
           ),
         ),
