@@ -1,19 +1,28 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:info_cab_u/components/drawer_user.dart';
 import 'package:info_cab_u/constant.dart';
 import 'package:info_cab_u/functions/function_exit.dart';
-import 'package:intl/intl.dart';
 
 class ViewTripsPage extends StatefulWidget {
-  const ViewTripsPage({super.key});
+  const ViewTripsPage({Key? key}) : super(key: key);
 
   @override
   _ViewTripsPageState createState() => _ViewTripsPageState();
 }
 
 class _ViewTripsPageState extends State<ViewTripsPage> {
-  final CollectionReference trips = FirebaseFirestore.instance.collection('trips');
+  final CollectionReference trips =
+  FirebaseFirestore.instance.collection('trips');
+  late User? currentUser;
+
+  @override
+  void initState() {
+    super.initState();
+    currentUser = FirebaseAuth.instance.currentUser;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +32,6 @@ class _ViewTripsPageState extends State<ViewTripsPage> {
         appBar: AppBar(
           title: const Text('View Trips'),
           centerTitle: true,
-          // automaticallyImplyLeading: false,
         ),
         drawer: DrawerUser(),
         body: Padding(
@@ -52,7 +60,8 @@ class _ViewTripsPageState extends State<ViewTripsPage> {
                   // Handle both Timestamp and String for date
                   String formattedDate;
                   if (tripData['date'] is Timestamp) {
-                    formattedDate = DateFormat.yMMMd().format((tripData['date'] as Timestamp).toDate());
+                    formattedDate = DateFormat.yMMMd()
+                        .format((tripData['date'] as Timestamp).toDate());
                   } else if (tripData['date'] is String) {
                     formattedDate = tripData['date'];
                   } else {
@@ -85,7 +94,8 @@ class _ViewTripsPageState extends State<ViewTripsPage> {
                                 Text(
                                   tripData['vehicle detail'],
                                   style: const TextStyle(
-                                      fontWeight: FontWeight.bold, fontSize: 18),
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18),
                                 ),
                                 const Spacer(),
                                 Text(
@@ -95,7 +105,7 @@ class _ViewTripsPageState extends State<ViewTripsPage> {
                                 const Icon(Icons.event_seat),
                               ],
                             ),
-                            const SizedBox(height: 8.0),
+                            const SizedBox(height: 16.0),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
