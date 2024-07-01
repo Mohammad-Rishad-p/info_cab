@@ -1,110 +1,135 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:info_cab_u/constant.dart';
 import 'package:intl/intl.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:info_cab_u/components/drawer_user.dart';
+import 'package:info_cab_u/constant.dart';
+import 'package:info_cab_u/functions/function_exit.dart';
 
 class ViewTripsPage extends StatefulWidget {
+  const ViewTripsPage({Key? key}) : super(key: key);
+
   @override
   _ViewTripsPageState createState() => _ViewTripsPageState();
 }
 
 class _ViewTripsPageState extends State<ViewTripsPage> {
   final CollectionReference trips =
-      FirebaseFirestore.instance.collection('trips');
+  FirebaseFirestore.instance.collection('trips');
+  late User? currentUser;
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('View Trip'),
-        centerTitle: true,
-      ),
-      body: StreamBuilder(
-        stream: trips.snapshots(),
-        builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
-          }
-
-          if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-            return Center(child: Text('No trips available'));
-          }
-
-          return ListView(
-            padding: EdgeInsets.all(16.0),
-            children: snapshot.data!.docs.map((doc) {
-              var data = doc.data() as Map<String, dynamic>;
-              return TripCard(
-                vehicle: data['vehicle detail'],
-                seats: data['seat'],
-                startPoint: data['start point'],
-                endPoint: data['end point'],
-                date: DateTime.parse(data['date']),
-              );
-            }).toList(),
-          );
-        },
-      ),
-    );
+  void initState() {
+    super.initState();
+    currentUser = FirebaseAuth.instance.currentUser;
   }
-}
-
-class TripCard extends StatelessWidget {
-  final String vehicle;
-  final String seats;
-  final String startPoint;
-  final String endPoint;
-  final DateTime date;
-
-  TripCard({
-    required this.vehicle,
-    required this.seats,
-    required this.startPoint,
-    required this.endPoint,
-    required this.date,
-  });
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      color: primaryColor,
-      margin: EdgeInsets.symmetric(vertical: 8.0),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Text(
-                  vehicle,
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                ),
-                Spacer(),
-                Text(
-                  '$seats',
-                  style: TextStyle(fontSize: 18),
-                ),
-                Icon(Icons.event_seat),
-              ],
-            ),
-            SizedBox(height: 8.0),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  startPoint,
-                  style: TextStyle(fontSize: 16),
-                ),
-                Icon(Icons.arrow_forward),
-                Text(endPoint),
-                Text(
-                  DateFormat('yyyy-MM-dd').format(date),
-                  style: TextStyle(fontSize: 16),
-                ),
-              ],
-            ),
-          ],
+    return WillPopScope(
+      onWillPop: onWillPop,
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('View Trips'),
+          centerTitle: true,
+        ),
+        drawer: DrawerUser(),
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: StreamBuilder(
+            stream: trips.snapshots(),
+            builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              }
+
+              if (snapshot.hasError) {
+                return const Center(child: Text('An error occurred'));
+              }
+
+              if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                return const Center(child: Text('No trips available'));
+              }
+
+              return ListView.builder(
+                itemCount: snapshot.data!.docs.length,
+                itemBuilder: (context, index) {
+                  final DocumentSnapshot tripSnap = snapshot.data!.docs[index];
+                  final tripData = tripSnap.data() as Map<String, dynamic>;
+
+                  // Handle both Timestamp and String for date
+                  String formattedDate;
+                  if (tripData['date'] is Timestamp) {
+                    formattedDate = DateFormat.yMMMd()
+                        .format((tripData['date'] as Timestamp).toDate());
+                  } else if (tripData['date'] is String) {
+                    formattedDate = tripData['date'];
+                  } else {
+                    formattedDate = 'Unknown date';
+                  }
+
+                  return Card(
+                    color: primaryColor,
+                    margin: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(
+                          context,
+                          '/home',
+                          arguments: {
+                            'tripId': tripSnap.id,
+                            'date': tripData['date'],
+                            'start point': tripData['start point'],
+                            'end point': tripData['end point'],
+                          },
+                        );
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  tripData['vehicle detail'],
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18),
+                                ),
+                                const Spacer(),
+                                Text(
+                                  tripData['seat'],
+                                  style: const TextStyle(fontSize: 18),
+                                ),
+                                const Icon(Icons.event_seat),
+                              ],
+                            ),
+                            const SizedBox(height: 16.0),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  tripData['start point'],
+                                  style: const TextStyle(fontSize: 16),
+                                ),
+                                const Icon(Icons.arrow_forward),
+                                Text(tripData['end point']),
+                                Text(
+                                  formattedDate,
+                                  style: const TextStyle(fontSize: 16),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              );
+            },
+          ),
         ),
       ),
     );

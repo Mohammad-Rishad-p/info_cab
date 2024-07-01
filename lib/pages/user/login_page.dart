@@ -40,15 +40,18 @@ class _LoginPageState extends State<LoginPage> {
                   const HText(content: "Your Mobile Number", textColor: textPrimColor),
                   const SizedBox(height: 40),
                   TextFormField(
+
                     //text feild to enter phone number
                     controller: phoneController,
-                    style: TextStyle(color: textSecColor),
+                    style: TextStyle(color: textSecColor,fontWeight: FontWeight.bold,fontSize: 18),
                     maxLength: 10,
                     keyboardType: TextInputType.number,
                     decoration: const InputDecoration(
+                      counterText: '',
                       labelText: 'Enter Your Phone Number',
                       labelStyle: TextStyle(color: textSecColor),
-                      prefixText: '+91 | ',
+                      prefixText: '+91 |  ',
+                      prefixStyle: TextStyle(fontWeight: FontWeight.bold,color: textSecColor,fontSize: 18),
                       focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(color: textSecColor, width: 2.0),
                           borderRadius: BorderRadius.all(Radius.circular(10))),
@@ -94,7 +97,7 @@ class _LoginPageState extends State<LoginPage> {
                           codeSent: (String verificationId, int? resendToken) {
                             LoginPage.verify = verificationId;
                             // sending phone number as argument to next page
-                            Navigator.pushNamed(context, '/otppage', arguments: {
+                            Navigator.pushNamed(context, '/otp', arguments: {
                               'phoneNumber': phoneController.text
                             });
                           },

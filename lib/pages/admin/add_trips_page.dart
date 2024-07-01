@@ -65,6 +65,8 @@ class _AddTripsPageState extends State<AddTripsPage> {
     });
   }
 
+//to avoid duplication of data while adding to db
+
   Future<bool> _tripExists() async {
     final querySnapshot = await trips
         .where('start point', isEqualTo: _selectedStartPoint)

@@ -80,7 +80,7 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
       child: Scaffold(
         backgroundColor: primaryColor,
         body: Padding(
-          padding: const EdgeInsets.all(30.0),
+          padding: const EdgeInsets.all(24.0),
           child: SingleChildScrollView(
             child: Form(
               key: _formKey,
@@ -175,7 +175,7 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
                       });
                     },
                     decoration: const InputDecoration(
-                      labelText: 'Select Company',
+                      labelText: 'Company',
                       labelStyle: TextStyle(color: textSecColor),
                       border: OutlineInputBorder(
                           borderSide: BorderSide(color: textSecColor, width: 2.0),

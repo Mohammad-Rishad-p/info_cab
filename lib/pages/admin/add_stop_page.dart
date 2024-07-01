@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:info_cab_u/basic_widgets/button_widget.dart';
 
 class AddPickUpPointPage extends StatefulWidget {
+  const AddPickUpPointPage({super.key});
+
   @override
   State<AddPickUpPointPage> createState() => _AddPickUpPointPageState();
 }

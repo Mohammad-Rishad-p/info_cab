@@ -2,11 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:info_cab_u/pages/admin/add_company_page.dart';
 import 'package:info_cab_u/constant.dart';
 import 'package:info_cab_u/pages/admin/add_company_page.dart';
+import 'package:info_cab_u/pages/admin/add_driver_page.dart';
 import 'package:info_cab_u/pages/admin/add_trips_page.dart';
 import 'package:info_cab_u/pages/admin/add_vehicle_page.dart';
-import 'package:info_cab_u/pages/admin/add_stop.dart';
+import 'package:info_cab_u/pages/admin/add_stop_page.dart';
+import 'package:info_cab_u/pages/admin/driver_list_page.dart';
+import 'package:info_cab_u/pages/admin/user_attendence_page.dart';
+// import 'package:info_cab_u/pages/admin/add_stop.dart';
 import 'package:info_cab_u/pages/admin/check_trips.dart';
-import 'package:info_cab_u/pages/admin/today_attendance.dart';
+import 'package:info_cab_u/pages/admin/drivers_listing_page.dart';
+// import 'package:info_cab_u/pages/admin/today_attendance.dart';
 import 'package:info_cab_u/pages/admin/users_listing_page.dart';
 import 'package:info_cab_u/pages/user/view_trips.dart';
 import 'package:info_cab_u/pages/user/dashboard_page.dart';
@@ -44,16 +49,19 @@ class MyApp extends StatelessWidget {
         '/add_vehicle': (context) => AddVehiclePage(),
         '/add_stop': (context) => AddPickUpPointPage(),
         '/users_list': (context) => UsersListingPage(),
-        '/attendance': (context) => UserAttendance(),
+        '/attendance': (context) => UserAttendancePage(),
         '/home': (context) => HomePage(),
         '/user_register': (context) => UserRegisterPage(
               uid: '',
             ),
         '/user_profile': (context) => UserProfilePage(),
+        '/driver_list': (context) => DriverListPage(),
+        '/add_driver': (context) => AddDriverPage(),
         '/addCompany': (context) => AddCompanyPage(),
         '/addTrips': (context) => AddTripsPage(),
         '/viewTrips': (context) => ViewTripsPage(),
         '/checkTrips': (context) => CheckTrips(),
+        '/drivers_list': (context) => DriversListingPage(),
       },
       theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: textPrimColor),
