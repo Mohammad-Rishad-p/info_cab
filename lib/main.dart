@@ -39,10 +39,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-
       initialRoute: '/splash',
-      // initialRoute: '/adminDashboard',
-
       routes: {
 //         '/register': (context) => UserRegisterPage(),
         '/splash': (context) => SplashPage(),
