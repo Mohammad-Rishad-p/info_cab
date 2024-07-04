@@ -6,6 +6,7 @@ import 'package:info_cab_u/constant.dart';
 
 class LoginPage extends StatefulWidget {
   static String verify = "";
+
   const LoginPage({super.key});
 
   @override
@@ -13,11 +14,12 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-
   // firebase auth instance
   FirebaseAuth auth = FirebaseAuth.instance;
+
   //text editing controller for phone number
   TextEditingController phoneController = TextEditingController();
+
   //setting country code
   var countryCode = '+91';
 
@@ -36,64 +38,83 @@ class _LoginPageState extends State<LoginPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // the heading text to enter number
-                  const HText(content: "Provide", textColor: black),
-                  const HText(content: "Your Mobile Number", textColor: textPrimColor),
-                  const SizedBox(height: 40),
-                  TextFormField(
-
-                    //text feild to enter phone number
-                    controller: phoneController,
-                    style: TextStyle(color: textSecColor,fontWeight: FontWeight.bold,fontSize: 18),
-                    maxLength: 10,
-                    keyboardType: TextInputType.number,
-                    decoration: const InputDecoration(
-                      counterText: '',
-                      labelText: 'Enter Your Phone Number',
-                      labelStyle: TextStyle(color: textSecColor),
-                      prefixText: '+91 |  ',
-                      prefixStyle: TextStyle(fontWeight: FontWeight.bold,color: textSecColor,fontSize: 18),
-                      focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: textSecColor, width: 2.0),
-                          borderRadius: BorderRadius.all(Radius.circular(10))),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: textSecColor, width: 2.0),
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                      ),
-                      errorBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.redAccent, width: 2.0),
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                      ),
-                      focusedErrorBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.redAccent, width: 2.0),
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                      ),
-                    ),
-                    //validation to enter phone number
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter your mobile number';
-                      }
-                      return null;
+                  GestureDetector(
+                    onDoubleTap: (){
+                      Navigator.pushNamed(context, '/adminLogin');
                     },
+                      child: HText(content: 'Provide', textColor: Colors.black)),
+                  const HText(
+                      content: "Your Mobile Number", textColor: textPrimColor),
+                  const SizedBox(height: 40),
+                  SizedBox(
+                    height: 80,
+                    child: TextFormField(
+                      //text field to enter phone number
+                      controller: phoneController,
+                      style: TextStyle(
+                          color: textSecColor,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18),
+                      maxLength: 10,
+                      keyboardType: TextInputType.number,
+                      decoration: const InputDecoration(
+                        counterText: '',
+                        labelText: 'Enter Your Phone Number',
+                        labelStyle: TextStyle(color: textSecColor),
+                        prefixText: '+91 | ',
+                        prefixStyle: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: textSecColor,
+                            fontSize: 18),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: textSecColor, width: 2.0),
+                            borderRadius: BorderRadius.all(Radius.circular(10))),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: textSecColor, width: 2.0),
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                        ),
+                        errorBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: Colors.redAccent, width: 2.0),
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                        ),
+                        focusedErrorBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: Colors.redAccent, width: 2.0),
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                        ),
+                      ),
+                      //validation to enter phone number
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter your mobile number';
+                        }
+                        return null;
+                      },
+                    ),
                   ),
-                  const SizedBox(height: 30),
+                  const SizedBox(height: 20),
                   Button(
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
-
                         //firebase part
                         await FirebaseAuth.instance.verifyPhoneNumber(
                           //phone number to pass to firebase
                           phoneNumber: '${countryCode + phoneController.text}',
                           //function to call if verification is completed
-                          verificationCompleted: (PhoneAuthCredential credential) {},
+                          verificationCompleted:
+                              (PhoneAuthCredential credential) {},
                           verificationFailed: (FirebaseAuthException e) {
                             // message to show if verification failed
                             ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text(e.message ?? 'Verification failed.')),
+                              SnackBar(
+                                content:
+                                    Text(e.message ?? 'Verification failed.'),
+                              ),
                             );
                           },
-                          // for senting otp
+                          //for sending otp
                           codeSent: (String verificationId, int? resendToken) {
                             LoginPage.verify = verificationId;
                             // sending phone number as argument to next page
@@ -105,7 +126,7 @@ class _LoginPageState extends State<LoginPage> {
                         );
                       }
                     },
-                    text: 'Get OTP'
+                    text: 'Get OTP',
                   ),
                   const SizedBox(height: 15),
                   Row(
@@ -116,15 +137,20 @@ class _LoginPageState extends State<LoginPage> {
                           children: <TextSpan>[
                             TextSpan(
                               text: 'By clicking, I accept the ',
-                              style: TextStyle(color: textSecColor, fontSize: 15),
+                              style:
+                                  TextStyle(color: textSecColor, fontSize: 15),
                             ),
                             TextSpan(
                               text: 'terms of service ',
-                              style: TextStyle(color: textSecColor, fontSize: 15, fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                  color: textSecColor,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold),
                             ),
                             TextSpan(
                               text: 'and',
-                              style: TextStyle(color: textSecColor, fontSize: 15),
+                              style:
+                                  TextStyle(color: textSecColor, fontSize: 15),
                             ),
                           ],
                         ),
@@ -136,11 +162,13 @@ class _LoginPageState extends State<LoginPage> {
                     children: [
                       Text(
                         'privacy policy ',
-                        style: TextStyle(fontSize: 15, color: textSecColor, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            fontSize: 15,
+                            color: textSecColor,
+                            fontWeight: FontWeight.bold),
                       )
                     ],
                   ),
-                  
                 ],
               ),
             ),

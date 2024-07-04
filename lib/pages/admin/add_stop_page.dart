@@ -12,6 +12,7 @@ class AddPickUpPointPage extends StatefulWidget {
 class _AddPickUpPointPageState extends State<AddPickUpPointPage> {
   // Adding textediting controller
   TextEditingController addStop = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
 
   // Firebase instance
   final CollectionReference stops = FirebaseFirestore.instance.collection('stops');
@@ -41,32 +42,35 @@ class _AddPickUpPointPageState extends State<AddPickUpPointPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add Pick Up Point'),
+        title: const Text('Add PickUp Point'),
         centerTitle: true,
       ),
-      drawer: Drawer(), // Adds a placeholder for the drawer icon
+      // Adds a placeholder for the drawer icon
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TextField(
-              controller: addStop,
-              decoration: InputDecoration(
-                labelText: 'Enter Pick up points',
-                prefixIcon: Icon(Icons.directions_bus),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.0),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              TextField(
+                controller: addStop,
+                decoration: InputDecoration(
+                  labelText: 'Enter Pick up points',
+                  prefixIcon: Icon(Icons.directions_bus),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                ),
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 16,
                 ),
               ),
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 16,
-              ),
-            ),
-            SizedBox(height: 20),
-            Button(onPressed: addStopsToFireStore, text: 'Add Points'),
-          ],
+              SizedBox(height: 20),
+              Button(onPressed: addStopsToFireStore, text: 'Add Pickup Points'),
+            ],
+          ),
         ),
       ),
     );

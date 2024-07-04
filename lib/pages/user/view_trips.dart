@@ -6,6 +6,8 @@ import 'package:info_cab_u/components/drawer_user.dart';
 import 'package:info_cab_u/constant.dart';
 import 'package:info_cab_u/functions/function_exit.dart';
 
+import '../../functions/function_onWillPop.dart';
+
 class ViewTripsPage extends StatefulWidget {
   const ViewTripsPage({Key? key}) : super(key: key);
 
@@ -15,7 +17,7 @@ class ViewTripsPage extends StatefulWidget {
 
 class _ViewTripsPageState extends State<ViewTripsPage> {
   final CollectionReference trips =
-  FirebaseFirestore.instance.collection('trips');
+      FirebaseFirestore.instance.collection('trips');
   late User? currentUser;
 
   @override
@@ -27,7 +29,7 @@ class _ViewTripsPageState extends State<ViewTripsPage> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: onWillPop,
+      onWillPop: () => onWillPop(context),
       child: Scaffold(
         appBar: AppBar(
           title: const Text('View Trips'),
@@ -35,7 +37,7 @@ class _ViewTripsPageState extends State<ViewTripsPage> {
         ),
         drawer: DrawerUser(),
         body: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.fromLTRB(16, 32, 16, 8),
           child: StreamBuilder(
             stream: trips.snapshots(),
             builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -68,63 +70,105 @@ class _ViewTripsPageState extends State<ViewTripsPage> {
                     formattedDate = 'Unknown date';
                   }
 
-                  return Card(
-                    color: primaryColor,
-                    margin: const EdgeInsets.symmetric(vertical: 8.0),
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.pushNamed(
-                          context,
-                          '/home',
-                          arguments: {
-                            'tripId': tripSnap.id,
-                            'date': tripData['date'],
-                            'start point': tripData['start point'],
-                            'end point': tripData['end point'],
-                          },
-                        );
-                      },
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(
+                        context,
+                        '/home',
+                        arguments: {
+                          'tripId': tripSnap.id,
+                          'date': tripData['date'],
+                          'start point': tripData['start point'],
+                          'end point': tripData['end point'],
+                        },
+                      );
+                    },
                       child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                Text(
-                                  tripData['vehicle detail'],
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18),
-                                ),
-                                const Spacer(),
-                                Text(
-                                  tripData['seat'],
-                                  style: const TextStyle(fontSize: 18),
-                                ),
-                                const Icon(Icons.event_seat),
-                              ],
-                            ),
-                            const SizedBox(height: 16.0),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  tripData['start point'],
-                                  style: const TextStyle(fontSize: 16),
-                                ),
-                                const Icon(Icons.arrow_forward),
-                                Text(tripData['end point']),
-                                Text(
-                                  formattedDate,
-                                  style: const TextStyle(fontSize: 16),
-                                ),
-                              ],
-                            ),
-                          ],
+                        padding: const EdgeInsets.all(4.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: textPrimColor,
+                            borderRadius: BorderRadius.circular(12),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.3),
+                                spreadRadius: 2,
+                                blurRadius: 6,
+                                offset: Offset(0, 2),
+                              ),
+                            ],
+                          ),
+                          // margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+                          padding: EdgeInsets.all(16.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          tripData['vehicle detail'],
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        SizedBox(height: 4.0),
+                                        Text(
+                                          '${tripData['start point']} to ${tripData['end point']}',
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(width: 12.0),
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Icon(
+                                            Icons.event_seat,
+                                            color: Colors.white,
+                                            size: 18,
+                                          ),
+                                          SizedBox(width: 4.0),
+                                          Text(
+                                            tripData['seat'],
+                                            style: TextStyle(
+                                              fontSize: 16,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(height: 8.0),
+                                      Text(
+                                        formattedDate,
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    ),
+                      )
+
+
+
                   );
                 },
               );

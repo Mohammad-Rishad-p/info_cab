@@ -70,6 +70,8 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
     }
   }
 
+
+
   @override
   Widget build(BuildContext context) {
     void _saveAuthCredentials(bool value) async {
@@ -78,7 +80,6 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
     }
     return SafeArea(
       child: Scaffold(
-        backgroundColor: primaryColor,
         body: Padding(
           padding: const EdgeInsets.all(24.0),
           child: SingleChildScrollView(

@@ -44,6 +44,7 @@ dependencies:
   toast: ^0.3.0
   shared_preferences: ^2.2.3
   fluttertoast: ^8.0.9
+  font_awesome_flutter: ^10.7.0
 
 dev_dependencies:
   flutter_test:

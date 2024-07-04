@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:info_cab_u/constant.dart';
 import 'package:info_cab_u/pages/user/canceled_page.dart';
 import 'package:info_cab_u/pages/user/completed_page.dart';
-import 'package:info_cab_u/pages/user/upcoming_page.dart';
+import 'package:info_cab_u/pages/user/upcoming_book_page.dart';
 
 class TripsPage extends StatefulWidget {
   const TripsPage({super.key});
@@ -20,7 +20,7 @@ class _TripsPageState extends State<TripsPage> {
           appBar: AppBar(
             title: const Text(
               'Trips',
-              style: TextStyle(fontWeight: FontWeight.bold),
+
             ),
             centerTitle: true,
             bottom: const TabBar(unselectedLabelColor: textSecColor, tabs: [
@@ -38,7 +38,7 @@ class _TripsPageState extends State<TripsPage> {
           body: TabBarView(
             children: [
               CompletedPage(),
-              UpcomingPage(),
+              UpcomingBookPage(),
               CanceledPage()
             ],
           ),

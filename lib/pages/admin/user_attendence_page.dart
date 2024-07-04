@@ -1,11 +1,75 @@
 import 'package:flutter/material.dart';
 import 'package:info_cab_u/constant.dart';
-import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class UserAttendancePage extends StatelessWidget {
+class UserAttendancePage extends StatefulWidget {
   const UserAttendancePage({Key? key}) : super(key: key);
+
+  @override
+  _UserAttendancePageState createState() => _UserAttendancePageState();
+}
+
+class _UserAttendancePageState extends State<UserAttendancePage> {
+  TextEditingController searchController = TextEditingController();
+  String searchQuery = '';
+  Map<String, bool?> attendanceStatus = {}; // Declare attendanceStatus map
+
+
+  @override
+  void initState() {
+    super.initState();
+    searchController.addListener(() {
+      setState(() {
+        searchQuery = searchController.text.toLowerCase();
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    searchController.dispose();
+    super.dispose();
+  }
+
+  void _submitAttendance() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text("Confirm Attendance Submission"),
+        content: Text("Are you sure you want to submit the attendance?"),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(); // Close the dialog
+            },
+            child: Text("Cancel"),
+          ),
+          TextButton(
+            onPressed: () {
+              // Update attendance statuses in Firestore
+              attendanceStatus.forEach((bookingId, attended) {
+                FirebaseFirestore.instance
+                    .collection('bookings')
+                    .doc(bookingId)
+                    .update({'attended': attended});
+              });
+
+              // Show a snackbar to indicate success
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('Attendance updated successfully!'),
+                ),
+              );
+
+              Navigator.of(context).pop(); // Close the dialog
+            },
+            child: Text("Submit"),
+          ),
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -15,17 +79,18 @@ class UserAttendancePage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.menu),
-          onPressed: () {},
-        ),
         title: const Center(
           child: Text(
-            "Today’s Attendance",
-            style: TextStyle(fontWeight: FontWeight.bold),
+            "Today’s List",
           ),
         ),
         centerTitle: true,
+        actions: [
+          IconButton(
+            icon: Icon(Icons.check),
+            onPressed: _submitAttendance,
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -33,24 +98,25 @@ class UserAttendancePage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TextField(
-              decoration: InputDecoration(
-                prefixIcon: const Icon(Icons.search, color: textSecColor),
-                hintText: "Search",
+              controller: searchController,
+              decoration: const InputDecoration(
+                prefixIcon: Icon(Icons.search, color: textSecColor),
+                hintText: "Search User",
                 focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: textSecColor, width: 2.0),
-                  borderRadius: const BorderRadius.all(Radius.circular(10)),
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: textSecColor, width: 2.0),
-                  borderRadius: const BorderRadius.all(Radius.circular(10)),
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
                 ),
                 errorBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: Colors.redAccent, width: 2.0),
-                  borderRadius: const BorderRadius.all(Radius.circular(10)),
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
                 ),
                 focusedErrorBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: Colors.redAccent, width: 2.0),
-                  borderRadius: const BorderRadius.all(Radius.circular(10)),
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
                 ),
               ),
             ),
@@ -74,22 +140,30 @@ class UserAttendancePage extends StatelessWidget {
                     return const Center(child: Text('No bookings available'));
                   }
 
+                  var filteredDocs = snapshot.data!.docs.where((doc) {
+                    var bookingData = doc.data() as Map<String, dynamic>;
+                    return bookingData['userName']
+                        .toString()
+                        .toLowerCase()
+                        .contains(searchQuery);
+                  }).toList();
+
                   return ListView.builder(
-                    itemCount: snapshot.data!.docs.length,
+                    itemCount: filteredDocs.length,
                     itemBuilder: (context, index) {
-                      final DocumentSnapshot bookingSnap =
-                      snapshot.data!.docs[index];
+                      final DocumentSnapshot bookingSnap = filteredDocs[index];
                       final bookingData =
                       bookingSnap.data() as Map<String, dynamic>;
 
-                      // Fetch user details using the userId
                       return FutureBuilder(
                         future: FirebaseFirestore.instance
                             .collection('users')
                             .doc(bookingData['userId'])
                             .get(),
-                        builder: (context, AsyncSnapshot<DocumentSnapshot> userSnapshot) {
-                          if (userSnapshot.connectionState == ConnectionState.waiting) {
+                        builder: (context,
+                            AsyncSnapshot<DocumentSnapshot> userSnapshot) {
+                          if (userSnapshot.connectionState ==
+                              ConnectionState.waiting) {
                             return const CircularProgressIndicator();
                           }
 
@@ -97,25 +171,83 @@ class UserAttendancePage extends StatelessWidget {
                             return const Text('Failed to load user');
                           }
 
-                          if (!userSnapshot.hasData || !userSnapshot.data!.exists) {
+                          if (!userSnapshot.hasData ||
+                              !userSnapshot.data!.exists) {
                             return const Text('User not found');
                           }
 
-                          // User document exists, retrieve the name
-                          final userData = userSnapshot.data!.data() as Map<String, dynamic>;
+                          final userData =
+                          userSnapshot.data!.data() as Map<String, dynamic>;
                           final userName = userData['name'] ?? 'Unknown';
                           final userCompany = userData['company'];
+                          final isAttended = bookingData['attended'] ?? null;
 
-                          return ListTile(
-                            title: Text(
-                              userName,
-                              style: const TextStyle(fontWeight: FontWeight.bold),
+                          Color containerColor;
+                          String containerText;
+
+                          if (isAttended == null) {
+                            containerColor = textPrimColor;
+                            containerText = 'Mark Here';
+                          } else if (isAttended) {
+                            containerColor = Colors.green;
+                            containerText = 'Present';
+                          } else {
+                            containerColor = Colors.red;
+                            containerText = 'Absent';
+                          }
+
+                          return Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(10),
+                              boxShadow: const [
+                                BoxShadow(
+                                  color: Colors.black26,
+                                  offset: Offset(0, 1),
+                                  blurRadius: 5,
+                                ),
+                              ],
                             ),
-                            subtitle: Text(
-                              // DateFormat.yMMMd().format(
-                              //   DateTime.parse(bookingData['date']),
-                              // ),
-                              userCompany
+                            child: ListTile(
+                              title: Text(
+                                userName,
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              subtitle: Text(userCompany),
+                              trailing: GestureDetector(
+                                onTap: () {
+                                  bool newAttendanceStatus;
+                                  if (isAttended == null) {
+                                    newAttendanceStatus = true;
+                                  } else {
+                                    newAttendanceStatus = !isAttended;
+                                  }
+                                  FirebaseFirestore.instance
+                                      .collection('bookings')
+                                      .doc(bookingSnap.id)
+                                      .update(
+                                      {'attended': newAttendanceStatus});
+                                },
+                                child: SizedBox(
+                                  width: 80,
+                                  height: 40,
+                                  child: Container(
+                                    padding: const EdgeInsets.all(10),
+                                    decoration: BoxDecoration(
+                                      color: containerColor,
+                                      borderRadius: BorderRadius.circular(8.0),
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        containerText,
+                                        style: const TextStyle(
+                                            color: Colors.white),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
                             ),
                           );
                         },
