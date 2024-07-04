@@ -3,9 +3,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:info_cab_u/basic_widgets/button_widget.dart';
 import 'package:info_cab_u/basic_widgets/heading_text_widget.dart';
+import 'package:info_cab_u/basic_widgets/snack_bar_widget.dart';
 import 'package:intl/intl.dart';
 
 import '../../constant.dart';
+import '../../functions/function_onWillPop.dart';
 
 class AddTripsPage extends StatefulWidget {
   const AddTripsPage({super.key});
@@ -70,6 +72,7 @@ class _AddTripsPageState extends State<AddTripsPage> {
   Future<bool> _tripExists() async {
     final querySnapshot = await trips
         .where('start point', isEqualTo: _selectedStartPoint)
+        .where('end point', isEqualTo: _selectedEndPoint)
         .where('date',
             isEqualTo: DateFormat('yyyy-MM-dd').format(_selectedDate))
         .where('vehicle detail', isEqualTo: _selectedVehicle)
@@ -98,22 +101,21 @@ class _AddTripsPageState extends State<AddTripsPage> {
         'vehicle detail': _selectedVehicle,
         'seat': seatNumberController.text
       });
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Trip added successfully!'),
-          // backgroundColor: Colors.green,
-        ),
-      );
+      showCustomSnackBar(
+          context, 'Service Added Succesfully', Duration(seconds: 2));
+
+      Navigator.pushNamedAndRemoveUntil(
+          context, '/adminDashboard', (route) => false);
 
       // Clear form fields
-      seatNumberController.clear();
-      setState(() {
-        _selectedStartPoint = _stops.isNotEmpty ? _stops[0] : '';
-        _selectedEndPoint = _stops.isNotEmpty ? _stops[0] : '';
-        _selectedVehicle = _vehicles.isNotEmpty ? _vehicles[0] : '';
-        _selectedDate = DateTime.now();
-        dateController.text = '';
-      });
+      // seatNumberController.clear();
+      // setState(() {
+      //   _selectedStartPoint = _stops.isNotEmpty ? _stops[0] : '';
+      //   _selectedEndPoint = _stops.isNotEmpty ? _stops[0] : '';
+      //   _selectedVehicle = _vehicles.isNotEmpty ? _vehicles[0] : '';
+      //   _selectedDate = DateTime.now();
+      //   dateController.text = '';
+      // });
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -130,7 +132,6 @@ class _AddTripsPageState extends State<AddTripsPage> {
       appBar: AppBar(
         title: const Text(
           'Add Trips',
-          style: TextStyle(fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
       ),
@@ -143,162 +144,126 @@ class _AddTripsPageState extends State<AddTripsPage> {
               children: [
                 const SizedBox(height: 30.0),
                 // starting from dropdown
-                DropdownButtonFormField<String>(
-                  decoration: const InputDecoration(
-                      labelText: 'Starting From',
-                      labelStyle: TextStyle(color: textSecColor),
-                      border: OutlineInputBorder(
+                SizedBox(
+                  height: 80,
+                  child: DropdownButtonFormField<String>(
+                    decoration: const InputDecoration(
+                        labelText: 'Starting From',
+                        labelStyle: TextStyle(color: textSecColor),
+                        border: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: textSecColor, width: 2.0),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(10))),
+                        enabledBorder: OutlineInputBorder(
                           borderSide:
                               BorderSide(color: textSecColor, width: 2.0),
-                          borderRadius: BorderRadius.all(Radius.circular(10))),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: textSecColor, width: 2.0),
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: textSecColor, width: 2.0),
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                      ),
-                      errorBorder: OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: Colors.redAccent, width: 2.0),
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                      ),
-                      focusedErrorBorder: OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: Colors.redAccent, width: 2.0),
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                      )),
-                  onChanged: (newValue) {
-                    setState(() {
-                      _selectedStartPoint = newValue!;
-                    });
-                  },
-                  items: _stops.map((company) {
-                    return DropdownMenuItem(
-                      value: company,
-                      child: Text(company),
-                    );
-                  }).toList(),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Select Starting point';
-                    }
-                    return null;
-                  },
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: textSecColor, width: 2.0),
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                        ),
+                        errorBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: Colors.redAccent, width: 2.0),
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                        ),
+                        focusedErrorBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: Colors.redAccent, width: 2.0),
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                        )),
+                    onChanged: (newValue) {
+                      setState(() {
+                        _selectedStartPoint = newValue!;
+                      });
+                    },
+                    items: _stops.map((company) {
+                      return DropdownMenuItem(
+                        value: company,
+                        child: Text(
+                          company,
+                          style: TextStyle(color: textSecColor),
+                        ),
+                      );
+                    }).toList(),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Select Starting point';
+                      }
+                      return null;
+                    },
+                  ),
                 ),
-                const SizedBox(height: 20.0),
+                const SizedBox(height: 5.0),
 
                 //end point drop down
-                DropdownButtonFormField<String>(
-                  decoration: const InputDecoration(
-                      labelText: 'EndPoint',
-                      labelStyle: TextStyle(color: textSecColor),
-                      border: OutlineInputBorder(
+                SizedBox(
+                  height: 80,
+                  child: DropdownButtonFormField<String>(
+                    decoration: const InputDecoration(
+                        labelText: 'EndPoint',
+                        labelStyle: TextStyle(color: textSecColor),
+                        border: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: textSecColor, width: 2.0),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(10))),
+                        enabledBorder: OutlineInputBorder(
                           borderSide:
                               BorderSide(color: textSecColor, width: 2.0),
-                          borderRadius: BorderRadius.all(Radius.circular(10))),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: textSecColor, width: 2.0),
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: textSecColor, width: 2.0),
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                      ),
-                      errorBorder: OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: Colors.redAccent, width: 2.0),
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                      ),
-                      focusedErrorBorder: OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: Colors.redAccent, width: 2.0),
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                      )),
-                  onChanged: (newValue) {
-                    setState(() {
-                      _selectedEndPoint = newValue!;
-                    });
-                  },
-                  items: _stops.map((company) {
-                    return DropdownMenuItem(
-                      value: company,
-                      child: Text(
-                        company,
-                        style: TextStyle(color: textSecColor),
-                      ),
-                    );
-                  }).toList(),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please Select Endpoint';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 20.0),
-                TextFormField(
-                  style: TextStyle(color: textSecColor),
-                  decoration: const InputDecoration(
-                    prefixIcon: Icon(
-                      Icons.calendar_month_outlined,
-                      color: textSecColor,
-                    ),
-                    labelText: 'Date',
-                    labelStyle: TextStyle(color: textSecColor),
-                    border: OutlineInputBorder(
-                        borderSide: BorderSide(color: textSecColor, width: 2.0),
-                        borderRadius: BorderRadius.all(Radius.circular(10))),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: textSecColor, width: 2.0),
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: textSecColor, width: 2.0),
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                    ),
-                    errorBorder: OutlineInputBorder(
-                      borderSide:
-                          BorderSide(color: Colors.redAccent, width: 2.0),
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                    ),
-                    focusedErrorBorder: OutlineInputBorder(
-                      borderSide:
-                          BorderSide(color: Colors.redAccent, width: 2.0),
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                    ),
-                  ),
-                  readOnly: true,
-                  onTap: () async {
-                    final DateTime? picked = await showDatePicker(
-                      context: context,
-                      initialDate: _selectedDate,
-                      firstDate: DateTime(2024),
-                      lastDate: DateTime(2101),
-                    );
-                    if (picked != null) {
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: textSecColor, width: 2.0),
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                        ),
+                        errorBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: Colors.redAccent, width: 2.0),
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                        ),
+                        focusedErrorBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: Colors.redAccent, width: 2.0),
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                        )),
+                    onChanged: (newValue) {
                       setState(() {
-                        _selectedDate = picked;
+                        _selectedEndPoint = newValue!;
                       });
-                    }
-                  },
-                  controller: TextEditingController(
-                    text: _selectedDate.toString().substring(0, 10),
+                    },
+                    items: _stops.map((company) {
+                      return DropdownMenuItem(
+                        value: company,
+                        child: Text(
+                          company,
+                          style: TextStyle(color: textSecColor),
+                        ),
+                      );
+                    }).toList(),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please Select Endpoint';
+                      }
+                      return null;
+                    },
                   ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please Select Date';
-                    }
-                    return null;
-                  },
                 ),
-                const SizedBox(
-                  height: 20,
-                ),
-                DropdownButtonFormField<String>(
-                  decoration: const InputDecoration(
-                      labelText: 'Vehicle',
+                const SizedBox(height: 5.0),
+                SizedBox(
+                  height: 80,
+                  child: TextFormField(
+                    style: TextStyle(color: textSecColor),
+                    decoration: const InputDecoration(
+                      prefixIcon: Icon(
+                        Icons.calendar_month_outlined,
+                        color: textSecColor,
+                      ),
+                      labelText: 'Date',
                       labelStyle: TextStyle(color: textSecColor),
                       border: OutlineInputBorder(
                           borderSide:
@@ -321,67 +286,132 @@ class _AddTripsPageState extends State<AddTripsPage> {
                         borderSide:
                             BorderSide(color: Colors.redAccent, width: 2.0),
                         borderRadius: BorderRadius.all(Radius.circular(10)),
-                      )),
-                  onChanged: (newValue) {
-                    setState(() {
-                      _selectedVehicle = newValue!;
-                    });
-                  },
-                  value: _selectedVehicle,
-                  items: _vehicles.map((vehicle) {
-                    return DropdownMenuItem(
-                      value: vehicle,
-                      child: Text(
-                        vehicle,
-                        style: const TextStyle(color: textSecColor),
                       ),
-                    );
-                  }).toList(),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please Select Vehicle';
-                    }
-                    return null;
-                  },
+                    ),
+                    readOnly: true,
+                    onTap: () async {
+                      final DateTime? picked = await showDatePicker(
+                        context: context,
+                        initialDate: _selectedDate,
+                        firstDate: DateTime.now(),
+                        lastDate: DateTime(2101),
+                      );
+                      if (picked != null) {
+                        setState(() {
+                          _selectedDate = picked;
+                        });
+                      }
+                    },
+                    controller: TextEditingController(
+                      text: _selectedDate.toString().substring(0, 10),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please Select Date';
+                      }
+                      return null;
+                    },
+                  ),
                 ),
                 const SizedBox(
-                  height: 20,
+                  height: 5,
                 ),
-                TextFormField(
-                  controller: seatNumberController,
-                  maxLength: 3,
-                  keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(
-                    labelText: 'Number of seats',
-                    labelStyle: TextStyle(color: textSecColor),
-                    border: OutlineInputBorder(
-                        borderSide: BorderSide(color: textSecColor, width: 2.0),
-                        borderRadius: BorderRadius.all(Radius.circular(10))),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: textSecColor, width: 2.0),
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: textSecColor, width: 2.0),
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                    ),
-                    errorBorder: OutlineInputBorder(
-                      borderSide:
-                          BorderSide(color: Colors.redAccent, width: 2.0),
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                    ),
-                    focusedErrorBorder: OutlineInputBorder(
-                      borderSide:
-                          BorderSide(color: Colors.redAccent, width: 2.0),
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                    ),
+                SizedBox(
+                  height: 80,
+                  child: DropdownButtonFormField<String>(
+                    decoration: const InputDecoration(
+                        labelText: 'Vehicle',
+                        labelStyle: TextStyle(color: textSecColor),
+                        border: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: textSecColor, width: 2.0),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(10))),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: textSecColor, width: 2.0),
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: textSecColor, width: 2.0),
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                        ),
+                        errorBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: Colors.redAccent, width: 2.0),
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                        ),
+                        focusedErrorBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: Colors.redAccent, width: 2.0),
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                        )),
+                    onChanged: (newValue) {
+                      setState(() {
+                        _selectedVehicle = newValue!;
+                      });
+                    },
+                    value: _selectedVehicle,
+                    items: _vehicles.map((vehicle) {
+                      return DropdownMenuItem(
+                        value: vehicle,
+                        child: Text(
+                          vehicle,
+                          style: const TextStyle(color: textSecColor),
+                        ),
+                      );
+                    }).toList(),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please Select Vehicle';
+                      }
+                      return null;
+                    },
                   ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please Enter Seat Number';
-                    }
-                    return null;
-                  },
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                SizedBox(
+                  height: 80,
+                  child: TextFormField(
+                    controller: seatNumberController,
+                    maxLength: 3,
+                    keyboardType: TextInputType.number,
+                    decoration: const InputDecoration(
+                      labelText: 'Number of seats',
+                      labelStyle: TextStyle(color: textSecColor),
+                      border: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: textSecColor, width: 2.0),
+                          borderRadius: BorderRadius.all(Radius.circular(10))),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: textSecColor, width: 2.0),
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: textSecColor, width: 2.0),
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
+                      errorBorder: OutlineInputBorder(
+                        borderSide:
+                            BorderSide(color: Colors.redAccent, width: 2.0),
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderSide:
+                            BorderSide(color: Colors.redAccent, width: 2.0),
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please Enter Seat Number';
+                      }
+                      return null;
+                    },
+                  ),
                 ),
                 SizedBox(
                   height: 5,

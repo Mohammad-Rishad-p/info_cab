@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:info_cab_u/constant.dart';
 import 'package:info_cab_u/pages/user/profile_page.dart';
 import 'package:info_cab_u/pages/user/trips_page.dart';
+import 'package:info_cab_u/pages/user/upcoming_book_page.dart';
 import 'package:info_cab_u/pages/user/view_trips.dart';
 
 import 'home_page.dart';
@@ -18,7 +19,7 @@ class _DashboardPageState extends State<DashboardPage> {
 
   final _bodyPages = const <Widget>[
     ViewTripsPage(),
-    TripsPage(),
+    UpcomingBookPage(),
     ProfilePage(),
   ];
 

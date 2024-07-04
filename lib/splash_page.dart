@@ -3,7 +3,7 @@ import 'package:info_cab_u/basic_widgets/heading_text_widget.dart';
 import 'package:info_cab_u/constant.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'home_page.dart';
+import 'pages/user/home_page.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
@@ -23,9 +23,12 @@ class _SplashPageState extends State<SplashPage> {
   Future<void> _checkAuthStatus() async {
     final prefs = await SharedPreferences.getInstance();
     final isAuth = prefs.getBool('isAuth') ?? false;
+    final isAuthAdmin = prefs.getBool('isAuthAdmin') ?? false;
 
     if (isAuth) {
       Navigator.pushNamedAndRemoveUntil(context, '/dashboard', (route)=> false);
+    }else if(isAuthAdmin){
+      Navigator.pushNamedAndRemoveUntil(context, '/adminDashboard', (route)=> false);
     } else {
       Navigator.pushNamedAndRemoveUntil(context, '/login', (route)=> false);
     }

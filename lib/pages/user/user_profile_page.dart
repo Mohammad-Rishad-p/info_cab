@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:info_cab_u/components/round_image_widget.dart';
@@ -28,9 +29,12 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
-  final String name = "Akshay K M";
-  final String company = "Techgentsia";
-  final String phone = "+91 98951 73005";
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+
+  final String name = " ";
+  final String company = " ";
+  final String phone = " ";
 
   @override
   Widget build(BuildContext context) {

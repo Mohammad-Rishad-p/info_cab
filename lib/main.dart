@@ -6,18 +6,20 @@ import 'package:info_cab_u/pages/admin/add_driver_page.dart';
 import 'package:info_cab_u/pages/admin/add_trips_page.dart';
 import 'package:info_cab_u/pages/admin/add_vehicle_page.dart';
 import 'package:info_cab_u/pages/admin/add_stop_page.dart';
+import 'package:info_cab_u/pages/admin/admin_dashboard_page.dart';
+import 'package:info_cab_u/pages/admin/admin_login_page.dart';
 import 'package:info_cab_u/pages/admin/driver_list_page.dart';
 import 'package:info_cab_u/pages/admin/user_attendence_page.dart';
 // import 'package:info_cab_u/pages/admin/add_stop.dart';
-import 'package:info_cab_u/pages/admin/check_trips.dart';
-import 'package:info_cab_u/pages/admin/drivers_listing_page.dart';
-// import 'package:info_cab_u/pages/admin/today_attendance.dart';
-import 'package:info_cab_u/pages/admin/users_listing_page.dart';
+import 'package:info_cab_u/pages/admin/trips_list_page_admin.dart';// import 'package:info_cab_u/pages/admin/today_attendance.dart';
+import 'package:info_cab_u/pages/admin/users_list_page.dart';
+import 'package:info_cab_u/pages/admin/vehicle_list_page.dart';
+import 'package:info_cab_u/pages/user/upcoming_book_page.dart';
 import 'package:info_cab_u/pages/user/view_trips.dart';
 import 'package:info_cab_u/pages/user/dashboard_page.dart';
 import 'package:info_cab_u/pages/user/home_page.dart';
 import 'package:info_cab_u/pages/user/login_page.dart';
-import 'package:info_cab_u/pages/user/splash_page.dart';
+import 'package:info_cab_u/splash_page.dart';
 import 'package:info_cab_u/pages/user/user_profile_page.dart';
 import 'package:info_cab_u/pages/user/trips_page.dart';
 import 'package:info_cab_u/pages/user/user_register_page.dart';
@@ -37,18 +39,18 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: '/home',
+      initialRoute: '/splash',
       routes: {
 //         '/register': (context) => UserRegisterPage(),
         '/splash': (context) => SplashPage(),
         '/otp': (context) => OTPPage(),
         '/trips': (context) => TripsPage(),
-        '/profile': (context) => UserProfilePage(),
         '/login': (context) => LoginPage(),
+        '/adminLogin': (context) => AdminLoginPage(),
         '/dashboard': (context) => DashboardPage(),
         '/add_vehicle': (context) => AddVehiclePage(),
-        '/add_stop': (context) => AddPickUpPointPage(),
-        '/users_list': (context) => UsersListingPage(),
+        '/addStop': (context) => AddPickUpPointPage(),
+        '/users_list': (context) => UsersListPage(),
         '/attendance': (context) => UserAttendancePage(),
         '/home': (context) => HomePage(),
         '/user_register': (context) => UserRegisterPage(
@@ -60,16 +62,22 @@ class MyApp extends StatelessWidget {
         '/addCompany': (context) => AddCompanyPage(),
         '/addTrips': (context) => AddTripsPage(),
         '/viewTrips': (context) => ViewTripsPage(),
-        '/checkTrips': (context) => CheckTrips(),
-        '/drivers_list': (context) => DriversListingPage(),
+        '/viewTripsAdmin': (context) => TripsListPageAdmin(),
+        // '/drivers_list': (context) => DriversListingPage(),
+        '/upcoming_book': (context) => UpcomingBookPage(),
+        '/listVehicle': (context) => VehicleListPage(),
+        '/adminDashboard': (context) => AdminDashboardPage()
       },
       theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: textPrimColor),
           useMaterial3: true,
           scaffoldBackgroundColor: Colors.white,
           appBarTheme: AppBarTheme(backgroundColor: Colors.white),
-          navigationBarTheme:
-              NavigationBarThemeData(backgroundColor: Colors.white)),
+
+
+        primarySwatch: Colors.blue,
+        brightness: Brightness.light,
+      ),
     );
   }
 }

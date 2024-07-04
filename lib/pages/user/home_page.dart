@@ -22,12 +22,15 @@ class _MyHomePageState extends State<HomePage> {
   String _selectedEndPoint = 'Alappuzha';
   DateTime _selectedDate = DateTime.now();
   List<String> _stops = [];
+  TextEditingController _dateController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     currentUser = FirebaseAuth.instance.currentUser;
     fetchStops();
+    _dateController.text = DateFormat('yyyy-MM-dd').format(_selectedDate);
+
   }
 
   Future<void> fetchStops() async {
@@ -54,6 +57,20 @@ class _MyHomePageState extends State<HomePage> {
       return;
     }
 
+    DateTime bookingDate = DateTime(
+      _selectedDate.year,
+      _selectedDate.month,
+      _selectedDate.day,
+      7, // 7 AM
+    );
+
+    if (DateTime.now().isAfter(bookingDate)) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Booking time is closed for this trip')),
+      );
+      return;
+    }
+
     QuerySnapshot existingBookings = await FirebaseFirestore.instance
         .collection('bookings')
         .where('tripId', isEqualTo: tripId)
@@ -64,11 +81,15 @@ class _MyHomePageState extends State<HomePage> {
       FirebaseFirestore.instance.collection('bookings').add({
         'tripId': tripId,
         'userId': userId,
-        'date': DateTime.now().toIso8601String(),
+        'startPoint': _selectedStartPoint,
+        'endPoint': _selectedEndPoint,
+        'tripDate': DateFormat('yyyy-MM-dd').format(_selectedDate),
+        'bookedDate': DateFormat('yyyy-MM-dd').format(DateTime.now()),
       }).then((value) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Cab booked successfully')),
         );
+        Navigator.pop(context);
       }).catchError((error) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Failed to book cab: $error')),
@@ -92,10 +113,9 @@ class _MyHomePageState extends State<HomePage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Home', style: TextStyle(fontWeight: FontWeight.bold)),
+        title: const Text('Book Cab'),
         centerTitle: true,
       ),
-      drawer: DrawerUser(),
       body: Padding(
         padding: const EdgeInsets.all(24.0),
         child: Form(
@@ -209,19 +229,19 @@ class _MyHomePageState extends State<HomePage> {
                   ),
                 ),
                 readOnly: true,
-                onTap: () async {
-                  final DateTime? picked = await showDatePicker(
-                    context: context,
-                    initialDate: _selectedDate,
-                    firstDate: DateTime(2024),
-                    lastDate: DateTime(2101),
-                  );
-                  if (picked != null) {
-                    setState(() {
-                      _selectedDate = picked;
-                    });
-                  }
-                },
+                // onTap: () async {
+                //   final DateTime? picked = await showDatePicker(
+                //     context: context,
+                //     initialDate: _selectedDate,
+                //     firstDate: DateTime(2024),
+                //     lastDate: DateTime(2101),
+                //   );
+                //   if (picked != null) {
+                //     setState(() {
+                //       _selectedDate = picked;
+                //     });
+                //   }
+                // },
                 controller: TextEditingController(
                   text: DateFormat('yyyy-MM-dd').format(_selectedDate),
                 ),

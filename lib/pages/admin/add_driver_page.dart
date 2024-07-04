@@ -73,7 +73,7 @@ class _AddDriverPageState extends State<AddDriverPage> {
         appBar: AppBar(
           title: const Text(
             'Add Drivers',
-            style: TextStyle(fontWeight: FontWeight.bold),
+          
           ),
           centerTitle: true,
           leading: IconButton(onPressed: () {
