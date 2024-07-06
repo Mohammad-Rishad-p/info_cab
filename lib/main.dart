@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
 
       // initialRoute: '/splash',
-      initialRoute: '/checkTrips',
+      initialRoute: '/splash',
 
       routes: {
 //         '/register': (context) => UserRegisterPage(),

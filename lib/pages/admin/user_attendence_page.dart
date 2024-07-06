@@ -11,7 +11,7 @@ class UserAttendancePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final currentUser = FirebaseAuth.instance.currentUser;
     final args =
-    ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
 
     return Scaffold(
       appBar: AppBar(
@@ -78,9 +78,9 @@ class UserAttendancePage extends StatelessWidget {
                     itemCount: snapshot.data!.docs.length,
                     itemBuilder: (context, index) {
                       final DocumentSnapshot bookingSnap =
-                      snapshot.data!.docs[index];
+                          snapshot.data!.docs[index];
                       final bookingData =
-                      bookingSnap.data() as Map<String, dynamic>;
+                          bookingSnap.data() as Map<String, dynamic>;
 
                       // Fetch user details using the userId
                       return FutureBuilder(
@@ -88,8 +88,10 @@ class UserAttendancePage extends StatelessWidget {
                             .collection('users')
                             .doc(bookingData['userId'])
                             .get(),
-                        builder: (context, AsyncSnapshot<DocumentSnapshot> userSnapshot) {
-                          if (userSnapshot.connectionState == ConnectionState.waiting) {
+                        builder: (context,
+                            AsyncSnapshot<DocumentSnapshot> userSnapshot) {
+                          if (userSnapshot.connectionState ==
+                              ConnectionState.waiting) {
                             return const CircularProgressIndicator();
                           }
 
@@ -97,25 +99,60 @@ class UserAttendancePage extends StatelessWidget {
                             return const Text('Failed to load user');
                           }
 
-                          if (!userSnapshot.hasData || !userSnapshot.data!.exists) {
+                          if (!userSnapshot.hasData ||
+                              !userSnapshot.data!.exists) {
                             return const Text('User not found');
                           }
 
                           // User document exists, retrieve the name
-                          final userData = userSnapshot.data!.data() as Map<String, dynamic>;
+                          final userData =
+                              userSnapshot.data!.data() as Map<String, dynamic>;
                           final userName = userData['name'] ?? 'Unknown';
                           final userCompany = userData['company'];
 
-                          return ListTile(
-                            title: Text(
-                              userName,
-                              style: const TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            subtitle: Text(
-                              // DateFormat.yMMMd().format(
-                              //   DateTime.parse(bookingData['date']),
-                              // ),
-                              userCompany
+                          return Padding(
+                            padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(10),
+                                boxShadow: const [
+                                  BoxShadow(
+                                    color: Colors.black26,
+                                    offset: Offset(0, 1),
+                                    blurRadius: 5,
+                                  ),
+                                ],
+                              ),
+                              child: Column(
+                                children: [
+                                  ListTile(
+                                    title: Text(
+                                      userName,
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    subtitle: Text(
+                                        // DateFormat.yMMMd().format(
+                                        //   DateTime.parse(bookingData['date']),
+                                        // ),
+                                        userCompany),
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      ElevatedButton(
+                                        onPressed: () {},
+                                        child: Text('Mark Present'),
+                                      ),
+                                      SizedBox(width: 10,),
+                                      ElevatedButton(
+                                          onPressed: () {},
+                                          child: Text('Mark Absent'))
+                                    ],
+                                  )
+                                ],
+                              ),
                             ),
                           );
                         },
