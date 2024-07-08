@@ -53,53 +53,59 @@ class _AdminLoginPageState extends State<AdminLoginPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  HText(content: 'Login As', textColor: Colors.black),
-                  HText(content: 'Admin', textColor: textPrimColor),
-                  SizedBox(
+                  const HText(content: 'Login As', textColor: Colors.black),
+                  const HText(content: 'Admin', textColor: textPrimColor),
+                  const SizedBox(
                     height: 16,
                   ),
-                  TextFormField(
-                    controller: emailController,
-                    keyboardType: TextInputType.emailAddress,
-                    decoration: const InputDecoration(
-                      labelText: 'Enter Email',
-                      labelStyle: TextStyle(color: textSecColor),
-                      prefixIcon: Icon(
-                        Icons.email_outlined,
-                        color: textSecColor,
-                      ),
-                      border: OutlineInputBorder(
-                          borderSide:
-                              BorderSide(color: textSecColor, width: 2.0),
-                          borderRadius: BorderRadius.all(Radius.circular(10))),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: textSecColor, width: 2.0),
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: textSecColor, width: 2.0),
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                      ),
-                      errorBorder: OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: Colors.redAccent, width: 2.0),
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                      ),
-                      focusedErrorBorder: OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: Colors.redAccent, width: 2.0),
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                      ),
-                    ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please Enter Email';
-                      }
-                      return null;
-                    },
-                  ),
                   SizedBox(
-                    height: 24,
+                    height: 80,
+                    child: TextFormField(
+                      controller: emailController,
+                      keyboardType: TextInputType.emailAddress,
+                      style: const TextStyle(
+                        color: textSecColor
+                      ),
+                      decoration: const InputDecoration(
+                        labelText: 'Enter Email',
+                        labelStyle: TextStyle(color: textSecColor),
+                        prefixIcon: Icon(
+                          Icons.email_outlined,
+                          color: textSecColor,
+                        ),
+                        border: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: textSecColor, width: 2.0),
+                            borderRadius: BorderRadius.all(Radius.circular(10))),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: textSecColor, width: 2.0),
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: textSecColor, width: 2.0),
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                        ),
+                        errorBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: Colors.redAccent, width: 2.0),
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                        ),
+                        focusedErrorBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: Colors.redAccent, width: 2.0),
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                        ),
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please Enter Email';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 010
                   ),
                   SizedBox(
                     height: 80,
@@ -148,7 +154,7 @@ class _AdminLoginPageState extends State<AdminLoginPage> {
                     ),
                   ),
                   SizedBox(
-                    height: 16,
+                    height: 10,
                   ),
                   Button(
                       onPressed: () {

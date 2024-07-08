@@ -118,6 +118,7 @@ class _ProfilePageState extends State<ProfilePage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               TextFormField(
+                readOnly: true,
                 controller: phoneNumber,
                 style: TextStyle(
                     color: textSecColor,
@@ -126,7 +127,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 maxLength: 10,
                 keyboardType: TextInputType.phone,
                 decoration: const InputDecoration(
-                  labelText: 'Your Mobile Number',
+                  labelText: 'Mobile Number',
                   labelStyle: TextStyle(color: textSecColor),
                   prefixText: '+91 |  ',
                   border: OutlineInputBorder(
@@ -166,7 +167,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 readOnly: true,
                 controller: userName,
                 decoration: const InputDecoration(
-                  labelText: 'Enter Your Name',
+                  labelText: 'Name',
                   labelStyle: TextStyle(color: textSecColor),
                   border: OutlineInputBorder(
                       borderSide: BorderSide(color: textSecColor, width: 2.0),

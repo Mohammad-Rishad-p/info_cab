@@ -74,7 +74,7 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
     return Scaffold(
       body: _bodyPages[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.blue,
+        backgroundColor: Colors.white,
         currentIndex: _currentIndex,
         items: bottomNavBarItems,
         onTap: _onItemClick,

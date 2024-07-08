@@ -17,7 +17,7 @@ class ViewTripsPage extends StatefulWidget {
 
 class _ViewTripsPageState extends State<ViewTripsPage> {
   final CollectionReference trips =
-      FirebaseFirestore.instance.collection('trips');
+  FirebaseFirestore.instance.collection('trips');
   late User? currentUser;
 
   @override
@@ -39,7 +39,7 @@ class _ViewTripsPageState extends State<ViewTripsPage> {
         body: Padding(
           padding: const EdgeInsets.fromLTRB(16, 32, 16, 8),
           child: StreamBuilder(
-            stream: trips.snapshots(),
+            stream: trips.orderBy('date',descending: true).snapshots(), // Ordering by date
             builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(child: CircularProgressIndicator());
@@ -71,18 +71,19 @@ class _ViewTripsPageState extends State<ViewTripsPage> {
                   }
 
                   return GestureDetector(
-                    onTap: () {
-                      Navigator.pushNamed(
-                        context,
-                        '/home',
-                        arguments: {
-                          'tripId': tripSnap.id,
-                          'date': tripData['date'],
-                          'start point': tripData['start point'],
-                          'end point': tripData['end point'],
-                        },
-                      );
-                    },
+                      onTap: () {
+                        Navigator.pushNamed(
+                          context,
+                          '/home',
+                          arguments: {
+                            'tripId': tripSnap.id,
+                            'date': tripSnap['date'],
+                            'start point': tripSnap['start point'],
+                            'end point': tripSnap['end point'],
+                            'seat': tripSnap['seat']
+                          },
+                        );
+                      },
                       child: Padding(
                         padding: const EdgeInsets.all(4.0),
                         child: Container(
@@ -104,15 +105,17 @@ class _ViewTripsPageState extends State<ViewTripsPage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                MainAxisAlignment.spaceBetween,
                                 children: [
                                   Expanded(
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.start,
                                       children: [
                                         Text(
                                           tripData['vehicle detail'],
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 18,
                                             color: Colors.white,
@@ -121,7 +124,7 @@ class _ViewTripsPageState extends State<ViewTripsPage> {
                                         SizedBox(height: 4.0),
                                         Text(
                                           '${tripData['start point']} to ${tripData['end point']}',
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                             fontSize: 16,
                                             color: Colors.white,
                                           ),
@@ -165,11 +168,7 @@ class _ViewTripsPageState extends State<ViewTripsPage> {
                             ],
                           ),
                         ),
-                      )
-
-
-
-                  );
+                      ));
                 },
               );
             },
