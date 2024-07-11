@@ -172,7 +172,7 @@ class _DriverListPageState extends State<DriverListPage> {
                                                 ),
                                               ),
                                             ),
-                                          )),
+                                          ),),
                                       Column(
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,

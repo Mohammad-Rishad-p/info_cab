@@ -28,11 +28,47 @@ class UpcomingBookPage extends StatelessWidget {
 
     String userId = user.uid;
 
+    void cancelTrip(String docId) {
+      bookings.doc(docId).delete();
+    }
+
+    Future<void> cancelConfirmAlert(BuildContext context, String docId) async {
+      return showDialog<void>(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Cancel Booking?'),
+            content: Text('Are you sure you want to cancel this booking?'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop(); // dismiss the dialog
+                },
+                child: Text(
+                  'Cancel',
+                  style: TextStyle(color: textPrimColor),
+                ),
+              ),
+              TextButton(
+                onPressed: () {
+                  cancelTrip(docId);
+                  Navigator.of(context).pop(); // dismiss the dialog
+                },
+                child: Text('Confirm', style: TextStyle(color: textPrimColor)),
+              ),
+            ],
+          );
+        },
+      );
+    }
+
+
+
     return WillPopScope(
       onWillPop: () => onWillPop(context),
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Upcoming Bookings',style: TextStyle()),
+          title: const Text('Upcoming Bookings', style: TextStyle()),
           automaticallyImplyLeading: false,
           centerTitle: true,
         ),
@@ -137,7 +173,9 @@ class UpcomingBookPage extends StatelessWidget {
                           SizedBox(
                             width: 250,
                             child: ElevatedButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  cancelConfirmAlert(context, booking.id);
+                                },
                                 child: const Text(
                                   'Cancel Trip',
                                   style: TextStyle(color: textPrimColor),
@@ -156,7 +194,6 @@ class UpcomingBookPage extends StatelessWidget {
     );
   }
 }
-
 
 // import 'package:firebase_auth/firebase_auth.dart';
 // import 'package:flutter/material.dart';

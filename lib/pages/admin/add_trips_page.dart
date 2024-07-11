@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 
 import '../../constant.dart';
 import '../../functions/function_onWillPop.dart';
+import '../../model/trip.dart';
 
 class AddTripsPage extends StatefulWidget {
   const AddTripsPage({super.key});
@@ -94,15 +95,15 @@ class _AddTripsPageState extends State<AddTripsPage> {
     }
 
     try {
-      await trips.add({
-        'start point': _selectedStartPoint,
-        'end point': _selectedEndPoint,
-        'date': DateFormat('yyyy-MM-dd').format(_selectedDate),
-        'vehicle detail': _selectedVehicle,
-        'seat': seatNumberController.text
-      });
-      showCustomSnackBar(
-          context, 'Service Added Succesfully', Duration(seconds: 2));
+      Trip newTrip = Trip(
+        startPoint: _selectedStartPoint,
+        endPoint: _selectedEndPoint,
+        date: DateFormat('yyyy-MM-dd').format(_selectedDate),
+        vehicleDetail: _selectedVehicle,
+        seat: seatNumberController.text,
+      );
+      await trips.add(newTrip.toMap());
+      showCustomSnackBar(context, 'Service Added Successfully', Duration(seconds: 2));
 
       Navigator.pushNamedAndRemoveUntil(
           context, '/adminDashboard', (route) => false);

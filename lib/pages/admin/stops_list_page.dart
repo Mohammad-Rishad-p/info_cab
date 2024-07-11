@@ -141,8 +141,8 @@ class _StopsListPageState extends State<StopsListPage> {
                                 ),
                                 trailing: IconButton(
                                   onPressed: () {
-                                    showDeleteConfirmationDialog(
-                                        context, stopSnap.id);
+                                      showDeleteConfirmationDialog(
+                                          context, stopSnap.id);
                                   },
                                   icon:
                                       Icon(Icons.delete, color: Colors.redAccent),

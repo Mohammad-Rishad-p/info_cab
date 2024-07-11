@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:info_cab_u/components/drawer_admin.dart';
 import 'package:intl/intl.dart';
 import 'package:info_cab_u/basic_widgets/button_widget.dart';
 import 'package:info_cab_u/constant.dart';
@@ -81,8 +82,8 @@ class _TripsListPageAdminState extends State<TripsListPageAdmin> {
         appBar: AppBar(
           title: const Text('Cabs'),
           centerTitle: true,
-          automaticallyImplyLeading: false,
         ),
+        drawer: DrawerAdmin(),
         floatingActionButton: FloatingActionButton(
           tooltip: 'Create Trips',
           onPressed: () {
@@ -95,7 +96,7 @@ class _TripsListPageAdminState extends State<TripsListPageAdmin> {
         body: Padding(
           padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
           child: StreamBuilder(
-            stream: trips.orderBy('date').snapshots(),
+            stream: trips.orderBy('date',descending: true).snapshots(),
             builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(child: CircularProgressIndicator());

@@ -14,8 +14,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<HomePage> {
-  final CollectionReference stops =
-  FirebaseFirestore.instance.collection('stops');
+  final CollectionReference stops = FirebaseFirestore.instance.collection('stops');
   final _formKey = GlobalKey<FormState>();
   late User? currentUser;
   String _selectedStartPoint = 'Alappuzha';
@@ -30,7 +29,6 @@ class _MyHomePageState extends State<HomePage> {
     currentUser = FirebaseAuth.instance.currentUser;
     fetchStops();
     _dateController.text = DateFormat('yyyy-MM-dd').format(_selectedDate);
-
   }
 
   Future<void> fetchStops() async {
@@ -47,8 +45,40 @@ class _MyHomePageState extends State<HomePage> {
     }
   }
 
+  Future<void> bookingConfirmAlert(BuildContext context, String tripId) async {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Confirm Booking?'),
+          content: Text('Are you sure you want to Confirm this booking?'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // dismiss the dialog
+              },
+              child: Text(
+                'Cancel',
+                style: TextStyle(color: textPrimColor),
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                bookCab(tripId);
+                Navigator.of(context).pop(); // dismiss the dialog
+              },
+              child: Text('Confirm', style: TextStyle(color: textPrimColor)),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   void bookCab(String tripId) async {
     String? userId = currentUser?.uid;
+    print("User ID: $userId");
+    print("Trip ID: $tripId");
 
     if (userId == null) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -71,33 +101,55 @@ class _MyHomePageState extends State<HomePage> {
       return;
     }
 
-    QuerySnapshot existingBookings = await FirebaseFirestore.instance
-        .collection('bookings')
-        .where('tripId', isEqualTo: tripId)
-        .where('userId', isEqualTo: userId)
-        .get();
+    try {
+      DocumentSnapshot tripDoc =
+      await FirebaseFirestore.instance.collection('trips').doc(tripId).get();
+      int seatCapacity = (tripDoc['seat'] is int) ? tripDoc['seat'] : int.parse(tripDoc['seat']);
+      print("Seat Capacity: $seatCapacity");
 
-    if (existingBookings.docs.isEmpty) {
-      FirebaseFirestore.instance.collection('bookings').add({
-        'tripId': tripId,
-        'userId': userId,
-        'startPoint': _selectedStartPoint,
-        'endPoint': _selectedEndPoint,
-        'tripDate': DateFormat('yyyy-MM-dd').format(_selectedDate),
-        'bookedDate': DateFormat('yyyy-MM-dd').format(DateTime.now()),
-      }).then((value) {
+      QuerySnapshot existingBookings = await FirebaseFirestore.instance
+          .collection('bookings')
+          .where('tripId', isEqualTo: tripId)
+          .get();
+
+      int numberOfBookings = existingBookings.docs.length;
+      print("Number of Bookings: $numberOfBookings");
+
+      if (numberOfBookings >= seatCapacity) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('The cab is fully booked')),
+        );
+        return;
+      }
+
+      QuerySnapshot userBookings = await FirebaseFirestore.instance
+          .collection('bookings')
+          .where('tripId', isEqualTo: tripId)
+          .where('userId', isEqualTo: userId)
+          .get();
+
+      if (userBookings.docs.isEmpty) {
+        await FirebaseFirestore.instance.collection('bookings').add({
+          'tripId': tripId,
+          'userId': userId,
+          'startPoint': _selectedStartPoint,
+          'endPoint': _selectedEndPoint,
+          'tripDate': DateFormat('yyyy-MM-dd').format(_selectedDate),
+          'bookedDate': DateFormat('yyyy-MM-dd').format(DateTime.now()),
+        });
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Cab booked successfully')),
         );
         Navigator.pop(context);
-      }).catchError((error) {
+      } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to book cab: $error')),
+          const SnackBar(content: Text('You have already booked this trip')),
         );
-      });
-    } else {
+      }
+    } catch (e) {
+      print("Error booking cab: $e");
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('You have already booked this trip')),
+        SnackBar(content: Text('Failed to book cab: $e')),
       );
     }
   }
@@ -109,6 +161,7 @@ class _MyHomePageState extends State<HomePage> {
       _selectedStartPoint = args['start point'] as String;
       _selectedEndPoint = args['end point'] as String;
       _selectedDate = DateTime.parse(args['date'] as String);
+      var seat = args['seat'] as String;
     }
 
     return Scaffold(
@@ -202,7 +255,7 @@ class _MyHomePageState extends State<HomePage> {
               ),
               const SizedBox(height: 25.0),
               TextFormField(
-                style: TextStyle(color: textSecColor),
+                style: const TextStyle(color: textSecColor),
                 decoration: const InputDecoration(
                   suffixIcon: Icon(Icons.calendar_month_outlined, color: textSecColor),
                   labelText: 'Date',
@@ -229,28 +282,29 @@ class _MyHomePageState extends State<HomePage> {
                   ),
                 ),
                 readOnly: true,
-                // onTap: () async {
-                //   final DateTime? picked = await showDatePicker(
-                //     context: context,
-                //     initialDate: _selectedDate,
-                //     firstDate: DateTime(2024),
-                //     lastDate: DateTime(2101),
-                //   );
-                //   if (picked != null) {
-                //     setState(() {
-                //       _selectedDate = picked;
-                //     });
-                //   }
-                // },
-                controller: TextEditingController(
-                  text: DateFormat('yyyy-MM-dd').format(_selectedDate),
-                ),
+                onTap: () async {
+                  final DateTime? picked = await showDatePicker(
+                    context: context,
+                    initialDate: _selectedDate,
+                    firstDate: DateTime(2024),
+                    lastDate: DateTime(2101),
+                  );
+                  if (picked != null) {
+                    setState(() {
+                      _selectedDate = picked;
+                      _dateController.text = DateFormat('yyyy-MM-dd').format(_selectedDate);
+                    });
+                  }
+                },
+                controller: _dateController,
               ),
               const SizedBox(height: 25.0),
               Button(
                 onPressed: () {
                   // Call the function to book the cab
-                  bookCab(args!['tripId']);
+                  if (_formKey.currentState!.validate()) {
+                    bookingConfirmAlert(context, args!['tripId']);
+                  }
                 },
                 text: "Book Cab",
               ),

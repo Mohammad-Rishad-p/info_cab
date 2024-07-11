@@ -7,6 +7,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../model/users.dart';
+
 class UserRegisterPage extends StatefulWidget {
   final String uid;
 
@@ -34,13 +36,24 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
   final CollectionReference companies = FirebaseFirestore.instance.collection('companies');
 
   void addUsersToFirestore() async {
-    final data = {
-      'name': userName.text,
-      'phone number': phoneNumber.text,
-      'company': _selectedCompany
-    };
+    // final data = {
+    //   'name': userName.text,
+    //   'phone number': phoneNumber.text,
+    //   'company': _selectedCompany
+    // };
+
+    final user = Users(
+      name: userName.text,
+      number: phoneNumber.text,
+      company: _selectedCompany,
+    );
+
+
     try {
-      await users.doc(widget.uid).set(data);
+      // await users.doc(widget.uid).set(data);
+
+      await users.doc(widget.uid).set(user.toMap());
+
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Successfully registered user'),
@@ -96,10 +109,12 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
                     controller: phoneNumber,
                     maxLength: 10,
                     keyboardType: TextInputType.phone,
+                    style: const TextStyle(color: textSecColor),
                     decoration: const InputDecoration(
+                      counterText: '',
                       labelText: 'Enter Your Mobile Number',
                       labelStyle: TextStyle(color: textSecColor),
-                      prefixText: '+91 ',
+                      prefixText: '+91 | ',
                       border: OutlineInputBorder(
                           borderSide: BorderSide(color: textSecColor, width: 2.0),
                           borderRadius: BorderRadius.all(Radius.circular(10))),
@@ -130,6 +145,7 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
                   const SizedBox(height: 30),
                   TextFormField(
                     controller: userName,
+                    style: const TextStyle(color: textSecColor),
                     decoration: const InputDecoration(
                       labelText: 'Enter Your Name',
                       labelStyle: TextStyle(color: textSecColor),
@@ -154,7 +170,7 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
                       ),
                     ),
                     validator: (value) {
-                      if (value == null || value.isEmpty) {
+                        if (value == null || value.isEmpty) {
                         return 'Please enter your name';
                       }
                       return null;
@@ -175,6 +191,7 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
                         _selectedCompany = newValue!;
                       });
                     },
+                    style: const TextStyle(color: textSecColor,fontSize: 17),
                     decoration: const InputDecoration(
                       labelText: 'Company',
                       labelStyle: TextStyle(color: textSecColor),

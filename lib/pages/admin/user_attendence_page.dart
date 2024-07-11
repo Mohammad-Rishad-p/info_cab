@@ -140,6 +140,7 @@ class _UserAttendancePageState extends State<UserAttendancePage> {
                     return const Center(child: Text('No bookings available'));
                   }
 
+                  //for search user
                   var filteredDocs = snapshot.data!.docs.where((doc) {
                     var bookingData = doc.data() as Map<String, dynamic>;
                     return bookingData['userName']
@@ -158,7 +159,7 @@ class _UserAttendancePageState extends State<UserAttendancePage> {
                       return FutureBuilder(
                         future: FirebaseFirestore.instance
                             .collection('users')
-                            .doc(bookingData['userId'])
+                            .doc(bookingData['userId'])   //users collection where booking le userid vech
                             .get(),
                         builder: (context,
                             AsyncSnapshot<DocumentSnapshot> userSnapshot) {
@@ -196,53 +197,57 @@ class _UserAttendancePageState extends State<UserAttendancePage> {
                             containerText = 'Absent';
                           }
 
-                          return Container(
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(10),
-                              boxShadow: const [
-                                BoxShadow(
-                                  color: Colors.black26,
-                                  offset: Offset(0, 1),
-                                  blurRadius: 5,
-                                ),
-                              ],
-                            ),
-                            child: ListTile(
-                              title: Text(
-                                userName,
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold),
+                          return Padding(
+                            padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(10),
+                                boxShadow: const [
+                                  BoxShadow(
+                                    color: Colors.black26,
+                                    offset: Offset(0, 1),
+                                    blurRadius: 5,
+                                  ),
+                                ],
                               ),
-                              subtitle: Text(userCompany),
-                              trailing: GestureDetector(
-                                onTap: () {
-                                  bool newAttendanceStatus;
-                                  if (isAttended == null) {
-                                    newAttendanceStatus = true;
-                                  } else {
-                                    newAttendanceStatus = !isAttended;
-                                  }
-                                  FirebaseFirestore.instance
-                                      .collection('bookings')
-                                      .doc(bookingSnap.id)
-                                      .update(
-                                      {'attended': newAttendanceStatus});
-                                },
-                                child: SizedBox(
-                                  width: 80,
-                                  height: 40,
-                                  child: Container(
-                                    padding: const EdgeInsets.all(10),
-                                    decoration: BoxDecoration(
-                                      color: containerColor,
-                                      borderRadius: BorderRadius.circular(8.0),
-                                    ),
-                                    child: Center(
-                                      child: Text(
-                                        containerText,
-                                        style: const TextStyle(
-                                            color: Colors.white),
+                              child: ListTile(
+                                title: Text(
+                                  userName,
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                subtitle: Text(userCompany),
+                                trailing: GestureDetector(
+                                  onTap: () {
+                                    bool newAttendanceStatus;
+                                    if (isAttended == null) {
+                                      newAttendanceStatus = true;
+                                    } else {
+                                      newAttendanceStatus = !isAttended;
+                                    }
+                                    FirebaseFirestore.instance
+                                        .collection('bookings')
+                                        .doc(bookingSnap.id)
+                                        .update(
+                                        {'attended': newAttendanceStatus});
+                                  },
+                                  child: SizedBox(
+                                    width: 80,
+                                    height: 40,
+                                    child: Container(
+                                      padding: const EdgeInsets.all(10),
+                                      decoration: BoxDecoration(
+                                        color: containerColor,
+                                        borderRadius: BorderRadius.circular(8.0),
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          containerText,
+                                          style: const TextStyle(
+                                              color: Colors.white
+                                          ),
+                                        ),
                                       ),
                                     ),
                                   ),
