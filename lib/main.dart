@@ -15,6 +15,7 @@ import 'package:info_cab_u/pages/admin/trips_list_page_admin.dart';// import 'pa
 import 'package:info_cab_u/pages/admin/users_list_page.dart';
 import 'package:info_cab_u/pages/admin/vehicle_list_page.dart';
 import 'package:info_cab_u/pages/admin/view_complete_trip.dart';
+import 'package:info_cab_u/pages/user/edit_profile_page.dart';
 import 'package:info_cab_u/pages/user/upcoming_book_page.dart';
 import 'package:info_cab_u/pages/user/view_trips.dart';
 import 'package:info_cab_u/pages/user/dashboard_page.dart';
@@ -68,7 +69,8 @@ class MyApp extends StatelessWidget {
         '/upcoming_book': (context) => UpcomingBookPage(),
         '/listVehicle': (context) => VehicleListPage(),
         '/adminDashboard': (context) => AdminDashboardPage(),
-        '/history': (context)=> ViewCompleteTrip()
+        '/history': (context)=> ViewCompleteTrip(),
+        '/editProfile': (context) => EditProfilePage()
       },
       theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: textPrimColor),
@@ -78,8 +80,6 @@ class MyApp extends StatelessWidget {
         bottomNavigationBarTheme: BottomNavigationBarThemeData(
           backgroundColor: Colors.white
         ),
-
-
         primarySwatch: Colors.blue,
         brightness: Brightness.light,
       ),

@@ -45,6 +45,36 @@ class _MyHomePageState extends State<HomePage> {
     }
   }
 
+  Future<void> bookingConfirmAlert(BuildContext context, String tripId) async {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Confirm Booking?'),
+          content: Text('Are you sure you want to Confirm this booking?'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // dismiss the dialog
+              },
+              child: Text(
+                'Cancel',
+                style: TextStyle(color: textPrimColor),
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                bookCab(tripId);
+                Navigator.of(context).pop(); // dismiss the dialog
+              },
+              child: Text('Confirm', style: TextStyle(color: textPrimColor)),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   void bookCab(String tripId) async {
     String? userId = currentUser?.uid;
     print("User ID: $userId");
@@ -273,7 +303,7 @@ class _MyHomePageState extends State<HomePage> {
                 onPressed: () {
                   // Call the function to book the cab
                   if (_formKey.currentState!.validate()) {
-                    bookCab(args!['tripId']);
+                    bookingConfirmAlert(context, args!['tripId']);
                   }
                 },
                 text: "Book Cab",

@@ -37,8 +37,8 @@ class UpcomingBookPage extends StatelessWidget {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Delete Stop'),
-            content: Text('Are you sure you want to delete this stop?'),
+            title: Text('Cancel Booking?'),
+            content: Text('Are you sure you want to cancel this booking?'),
             actions: <Widget>[
               TextButton(
                 onPressed: () {
@@ -54,7 +54,7 @@ class UpcomingBookPage extends StatelessWidget {
                   cancelTrip(docId);
                   Navigator.of(context).pop(); // dismiss the dialog
                 },
-                child: Text('Delete', style: TextStyle(color: textPrimColor)),
+                child: Text('Confirm', style: TextStyle(color: textPrimColor)),
               ),
             ],
           );

@@ -37,7 +37,7 @@ class _SplashPageState extends State<SplashPage> {
   Widget build(BuildContext context) {
     return const Scaffold(
       body: Center(
-        child: HText(content: 'info cab', textColor: textPrimColor),
+        child: HText(content: 'InfoCab', textColor: textPrimColor),
       ),
     );
   }
