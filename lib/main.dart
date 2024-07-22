@@ -15,6 +15,10 @@ import 'package:info_cab_u/pages/admin/trips_list_page_admin.dart';// import 'pa
 import 'package:info_cab_u/pages/admin/users_list_page.dart';
 import 'package:info_cab_u/pages/admin/vehicle_list_page.dart';
 import 'package:info_cab_u/pages/admin/view_complete_trip.dart';
+import 'package:info_cab_u/pages/driver/driver_login_page.dart';
+import 'package:info_cab_u/pages/driver/drivers_passengers_list.dart';
+import 'package:info_cab_u/pages/driver/view_trip_driver.dart';
+import 'package:info_cab_u/pages/role_selection_page.dart';
 import 'package:info_cab_u/pages/user/edit_profile_page.dart';
 import 'package:info_cab_u/pages/user/upcoming_book_page.dart';
 import 'package:info_cab_u/pages/user/view_trips.dart';
@@ -70,7 +74,15 @@ class MyApp extends StatelessWidget {
         '/listVehicle': (context) => VehicleListPage(),
         '/adminDashboard': (context) => AdminDashboardPage(),
         '/history': (context)=> ViewCompleteTrip(),
-        '/editProfile': (context) => EditProfilePage()
+        '/editProfile': (context) => EditProfilePage(),
+
+        '/roleSelection': (context) => RoleSelectionPage(),
+
+        //driver
+
+        '/driverLogin': (context) => DriverLoginPage(),
+        '/driverViewTrip': (context) => ViewTripDriver(),
+        '/passList': (context) => DriversPassengersList()
       },
       theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: textPrimColor),

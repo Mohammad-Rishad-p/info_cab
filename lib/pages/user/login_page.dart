@@ -40,7 +40,7 @@ class _LoginPageState extends State<LoginPage> {
                   // the heading text to enter number
                   GestureDetector(
                     onDoubleTap: (){
-                      Navigator.pushNamed(context, '/adminLogin');
+                      Navigator.pushNamed(context, '/roleSelection');
                     },
                       child: HText(content: 'Provide', textColor: Colors.black)),
                   const HText(
