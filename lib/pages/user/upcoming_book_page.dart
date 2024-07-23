@@ -68,7 +68,7 @@ class UpcomingBookPage extends StatelessWidget {
       onWillPop: () => onWillPop(context),
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Upcoming Bookings', style: TextStyle()),
+          title: const Text('Bookings', style: TextStyle()),
           automaticallyImplyLeading: false,
           centerTitle: true,
         ),

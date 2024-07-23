@@ -34,8 +34,10 @@ class _ViewTripsPageState extends State<ViewTripsPage> {
         appBar: AppBar(
           title: const Text('View Trips'),
           centerTitle: true,
+          automaticallyImplyLeading: false,
         ),
-        drawer: DrawerUser(),
+
+        // drawer: DrawerUser(),
         body: Padding(
           padding: const EdgeInsets.fromLTRB(16, 32, 16, 8),
           child: StreamBuilder(
@@ -53,10 +55,15 @@ class _ViewTripsPageState extends State<ViewTripsPage> {
                 return const Center(child: Text('No trips available'));
               }
 
+              final List<DocumentSnapshot> docs = snapshot.data!.docs.where((doc) {
+                final data = doc.data() as Map<String, dynamic>;
+                return !data.containsKey('status');
+              }).toList();
+
               return ListView.builder(
-                itemCount: snapshot.data!.docs.length,
+                itemCount: docs.length,
                 itemBuilder: (context, index) {
-                  final DocumentSnapshot tripSnap = snapshot.data!.docs[index];
+                  final DocumentSnapshot tripSnap = docs[index];
                   final tripData = tripSnap.data() as Map<String, dynamic>;
 
                   // Handle both Timestamp and String for date

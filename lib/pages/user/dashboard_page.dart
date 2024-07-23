@@ -32,7 +32,7 @@ class _DashboardPageState extends State<DashboardPage> {
     const BottomNavigationBarItem(
       icon: Icon(Icons.location_on_outlined),
       activeIcon: Icon(Icons.location_on),
-      label: 'Trips',
+      label: 'Bookings',
     ),
     const BottomNavigationBarItem(
       icon: Icon(Icons.person_outlined),

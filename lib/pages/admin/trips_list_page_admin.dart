@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:info_cab_u/components/drawer_admin.dart';
 import 'package:intl/intl.dart';
-import 'package:info_cab_u/basic_widgets/button_widget.dart';
 import 'package:info_cab_u/constant.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -16,8 +15,7 @@ class TripsListPageAdmin extends StatefulWidget {
 }
 
 class _TripsListPageAdminState extends State<TripsListPageAdmin> {
-  final CollectionReference trips =
-      FirebaseFirestore.instance.collection('trips');
+  final CollectionReference trips = FirebaseFirestore.instance.collection('trips');
   late User? currentUser;
 
   @override
@@ -26,11 +24,10 @@ class _TripsListPageAdminState extends State<TripsListPageAdmin> {
     currentUser = FirebaseAuth.instance.currentUser;
   }
 
-  Future<void> _showDeleteConfirmationDialog(
-      BuildContext context, String tripId) async {
+  Future<void> _showDeleteConfirmationDialog(BuildContext context, String tripId) async {
     return showDialog<void>(
       context: context,
-      barrierDismissible: false, // User must tap button!
+      barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('Confirm Deletion'),
@@ -61,9 +58,56 @@ class _TripsListPageAdminState extends State<TripsListPageAdmin> {
     );
   }
 
+  Future<void> _completeDialog(BuildContext context, String tripId) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Mark As Complete?'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text('Are you sure you want to mark as complete on this trip?'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text('Complete'),
+              onPressed: () {
+                _completeTrip(tripId);
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _completeTrip(String tripId) async {
+    try {
+      await trips.doc(tripId).update({'status': 'completed'});
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Trip marked as complete')),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to mark trip as complete: $e')),
+      );
+    }
+  }
+
   Future<void> _deleteTrip(String tripId) async {
     try {
-      await trips.doc(tripId).delete(); //doc(tripId) means doc id
+      await trips.doc(tripId).delete();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Trip deleted successfully')),
       );
@@ -96,7 +140,7 @@ class _TripsListPageAdminState extends State<TripsListPageAdmin> {
         body: Padding(
           padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
           child: StreamBuilder(
-            stream: trips.orderBy('date',descending: true).snapshots(),
+            stream: trips.snapshots(),
             builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(child: CircularProgressIndicator());
@@ -110,13 +154,17 @@ class _TripsListPageAdminState extends State<TripsListPageAdmin> {
                 return const Center(child: Text('No trips available'));
               }
 
+              final List<DocumentSnapshot> docs = snapshot.data!.docs.where((doc) {
+                final data = doc.data() as Map<String, dynamic>;
+                return !data.containsKey('status');
+              }).toList();
+
               return ListView.builder(
-                itemCount: snapshot.data!.docs.length,
+                itemCount: docs.length,
                 itemBuilder: (context, index) {
-                  final DocumentSnapshot tripSnap = snapshot.data!.docs[index];
+                  final DocumentSnapshot tripSnap = docs[index];
                   final tripData = tripSnap.data() as Map<String, dynamic>;
 
-                  // Handle both Timestamp and String for date
                   String formattedDate;
                   if (tripData['date'] is Timestamp) {
                     formattedDate = DateFormat.yMMMd()
@@ -140,6 +188,9 @@ class _TripsListPageAdminState extends State<TripsListPageAdmin> {
                         },
                       );
                     },
+                    onDoubleTap: () {
+                      _completeDialog(context, tripSnap.id);
+                    },
                     child: Container(
                       decoration: BoxDecoration(
                         color: textPrimColor,
@@ -152,7 +203,6 @@ class _TripsListPageAdminState extends State<TripsListPageAdmin> {
                           ),
                         ],
                       ),
-                      // color: primaryColor,
                       margin: const EdgeInsets.symmetric(vertical: 8.0),
                       child: Padding(
                         padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
