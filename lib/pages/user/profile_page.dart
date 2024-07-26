@@ -1,9 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:info_cab_u/basic_widgets/button_widget.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../constant.dart';
 import '../../functions/function_onWillPop.dart';
+import 'edit_profile_page.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -17,9 +20,7 @@ class _ProfilePageState extends State<ProfilePage> {
   TextEditingController phoneNumber = TextEditingController();
   TextEditingController companyController = TextEditingController();
 
-  // final _formKey = GlobalKey<FormState>();
-  // String _selectedCompany = '';
-  // List<String> _companies = [''];
+  String currentUserUid = '';
 
   @override
   void initState() {
@@ -34,7 +35,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
       if (user != null) {
         // User is signed in, get the UID
-        String currentUserUid = user.uid;
+        currentUserUid = user.uid;
 
         // Use currentUserUid to fetch user details from Firestore
         DocumentSnapshot userSnapshot = await FirebaseFirestore.instance
@@ -62,7 +63,6 @@ class _ProfilePageState extends State<ProfilePage> {
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-
   void _showLogoutDialog() {
     showDialog(
       context: context,
@@ -72,19 +72,22 @@ class _ProfilePageState extends State<ProfilePage> {
           content: const Text('Are you sure you want to logout?'),
           actions: <Widget>[
             TextButton(
-              child: const Text('Cancel',style: TextStyle(
-                  color: textPrimColor
-              ),),
+              child: const Text(
+                'Cancel',
+                style: TextStyle(color: textPrimColor),
+              ),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-              child: const Text('Logout',style: TextStyle(
-                color: textPrimColor
-              ),),
+              child: const Text(
+                'Logout',
+                style: TextStyle(color: textPrimColor),
+              ),
               onPressed: () {
-                Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
+                Navigator.pushNamedAndRemoveUntil(
+                    context, '/login', (route) => false);
                 logout();
               },
             ),
@@ -96,6 +99,8 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Future<void> logout() async {
     _auth.signOut();
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove('isAuth');
   }
 
   @override
@@ -107,9 +112,14 @@ class _ProfilePageState extends State<ProfilePage> {
           title: const Text('User Profile', style: TextStyle()),
           centerTitle: true,
           actions: [
-            IconButton(onPressed: () {
-              _showLogoutDialog();
-            }, icon: Icon(Icons.logout_rounded, color: textSecColor,))
+            IconButton(
+                onPressed: () {
+                  _showLogoutDialog();
+                },
+                icon: Icon(
+                  Icons.logout_rounded,
+                  color: textSecColor,
+                ))
           ],
         ),
         body: Padding(
@@ -151,12 +161,6 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                   counterText: '', // Set an empty string to remove the counter
                 ),
-                // validator: (value) {
-                //   if (value == null || value.isEmpty) {
-                //     return 'Please enter your mobile number';
-                //   }
-                //   return null;
-                // },
               ),
               const SizedBox(height: 30),
               TextFormField(
@@ -189,12 +193,6 @@ class _ProfilePageState extends State<ProfilePage> {
                     borderRadius: BorderRadius.all(Radius.circular(10)),
                   ),
                 ),
-                // validator: (value) {
-                //   if (value == null || value.isEmpty) {
-                //     return 'Please enter your name';
-                //   }
-                //   return null;
-                // },
               ),
               const SizedBox(height: 30),
               TextFormField(
@@ -227,12 +225,20 @@ class _ProfilePageState extends State<ProfilePage> {
                     borderRadius: BorderRadius.all(Radius.circular(10)),
                   ),
                 ),
-                // validator: (value) {
-                //   if (value == null || value.isEmpty) {
-                //     return 'Please enter your name';
-                //   }
-                //   return null;
-                // },
+              ),
+              const SizedBox(
+                height: 30,
+              ),
+              Button(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => EditProfilePage(userId: currentUserUid),
+                    ),
+                  );
+                },
+                text: 'Edit',
               ),
             ],
           ),

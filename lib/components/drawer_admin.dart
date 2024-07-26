@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:info_cab_u/components/round_image_widget.dart';
 import 'package:info_cab_u/constant.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DrawerAdmin extends StatefulWidget {
   DrawerAdmin({super.key});
@@ -15,6 +16,8 @@ class _DrawerAdminState extends State<DrawerAdmin> {
 
   Future<void> logout() async {
     await _auth.signOut();
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove('isAuthAdmin');
     Navigator.of(context).pushReplacementNamed('/login');
   }
 
@@ -35,6 +38,8 @@ class _DrawerAdminState extends State<DrawerAdmin> {
             TextButton(
               onPressed: () async {
                 await _auth.signOut();
+                final SharedPreferences prefs = await SharedPreferences.getInstance();
+                await prefs.remove('isAuthAdmin');
                 Navigator.of(context).pushReplacementNamed('/login');
               },
               child: Text('Logout'),

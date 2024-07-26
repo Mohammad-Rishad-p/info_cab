@@ -10,8 +10,9 @@ import 'package:info_cab_u/pages/admin/admin_dashboard_page.dart';
 import 'package:info_cab_u/pages/admin/admin_login_page.dart';
 import 'package:info_cab_u/pages/admin/driver_list_page.dart';
 import 'package:info_cab_u/pages/admin/user_attendence_page.dart';
+
 // import 'package:info_cab_u/pages/admin/add_stop.dart';
-import 'package:info_cab_u/pages/admin/trips_list_page_admin.dart';// import 'package:info_cab_u/pages/admin/today_attendance.dart';
+import 'package:info_cab_u/pages/admin/trips_list_page_admin.dart'; // import 'package:info_cab_u/pages/admin/today_attendance.dart';
 import 'package:info_cab_u/pages/admin/users_list_page.dart';
 import 'package:info_cab_u/pages/admin/vehicle_list_page.dart';
 import 'package:info_cab_u/pages/admin/view_complete_trip.dart';
@@ -73,8 +74,8 @@ class MyApp extends StatelessWidget {
         '/upcoming_book': (context) => UpcomingBookPage(),
         '/listVehicle': (context) => VehicleListPage(),
         '/adminDashboard': (context) => AdminDashboardPage(),
-        '/history': (context)=> ViewCompleteTrip(),
-        '/editProfile': (context) => EditProfilePage(),
+        '/history': (context) => ViewCompleteTrip(),
+        '/editProfile': (context) => EditProfilePage(userId: ''),
 
         '/roleSelection': (context) => RoleSelectionPage(),
 
@@ -82,16 +83,15 @@ class MyApp extends StatelessWidget {
 
         '/driverLogin': (context) => DriverLoginPage(),
         '/driverViewTrip': (context) => ViewTripDriver(),
-        '/passList': (context) => DriversPassengersList()
+        '/passList': (context) => PassengersListPage()
       },
       theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: textPrimColor),
-          useMaterial3: true,
-          scaffoldBackgroundColor: Colors.white,
-          appBarTheme: AppBarTheme(backgroundColor: Colors.white),
-        bottomNavigationBarTheme: BottomNavigationBarThemeData(
-          backgroundColor: Colors.white
-        ),
+        colorScheme: ColorScheme.fromSeed(seedColor: textPrimColor),
+        useMaterial3: true,
+        scaffoldBackgroundColor: Colors.white,
+        appBarTheme: AppBarTheme(backgroundColor: Colors.white),
+        bottomNavigationBarTheme:
+            BottomNavigationBarThemeData(backgroundColor: Colors.white),
         primarySwatch: Colors.blue,
         brightness: Brightness.light,
       ),
