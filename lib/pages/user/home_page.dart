@@ -136,6 +136,7 @@ class _MyHomePageState extends State<HomePage> {
           'endPoint': _selectedEndPoint,
           'tripDate': DateFormat('yyyy-MM-dd').format(_selectedDate),
           'bookedDate': DateFormat('yyyy-MM-dd').format(DateTime.now()),
+
         });
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Cab booked successfully')),

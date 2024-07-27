@@ -23,8 +23,8 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
   TextEditingController phoneNumber = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
-  String _selectedCompany = '';
-  List<String> _companies = [''];
+    String _selectedCompany = '';
+    List<String> _companies = [''];
 
   @override
   void initState() {
