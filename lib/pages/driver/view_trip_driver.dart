@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../constant.dart';
 import '../../functions/function_onWillPop.dart';
@@ -16,6 +18,48 @@ class _ViewTripDriverState extends State<ViewTripDriver> {
   final CollectionReference trips =
       FirebaseFirestore.instance.collection('trips');
 
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  void _showLogoutDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Logout'),
+          content: const Text('Are you sure you want to logout?'),
+          actions: <Widget>[
+            TextButton(
+              child: const Text(
+                'Cancel',
+                style: TextStyle(color: textPrimColor),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: const Text(
+                'Logout',
+                style: TextStyle(color: textPrimColor),
+              ),
+              onPressed: () {
+                Navigator.pushNamedAndRemoveUntil(
+                    context, '/login', (route) => false);
+                logout();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> logout() async {
+    _auth.signOut();
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove('isAuthDriver');
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -25,6 +69,16 @@ class _ViewTripDriverState extends State<ViewTripDriver> {
           title: const Text('View Trips'),
           centerTitle: true,
           automaticallyImplyLeading: false,
+          actions: [
+            IconButton(
+                onPressed: () {
+                  _showLogoutDialog();
+                },
+                icon: Icon(
+                  Icons.logout_rounded,
+                  color: textSecColor,
+                ))
+          ],
         ),
         // drawer: DrawerUser(),
         body: Padding(
