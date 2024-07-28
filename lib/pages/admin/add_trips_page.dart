@@ -108,15 +108,6 @@ class _AddTripsPageState extends State<AddTripsPage> {
       Navigator.pushNamedAndRemoveUntil(
           context, '/adminDashboard', (route) => false);
 
-      // Clear form fields
-      // seatNumberController.clear();
-      // setState(() {
-      //   _selectedStartPoint = _stops.isNotEmpty ? _stops[0] : '';
-      //   _selectedEndPoint = _stops.isNotEmpty ? _stops[0] : '';
-      //   _selectedVehicle = _vehicles.isNotEmpty ? _vehicles[0] : '';
-      //   _selectedDate = DateTime.now();
-      //   dateController.text = '';
-      // });
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(

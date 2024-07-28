@@ -121,7 +121,7 @@ class _MyHomePageState extends State<HomePage> {
         );
         return;
       }
-
+      // checking user already booked current service
       QuerySnapshot userBookings = await FirebaseFirestore.instance
           .collection('bookings')
           .where('tripId', isEqualTo: tripId)
