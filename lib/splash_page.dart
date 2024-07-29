@@ -41,9 +41,9 @@ class _SplashPageState extends State<SplashPage> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: Center(
-        child: HText(content: 'InfoCab', textColor: textPrimColor),
+        child: Image.asset('assets/infocab4.png'),
       ),
     );
   }
