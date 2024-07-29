@@ -16,7 +16,8 @@ class TripsListPageAdmin extends StatefulWidget {
 }
 
 class _TripsListPageAdminState extends State<TripsListPageAdmin> {
-  final CollectionReference trips = FirebaseFirestore.instance.collection('trips');
+  final CollectionReference trips =
+      FirebaseFirestore.instance.collection('trips');
   late User? currentUser;
 
   @override
@@ -25,7 +26,8 @@ class _TripsListPageAdminState extends State<TripsListPageAdmin> {
     currentUser = FirebaseAuth.instance.currentUser;
   }
 
-  Future<void> _showDeleteConfirmationDialog(BuildContext context, String tripId) async {
+  Future<void> _showDeleteConfirmationDialog(
+      BuildContext context, String tripId) async {
     return showDialog<void>(
       context: context,
       barrierDismissible: false,
@@ -179,9 +181,8 @@ class _TripsListPageAdminState extends State<TripsListPageAdmin> {
                   color: textSecColor,
                 ))
           ],
-
         ),
-        // drawer: DrawerAdmin(),
+        drawer: DrawerAdmin(),
         floatingActionButton: FloatingActionButton(
           tooltip: 'Create Trips',
           onPressed: () {
@@ -208,7 +209,8 @@ class _TripsListPageAdminState extends State<TripsListPageAdmin> {
                 return const Center(child: Text('No trips available'));
               }
 
-              final List<DocumentSnapshot> docs = snapshot.data!.docs.where((doc) {
+              final List<DocumentSnapshot> docs =
+                  snapshot.data!.docs.where((doc) {
                 final data = doc.data() as Map<String, dynamic>;
                 return !data.containsKey('status');
               }).toList();
