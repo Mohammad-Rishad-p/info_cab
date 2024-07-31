@@ -123,45 +123,45 @@ class _TripsListPageAdminState extends State<TripsListPageAdmin> {
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  void _showLogoutDialog() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Logout'),
-          content: const Text('Are you sure you want to logout?'),
-          actions: <Widget>[
-            TextButton(
-              child: const Text(
-                'Cancel',
-                style: TextStyle(color: textPrimColor),
-              ),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              child: const Text(
-                'Logout',
-                style: TextStyle(color: textPrimColor),
-              ),
-              onPressed: () {
-                Navigator.pushNamedAndRemoveUntil(
-                    context, '/login', (route) => false);
-                logout();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
+  // void _showLogoutDialog() {
+  //   showDialog(
+  //     context: context,
+  //     builder: (BuildContext context) {
+  //       return AlertDialog(
+  //         title: const Text('Logout'),
+  //         content: const Text('Are you sure you want to logout?'),
+  //         actions: <Widget>[
+  //           TextButton(
+  //             child: const Text(
+  //               'Cancel',
+  //               style: TextStyle(color: textPrimColor),
+  //             ),
+  //             onPressed: () {
+  //               Navigator.of(context).pop();
+  //             },
+  //           ),
+  //           TextButton(
+  //             child: const Text(
+  //               'Logout',
+  //               style: TextStyle(color: textPrimColor),
+  //             ),
+  //             onPressed: () {
+  //               Navigator.pushNamedAndRemoveUntil(
+  //                   context, '/login', (route) => false);
+  //               logout();
+  //             },
+  //           ),
+  //         ],
+  //       );
+  //     },
+  //   );
+  // }
 
-  Future<void> logout() async {
-    _auth.signOut();
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.remove('isAuthAdmin');
-  }
+  // Future<void> logout() async {
+  //   _auth.signOut();
+  //   final SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   await prefs.remove('isAuthAdmin');
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -169,18 +169,18 @@ class _TripsListPageAdminState extends State<TripsListPageAdmin> {
       onWillPop: () => onWillPop(context),
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Cabs'),
+          title: const Text('Home'),
           centerTitle: true,
-          actions: [
-            IconButton(
-                onPressed: () {
-                  _showLogoutDialog();
-                },
-                icon: Icon(
-                  Icons.logout_rounded,
-                  color: textSecColor,
-                ))
-          ],
+          // actions: [
+          //   IconButton(
+          //       onPressed: () {
+          //         _showLogoutDialog();
+          //       },
+          //       icon: Icon(
+          //         Icons.logout_rounded,
+          //         color: textSecColor,
+          //       ))
+          // ],
         ),
         drawer: DrawerAdmin(),
         floatingActionButton: FloatingActionButton(

@@ -191,10 +191,10 @@ class _UserAttendancePageState extends State<UserAttendancePage> {
                             containerText = 'Mark Here';
                           } else if (isAttended) {
                             containerColor = Colors.green;
-                            containerText = 'Present';
+                            containerText = 'Arrived';
                           } else {
                             containerColor = Colors.red;
-                            containerText = 'Absent';
+                            containerText = 'Not Reached';
                           }
 
                           return Padding(

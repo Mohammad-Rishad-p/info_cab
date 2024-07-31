@@ -123,7 +123,7 @@ class _AddTripsPageState extends State<AddTripsPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Add Trips',
+          'Create Service',
         ),
         centerTitle: true,
       ),
