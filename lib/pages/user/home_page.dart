@@ -87,8 +87,10 @@ class _MyHomePageState extends State<HomePage> {
       return;
     }
 
+    //7am set
+
     DateTime bookingDate = DateTime(
-      _selectedDate.year,
+      _selectedDate.year,  
       _selectedDate.month,
       _selectedDate.day,
       7, // 7 AM

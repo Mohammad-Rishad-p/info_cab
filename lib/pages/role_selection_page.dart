@@ -11,14 +11,7 @@ class RoleSelectionPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text(
-              'Job Junction',
-              style: TextStyle(
-                fontSize: 25,
-                fontWeight: FontWeight.bold,
-                color: textPrimColor,
-              ),
-            ),
+            Image.asset('assets/infocab4.png',),
             SizedBox(height: 30),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,

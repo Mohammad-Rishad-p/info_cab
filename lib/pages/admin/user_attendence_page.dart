@@ -233,7 +233,7 @@ class _UserAttendancePageState extends State<UserAttendancePage> {
                                         {'attended': newAttendanceStatus});
                                   },
                                   child: SizedBox(
-                                    width: 80,
+                                    width: 90,
                                     height: 40,
                                     child: Container(
                                       padding: const EdgeInsets.all(10),
