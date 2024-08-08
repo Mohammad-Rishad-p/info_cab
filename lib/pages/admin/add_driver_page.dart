@@ -51,7 +51,6 @@ class _AddDriverPageState extends State<AddDriverPage> {
         ),
       );
 
-      // Clear form fields
       driverNameController.clear();
       driverMobileNumberController.clear();
       setState(() {});

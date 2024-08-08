@@ -30,14 +30,14 @@ class _StopsListPageState extends State<StopsListPage> {
           actions: <Widget>[
             TextButton(
               onPressed: () {
-                Navigator.of(context).pop(); // dismiss the dialog
+                Navigator.of(context).pop();
               },
               child: Text('Cancel'),
             ),
             TextButton(
               onPressed: () {
                 deleteStop(docId);
-                Navigator.of(context).pop(); // dismiss the dialog
+                Navigator.of(context).pop();
               },
               child: Text('Delete'),
             ),

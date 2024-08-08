@@ -12,28 +12,22 @@ class AddCompanyPage extends StatefulWidget {
 class _AddPickUpPointPageState extends State<AddCompanyPage> {
   final _formKey = GlobalKey<FormState>();
 
-  // Adding textediting controller
   TextEditingController companyController = TextEditingController();
 
-  // Firebase instance
   final CollectionReference companies =
       FirebaseFirestore.instance.collection('companies');
 
-  // Function to add companies to Firestore
   void addCompany() async {
-    // Trimmed text to remove any leading/trailing whitespace
     try {
       final data = {
         'company name': companyController.text
       };
       await companies.add(data);
-      // to show a toast message if successful
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text('Company added successfully')));
       companyController.clear();
       Navigator.pop(context);
     } catch (e) {
-      // to show a toast message if unsuccessful
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text('Failed to add company: $e')));
     }
@@ -45,7 +39,7 @@ class _AddPickUpPointPageState extends State<AddCompanyPage> {
       appBar: AppBar(
         title: Text('Add Company'),
         centerTitle: true,
-      ), // Adds a placeholder for the drawer icon
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(

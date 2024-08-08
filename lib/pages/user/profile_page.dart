@@ -30,14 +30,11 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Future<void> fetchUserDetails() async {
     try {
-      // Get the current user from Firebase Authentication
       User? user = FirebaseAuth.instance.currentUser;
 
       if (user != null) {
-        // User is signed in, get the UID
         currentUserUid = user.uid;
 
-        // Use currentUserUid to fetch user details from Firestore
         DocumentSnapshot userSnapshot = await FirebaseFirestore.instance
             .collection('users')
             .doc(currentUserUid)

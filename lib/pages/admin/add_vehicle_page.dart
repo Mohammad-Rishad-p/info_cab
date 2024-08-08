@@ -54,7 +54,6 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
       seatNumberController.clear();
       vehicleController.clear();
 
-      // Refresh the state to reflect changes
       setState(() {});
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(

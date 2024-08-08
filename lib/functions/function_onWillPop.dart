@@ -9,7 +9,6 @@ Future<bool> onWillPop(BuildContext context) async {
   DateTime now = DateTime.now();
   if (lastPressed == null || now.difference(lastPressed!) > Duration(seconds: 2)) {
     lastPressed = now;
-    // Show the custom SnackBar
     showCustomSnackBar(context, 'Press back again to exit', Duration(seconds: 2));
     return Future.value(false);
   }
@@ -17,7 +16,6 @@ Future<bool> onWillPop(BuildContext context) async {
 }
 
 Future<bool> exitApp() async {
-  // Exit the app
   SystemNavigator.pop();
   return Future.value(false);
 }

@@ -102,17 +102,12 @@ class _DriverListPageState extends State<DriverListPage> {
                         }).toList();
 
                         return ListView.builder(
-                          // to get length from firestore
                           itemCount: filteredDocs.length,
                           itemBuilder: (context, index) {
-                            //to get all data to driverSnap from firestore in index order
                             final DocumentSnapshot driverSnap =
                                 filteredDocs[index];
-                            //setting driverName from driverSnap
                             final driverName = driverSnap['name'];
-                            // setting driverNumber from driverSnap
                             final driverNumber = driverSnap['number'];
-                            // to get the first letter of
 
                             final avatarLetter = driverName.isNotEmpty
                                 ? driverName[0]
@@ -149,13 +144,10 @@ class _DriverListPageState extends State<DriverListPage> {
                                                 BoxShadow(
                                                   color: Colors.grey
                                                       .withOpacity(0.3),
-                                                  // Shadow color
                                                   spreadRadius: 1,
-                                                  // Spread radius
                                                   blurRadius: 2,
-                                                  // Blur radius
                                                   offset: Offset(0,
-                                                      3), // Offset in x and y direction
+                                                      3),
                                                 ),
                                               ],
                                             ),
@@ -164,7 +156,6 @@ class _DriverListPageState extends State<DriverListPage> {
                                               child: Center(
                                                 child: Text(
                                                   avatarLetter,
-                                                  // Display the first letter of the name or a default
                                                   style: TextStyle(
                                                     fontSize: 20,
                                                     color: textPrimColor,

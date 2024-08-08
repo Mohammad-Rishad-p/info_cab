@@ -80,12 +80,12 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
         onTap: _onItemClick,
         selectedItemColor: textPrimColor,
         unselectedItemColor: textSecColor,
-        selectedIconTheme: IconThemeData(size: 24), // Set size to avoid enlargement
-        unselectedIconTheme: IconThemeData(size: 24), // Set size to match
-        selectedLabelStyle: TextStyle(fontSize: 14), // Set the same size for selected label
-        unselectedLabelStyle: TextStyle(fontSize: 14), // Set the same size for unselected label
-        selectedFontSize: 14, // Set the same font size for selected
-        unselectedFontSize: 14, // Set the same font size for unselected // Set size to match
+        selectedIconTheme: IconThemeData(size: 24),
+        unselectedIconTheme: IconThemeData(size: 24),
+        selectedLabelStyle: TextStyle(fontSize: 14),
+        unselectedLabelStyle: TextStyle(fontSize: 14),
+        selectedFontSize: 14,
+        unselectedFontSize: 14,
       ),
     );
   }

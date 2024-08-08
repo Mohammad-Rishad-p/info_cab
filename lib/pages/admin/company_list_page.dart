@@ -32,14 +32,14 @@ class _CompanyListPageState extends State<CompanyListPage> {
           actions: <Widget>[
             TextButton(
               onPressed: () {
-                Navigator.of(context).pop(); // dismiss the dialog
+                Navigator.of(context).pop();
               },
               child: Text('Cancel'),
             ),
             TextButton(
               onPressed: () {
                 deleteCompany(docId);
-                Navigator.of(context).pop(); // dismiss the dialog
+                Navigator.of(context).pop();
               },
               child: Text('Delete'),
             ),

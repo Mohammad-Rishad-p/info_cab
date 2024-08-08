@@ -63,7 +63,7 @@ class MyApp extends StatelessWidget {
         '/user_register': (context) => UserRegisterPage(
               uid: '',
             ),
-        '/user_profile': (context) => UserProfilePage(),
+        // '/user_profile': (context) => UserProfilePage(),
         '/driver_list': (context) => DriverListPage(),
         '/add_driver': (context) => AddDriverPage(),
         '/addCompany': (context) => AddCompanyPage(),

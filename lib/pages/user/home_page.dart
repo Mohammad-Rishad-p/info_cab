@@ -114,7 +114,7 @@ class _MyHomePageState extends State<HomePage> {
           .where('tripId', isEqualTo: tripId)
           .get();
 
-      int numberOfBookings = existingBookings.docs.length;
+      int numberOfBookings = existingBookings.docs.length;  // number of booki
       print("Number of Bookings: $numberOfBookings");
 
       if (numberOfBookings >= seatCapacity) {

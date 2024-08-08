@@ -41,7 +41,7 @@ class _ViewTripsPageState extends State<ViewTripsPage> {
         body: Padding(
           padding: const EdgeInsets.fromLTRB(16, 32, 16, 8),
           child: StreamBuilder(
-            stream: trips.orderBy('date',descending: true).snapshots(), // Ordering by date
+            stream: trips.orderBy('date',descending: true).snapshots(),
             builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(child: CircularProgressIndicator());

@@ -14,13 +14,10 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  // firebase auth instance
   FirebaseAuth auth = FirebaseAuth.instance;
 
-  //text editing controller for phone number
   TextEditingController phoneController = TextEditingController();
 
-  //setting country code
   var countryCode = '+91';
 
   final _formKey = GlobalKey<FormState>();
@@ -37,7 +34,6 @@ class _LoginPageState extends State<LoginPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // the heading text to enter number
                   GestureDetector(
                     onDoubleTap: (){
                       Navigator.pushNamed(context, '/roleSelection');
@@ -98,15 +94,11 @@ class _LoginPageState extends State<LoginPage> {
                   Button(
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
-                        //firebase part
                         await FirebaseAuth.instance.verifyPhoneNumber(
-                          //phone number to pass to firebase
                           phoneNumber: '${countryCode + phoneController.text}',
-                          //function to call if verification is completed
                           verificationCompleted:
                               (PhoneAuthCredential credential) {},
                           verificationFailed: (FirebaseAuthException e) {
-                            // message to show if verification failed
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 content:
@@ -117,7 +109,6 @@ class _LoginPageState extends State<LoginPage> {
                           //for sending otp
                           codeSent: (String verificationId, int? resendToken) {
                             LoginPage.verify = verificationId;
-                            // sending phone number as argument to next page
                             Navigator.pushNamed(context, '/otp', arguments: {
                               'phoneNumber': phoneController.text
                             });

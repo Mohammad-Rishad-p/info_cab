@@ -47,7 +47,6 @@ class _ViewCompleteTripState extends State<ViewCompleteTrip> {
                 final DocumentSnapshot tripSnap = snapshot.data!.docs[index];
                 final tripData = tripSnap.data() as Map<String, dynamic>;
 
-                // Handle both Timestamp and String for date
                 String formattedDate;
                 if (tripData['date'] is Timestamp) {  // timestap format aanengil conert to dateformat
                   formattedDate = DateFormat.yMMMd()

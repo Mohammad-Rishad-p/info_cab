@@ -41,13 +41,12 @@ class _UserAttendancePageState extends State<UserAttendancePage> {
         actions: [
           TextButton(
             onPressed: () {
-              Navigator.of(context).pop(); // Close the dialog
+              Navigator.of(context).pop();
             },
             child: Text("Cancel"),
           ),
           TextButton(
             onPressed: () {
-              // Update attendance statuses in Firestore
               attendanceStatus.forEach((bookingId, attended) {
                 FirebaseFirestore.instance
                     .collection('bookings')
@@ -55,7 +54,6 @@ class _UserAttendancePageState extends State<UserAttendancePage> {
                     .update({'attended': attended});
               });
 
-              // Show a snackbar to indicate success
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
                   content: Text('Attendance updated successfully!'),
@@ -230,7 +228,8 @@ class _UserAttendancePageState extends State<UserAttendancePage> {
                                         .collection('bookings')
                                         .doc(bookingSnap.id)
                                         .update(
-                                        {'attended': newAttendanceStatus});
+                                        {'attended': newAttendanceStatus}
+                                    );
                                   },
                                   child: SizedBox(
                                     width: 90,

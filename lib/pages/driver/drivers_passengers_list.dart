@@ -8,7 +8,6 @@ class PassengersListPage extends StatelessWidget {
   Future<List<Map<String, dynamic>>> fetchTripAndUserDetails(String tripId) async {
     final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-    // Fetch booking details for the trip
     final bookingSnapshot = await firestore.collection('bookings')
         .where('tripId', isEqualTo: tripId)
         .get();
@@ -17,14 +16,12 @@ class PassengersListPage extends StatelessWidget {
       throw Exception('No bookings available for this trip');
     }
 
-    // Prepare a list to store the passenger details
     List<Map<String, dynamic>> passengerDetails = [];
 
     for (var bookingDoc in bookingSnapshot.docs) {
       final bookingData = bookingDoc.data() as Map<String, dynamic>;
       final String userId = bookingData['userId'];
 
-      // Fetch user details
       final userSnapshot = await firestore.collection('users').doc(userId).get();
       if (!userSnapshot.exists) {
         throw Exception('User not found');
@@ -32,7 +29,6 @@ class PassengersListPage extends StatelessWidget {
 
       final userData = userSnapshot.data() as Map<String, dynamic>;
 
-      // Add the details to the list
       passengerDetails.add({
         'personName': userData['name'],
         'pickupPoint': bookingData['startPoint'],

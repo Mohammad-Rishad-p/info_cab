@@ -16,17 +16,14 @@ class UsersListPage extends StatefulWidget {
 }
 
 class _UsersListPageState extends State<UsersListPage> {
-  // users collection Firebase instance
   final CollectionReference users = FirebaseFirestore.instance.collection('users');
   TextEditingController searchController = TextEditingController();
   String searchUser = '';
 
-  // function to delete users from Firestore
   void deleteUser(String docId) {
     users.doc(docId).delete();
   }
 
-  // function to show delete confirmation dialog
   void showDeleteConfirmationDialog(BuildContext context, String docId) {
     showDialog(
       context: context,
@@ -37,14 +34,14 @@ class _UsersListPageState extends State<UsersListPage> {
           actions: <Widget>[
             TextButton(
               onPressed: () {
-                Navigator.of(context).pop(); // dismiss the dialog
+                Navigator.of(context).pop();
               },
               child: Text('Cancel'),
             ),
             TextButton(
               onPressed: () {
                 deleteUser(docId);
-                Navigator.of(context).pop(); // dismiss the dialog
+                Navigator.of(context).pop();
               },
               child: Text('Delete'),
             ),
@@ -116,21 +113,16 @@ class _UsersListPageState extends State<UsersListPage> {
               ),
               SizedBox(height: 20),
 
-              // using stream builder list users from firebase
               Expanded(
                 child: StreamBuilder(
-                  // listing the users in alphabetic order
                   stream: users.orderBy('name').snapshots(),
                   builder: (context, AsyncSnapshot snapshot) {
-                    // for checking the connection
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Center(child: CircularProgressIndicator());
                     }
-                    // checking the snapshot has any error
                     else if (snapshot.hasError) {
                       return Center(child: Text('Error: ${snapshot.error}'));
                     }
-                    // checking the snapshot is empty
                     else if (!snapshot.hasData || snapshot.data.docs.isEmpty) {
                       return Center(child: Text('No data available'));
                     } else {
@@ -141,17 +133,12 @@ class _UsersListPageState extends State<UsersListPage> {
                             .contains(searchUser);
                       }).toList();
                       return ListView.builder(
-                        // to get length from firestore
                         itemCount: filteredDocs.length,
                         itemBuilder: (context, index) {
-                          // to get all data to userSnap from firestore in index order
                           final DocumentSnapshot userSnap =
                           filteredDocs[index];
-                          // setting userName from userSnap
                           final userName = userSnap['name'];
-                          // setting companyName from userSnap
                           final companyName = userSnap['company'];
-                          // to get the first letter of name
                           final avatarLetter = userName.isNotEmpty
                               ? userName[0]
                               : '?'; // Handle empty names
